@@ -1,0 +1,43 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+.positionFormRegister{
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.positionFieldArea{
+   
+    margin-bottom: 500px;
+
+}
+#conteudo {
+    background-color: #ccc;
+    width: 50%;
+}
+
+#msg {
+    color:red;
+}
+
+el.error{
+    background-color: red;
+}
+
+el.ok {
+    color: green;
+}
+
+
+
+
+
+
+
+
+
+
+
