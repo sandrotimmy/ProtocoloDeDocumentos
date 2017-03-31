@@ -50,7 +50,7 @@
         <h1 id="title">e-Pro</h1>
         <p id="description">Este é um sistema emissor de protocolos empresariais, instituido com o propósito de controlar a entrega de documentos a clientes.</p>
         <p><input id="buttonReadMore" type="button" class="btn btn-primary btn-lg" name="readMore" value="Leia Mais &raquo;"></p>
-        <div id="moreInformations">
+        <div id="moreInformations" style="display: none">
             <p>Com ele é possivel:</p>
             <ul> 
                 <li>Emitir protocolos de entrega</li>
@@ -92,12 +92,6 @@
     $("#buttonReadMore").click(function () {
         $("#moreInformations").toggle();
     });
-</script>
-<script>
-    $("#buttonRegister").click(function () {
-        $("#initialScreen").remove();
-    });
-    $('#buttonReadMore').trigger('click');
 </script>
 
 <!--     Google Analytics: change UA-XXXXX-X to be your site's ID. -->
