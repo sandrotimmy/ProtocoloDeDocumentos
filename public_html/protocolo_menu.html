@@ -10,14 +10,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/forms.css">
         <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
         <script type="text/javascript" src="js/loginCtrl.js"></script>
+        <script type="text/javascript" src="js/protocolo_Ctrl.js"></script>
         <script>
-            var logado = sessionStorage.getItem("Logado");
-            if (logado !== "true") {
-                alert("Você deve logar antes!");
-                window.location.replace("/ProtocoloDeDocumentos/index.html");
-            }
+            isLogado();
         </script>
         <style>
             body {
@@ -50,11 +48,57 @@
                 <li><a href="#">Protocolo</a></li>
             </ul>
         </div>
+
     </nav>
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-        <div id="initialScreen" class="container positionFieldArea">
-
+        <input id="btn_itens" type="button" class="btn btn-primary marginForms" value="Novo Item"/><br/><br/>
+        <div class="panel panel-primary  marginForms">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista de Itens</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <thead>
+                    <th>Seq.</th>
+                    <th>Cód.</th>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Retornar?</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>            
+                    </thead>
+                    <tbody>
+                    <td>Seq </td>
+                    <td>Cód</td>
+                    <td>Nome</td>
+                    <td>Tipo</td>
+                    <td>Retornar?</td>
+                    <td><button class="btn btn-primary" onclick="editar()">Editar</button></td>
+                    <td><button class="btn btn-primary" onclick="eliminar()">Excluir</button></td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="div_usu">
+            <form id="formulario" class="form-horizontal marginForms" role="form" >
+                <label for="txtCodItem" >Cód</label>
+                <input id="txtCodItem" name="cod_item" type="text" class="form-control" disabled/>
+                <label for="txtNome" >Nome</label>
+                <input id="txtNome" name="nome" type="text" class="form-control" placeholder="Nome"/>
+                <label for="txtTipo" >Tipo</label>
+                <input id="txtTipo" name="tipo" type="text" class="form-control" placeholder="Tipo"/>
+                <label for="txtRetorno" >Retornar?</label>
+                <input id="txtRetorno" name="retorno" type="text" class="form-control" placeholder="Retorno"/>
+                <select class="form-horizontal marginForms">
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="mercedes">Mercedes</option>
+                    <option value="audi">Audi</option>
+                </select>
+                <br/>
+                <input type="submit" value="Salvar" class="btn btn-primary"/>
+            </form>
         </div>
     </div>
     <footer>
@@ -65,15 +109,9 @@
     <!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.0.js"><\/script>')</script>-->
     <script>
-            $("#buttonReadMore").click(function () {
-                $("#moreInformations").toggle();
-            });
-    </script>
-    <script>
-        $("#buttonRegister").click(function () {
-            $("#initialScreen").remove();
+        $("#buttonReadMore").click(function () {
+            $("#moreInformations").toggle();
         });
-        $('#buttonReadMore').trigger('click');
     </script>
     <!--     Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
@@ -92,5 +130,5 @@
         ga('create', 'UA-XXXXX-X', 'auto');
         ga('send', 'pageview');
     </script>
-    
+
 </html>
