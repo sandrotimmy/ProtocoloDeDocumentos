@@ -87,7 +87,7 @@ function Logar() {
     }
     if (encontrou) {
         window.sessionStorage.setItem("Logado", "true");
-        window.location.replace("/ProtocoloDeDocumentos/protocolo_menu.html");
+        window.location.replace("./protocolo_menu.html");
         return true;
     } else {
         alert("Usuário ou senha Incorretos!");

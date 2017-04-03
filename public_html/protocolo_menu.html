@@ -9,15 +9,17 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/forms.css">
         <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
         <script type="text/javascript" src="js/loginCtrl.js"></script>
+        <script type="text/javascript" src="js/protocolo_Ctrl.js"></script>
+        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <!--Verifica se o usuário está logado no sistema se sim dá acesso a pagina, se não avisa 
+        e direciona para pagina de login-->
         <script>
-            var logado = sessionStorage.getItem("Logado");
-            if (logado !== "true") {
-                alert("Você deve logar antes!");
-                window.location.replace("/ProtocoloDeDocumentos/index.html");
-            }
+            isLogado();
         </script>
         <style>
             body {
@@ -25,38 +27,238 @@
                 padding-bottom: 20px;
             }
         </style>
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-
         <title>e-Pro</title>
+        <!--Componente barra no topo-->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="index.html">e-Pro</a>
             </div>
-
         </div>
     </nav>
+    <!--Menu principal-->
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">e-Pro</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Clientes</a></li>
-                <li><a href="#">Itens</a></li>
-                <li><a href="#">Protocolo</a></li>
+                <li class="active"><a href="#" onclick="removeAddElements(0)">Home</a></li>
+                <li><a href="#" onclick="removeAddElements(1)">Clientes</a></li>
+                <li><a href="#" onclick="removeAddElements(2)">Itens</a></li>
+                <li><a href="#" onclick="removeAddElements(3)">Protocolo</a></li>
             </ul>
         </div>
     </nav>
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <div id="initialScreen" class="container positionFieldArea">
+    <!-- Aqui ficam todas as telas do Sistema, para carregá-las dinamicamente sem  
+    ter que carregar toda a tela do sistema novamente, pra isso chame o método
+    removeAddElements() exibindo e escondendo os componentes necessários-->
+    <div id="initialScreen" class="jumbotron"  >
+        <!--Tela "Home" com os Dados da EMPRESA -->
+        <div id="dadosEmpresa" class="container">
+            <p class="marginForms">Dados da Empresa</p>
+            <h3>Aqui fica os dados da empresa.</h3>
+            <h3>Falta criar o Formulário para criar e alterar os dados.</h3>
+            <input id="btn_empresa" type="button" class="btn btn-primary marginForms" value="Alterar Dados"/><br/><br/>
+        </div>
+        <!--Tela de listagem dos CLIENTES cadastrados -->
+        <div id="listClient" style="display:none" class="container">
+            <p class="marginForms">Listagem de Clientes</p>
+            <input id="btn_itens" type="button" class="btn btn-primary marginForms" value="Novo Item" onclick="removeAddElements(11)"/><br/><br/>
+            <div class="panel panel-primary  marginForms">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Lista de Clientes</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <th>Seq.</th>
+                        <th>Cód.</th>
+                        <th>Nome</th>
+                        <th>C.N.P.J.</th>
+         
+                        </thead>
+                        <tbody>
+                        <td>Seq </td>
+                        <td>Cód</td>
+                        <td>Nome</td>
+                        <td>C.N.P.J.</td>
+                        <td><button class="btn btn-primary" onclick="editar()">Editar</button></td>
+                        <td><button class="btn btn-primary" onclick="eliminar()">Excluir</button></td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--Tela de cadastro dos CLIENTES-->
+        <div id="formClientes" style="display:none" class="container">
+            <p class="marginForms">Cadastro de Clientes</p>
+            <form class="form-horizontal positionFormRegister" role="form" >
+                <label for="txtCodClient" >Cód</label>
+                <input id="txtCodClient" name="cod_client" type="text" class="form-control" disabled/>
+                <label for="txtCnpj" >Nome</label>
+                <input id="txtCnpj" name="Cnpj" type="text" class="form-control" placeholder="C.N.P.J."/>
+                <label for="txtNameClient" >Nome</label>
+                <input id="txtNameClient" name="nameClient" type="text" class="form-control" placeholder="Nome"/>
+                <label for="txtEndereco" >Endereço</label>
+                <input id="txtEndereco" name="endereco" type="text" class="form-control" placeholder="Endereço"/>
+                <label for="txtNumero" >Numero</label>
+                <input id="txtNumero" name="numero" type="text" class="form-control" placeholder="Numero"/>
+                <label for="txtBairro" >Bairro</label>
+                <input id="txtBairro" name="bairro" type="text" class="form-control" placeholder="Bairro"/>
+                <label for="txtCidade" >Cidade</label>
+                <input id="txtCidade" name="Cidade" type="text" class="form-control" placeholder="Cidade"/>
+                <label for="txtCep" >CEP</label>
+                <input id="txtCep" name="cep" type="text" class="form-control" placeholder="Cep"/>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="submit" class="btn btn-default">Cancelar</button>
+            </form>
+        </div>
+        <!--Tela de listagem dos ITENS cadastrados -->
+        <div id="listItens" style="display:none" class="container">
+            <p class="marginForms">Listagem de itens</p>
+            <input id="btn_itens" type="button" class="btn btn-primary marginForms" value="Novo Item" onclick="removeAddElements(21)"/><br/><br/>
+            <div class="panel panel-primary  marginForms">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Lista de Itens</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <th>Seq.</th>
+                        <th>Cód.</th>
+                        <th>Nome</th>
+                        <th>Tipo</th>
+                        <th>Retornar?</th>
+           
+                        </thead>
+                        <tbody>
+                        <td>Seq </td>
+                        <td>Cód</td>
+                        <td>Nome</td>
+                        <td>Tipo</td>
+                        <td>Retornar?</td>
+                        <td><button class="btn btn-primary" onclick="editar()">Editar</button></td>
+                        <td><button class="btn btn-primary" onclick="eliminar()">Excluir</button></td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--Tela de cadastro dos ITENS-->
+        <div id="formItem" style="display:none" class="container">
+            <p class="marginForms">Cadastro de itens</p>
+            <form id="formulario" class="form-horizontal positionFormRegister" role="form" >
+                <label for="txtCodItem" >Cód</label>
+                <input id="txtCodItem" name="cod_item" type="text" class="form-control" disabled/>
+                <label for="txtNome" >Nome</label>
+                <input id="txtNome" name="nome" type="text" class="form-control" placeholder="Nome"/>
+                <label for="txtTipo" >Tipo</label>
+                <select class="form-control" name="chooseType">
+                    <option value="">Selecione...</option>
+                    <option value="Documentos Empresa">Documentos Empresa</option>
+                    <option value="Documentos Sócios">Documentos Sócios</option>
+                    <option value="Impostos">Impostos</option>
+                    <option value="Atos Constitutivos">Atos Constitutivos</option>
+                    <option value="Livros Contábeis">Livros Contábeis</option>
+                    <option value="Livros Fiscais">Livros Fiscais</option>
+                    <option value="Livros Empregados">Livros Empregados</option>
+                    <option value="Livros Inspeção">Livros Contábeis</option>
+                </select>
+                <label for="txtRetorno" >Retornar?</label>
+                <select class="form-control" name="chooseType">
+                    <option value="">Selecione...</option>
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                </select>
+                <br/>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="submit" class="btn btn-default">Cancelar</button>
+            </form>
+        </div>
+        <!--Tela de listagem dos PROTOCOLOS cadastrados -->
+        <div id="listProtocolos" style="display:none" class="container">
+            <p class="marginForms">Listagem de Protocolos Emitidos</p>
+            <input id="btn_protocolo" type="button" class="btn btn-primary marginForms" value="Novo Item" onclick="removeAddElements(31)"/><br/><br/>
+            <div class="panel panel-primary  marginForms">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Lista de Protocolos</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <th>Seq.</th>
+                        <th>Cód.</th>
+                        <th>Data</th>
+                        <th>Cliente</th>
+                        <th>Situação</th>
+                        </thead>
 
+                        <tbody>
+                        <td>Seq </td>
+                        <td>Cód</td>
+                        <td>Data</td>
+                        <td>Cliente</td>
+                        <td>Situação</td>
+                        <td><button class="btn btn-primary" onclick="editar()">Editar</button></td>
+                        <td><button class="btn btn-primary" onclick="eliminar()">Excluir</button></td>
+                        <td><button class="btn btn-primary" onclick="eliminar()">Cancelar</button></td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--Tela de cadastro dos PROTOCOLOS-->
+        <div id="formProtocolo" style="display:none" class="container">
+            <p class="marginForms">Cadastro de Protocolos</p>
+            <form class="form-horizontal positionFormRegister" role="form" >
+                <label for="txtCodItem" >Cód</label>
+                <input id="txtCodItem" name="cod_item" type="text" class="form-control" disabled/>
+                <label for="txtData" >Data</label>
+                <input id="txtData" name="data" type="text" class="form-control" placeholder="Data"/>
+                <label for="txtCliente" >Cliente</label>
+                <select class="form-control" name="chooseClient">
+                    <option value="">Selecione o Cliente...</option>
+                </select>
+                <label for="txtItem" >Item</label>
+                <select class="form-control" name="chooseIten">
+                    <option value="">Selecione o Item...</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Adicionar</button>
+                <br/>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Itens</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <th>Seq.</th>
+                            <th>Cód.</th>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>Retornar?</th>
+
+                            </thead>
+                            <tbody>
+                            <td>Seq </td>
+                            <td>Cód</td>
+                            <td>Nome</td>
+                            <td>Tipo</td>
+                            <td>Retornar?</td>
+                            <td><button class="btn btn-primary" onclick="eliminar()">Remover</button></td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <label for="txtObservacoes" >Obervações</label>
+                <input id="txtObservations" name="observations" type="text" class="form-control" placeholder="Observações"/>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="submit" class="btn btn-default">Cancelar</button>
+            </form>
         </div>
     </div>
+    <!--Rodapé-->
     <footer>
         <p>&copy; Desenvolvimento WEB 2017</p>
     </footer>
@@ -65,15 +267,9 @@
     <!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.0.js"><\/script>')</script>-->
     <script>
-            $("#buttonReadMore").click(function () {
-                $("#moreInformations").toggle();
-            });
-    </script>
-    <script>
-        $("#buttonRegister").click(function () {
-            $("#initialScreen").remove();
+        $("#buttonReadMore").click(function () {
+            $("#moreInformations").toggle();
         });
-        $('#buttonReadMore').trigger('click');
     </script>
     <!--     Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
