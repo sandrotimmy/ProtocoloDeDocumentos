@@ -15,7 +15,7 @@ $(function () {
     if (tbClientes === null) // Caso não haja conteúdo, iniciamos um vetor vazio
         tbClientes = [];
 });
-function Adicionar() {
+function AdicionarCliente() {
     var cliente = JSON.stringify({
         cnpj: $("#txtCnpj").val(),
         nome: $("#txtNameClient").val(),
