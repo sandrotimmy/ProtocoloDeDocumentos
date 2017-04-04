@@ -16,7 +16,10 @@ $(function () {
         tbClientes = [];
 });
 function AdicionarCliente() {
+    
+    var cod = GerarID();
     var cliente = JSON.stringify({
+        codigo: cod,
         cnpj: $("#txtCnpj").val(),
         nome: $("#txtNameClient").val(),
         endereco: $("#txtEndereco").val(),
@@ -27,8 +30,22 @@ function AdicionarCliente() {
     });
     tbClientes.push(cliente);
     localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
-    alert("Cliente Cadastrado com Sucesso!");
+    alert("Cliente " + cod + " Cadastrado com Sucesso!");
     return true;
+}
+
+function GerarID(){
+    var ultimoCod = -1;
+    if (tbClientes.length === 0){
+        ultimoCod = 1;        
+    }
+    else {
+        var ultimoCli = JSON.parse(tbClientes[tbClientes.length-1]);
+        ultimoCod = ultimoCli.codigo;
+        ultimoCod++;
+    }
+    
+    return ultimoCod;
 }
 function Editar() {
     tbClientes[indice_selecionado] = JSON.stringify({
