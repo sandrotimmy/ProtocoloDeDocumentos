@@ -15,6 +15,7 @@
         <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
         <script type="text/javascript" src="js/loginCtrl.js"></script>
         <script type="text/javascript" src="js/protocolo_Ctrl.js"></script>
+        <script type="text/javascript" src="js/clienteCtrl.js.js"></script>
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
         <!--Verifica se o usuário está logado no sistema se sim dá acesso a pagina, se não avisa 
         e direciona para pagina de login-->
@@ -110,7 +111,7 @@
                 <input id="txtCidade" name="Cidade" type="text" class="form-control" placeholder="Cidade"/>
                 <label for="txtCep" >CEP</label>
                 <input id="txtCep" name="cep" type="text" class="form-control" placeholder="Cep"/>
-                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="submit" class="btn btn-primary" onclick="AdicionarCliente()">Salvar</button>
                 <button type="submit" class="btn btn-default">Cancelar</button>
             </form>
         </div>
