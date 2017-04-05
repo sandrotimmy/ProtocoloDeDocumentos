@@ -33,7 +33,8 @@ function AdicionarCliente() {
     alert("Cliente " + cod + " Cadastrado com Sucesso!");
     return true;
 }
-
+//Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
+// Nao devemos re-usar IDs
 function GerarID(){
     var ultimoCod = -1;
     if (tbClientes.length === 0){
@@ -69,16 +70,16 @@ function Excluir() {
     alert("Registro excluído.");
 }
 
-function Listar() {
+function ListarClientes() {
     $("#tblListar").html("");
     $("#tblListar").html(
             "<thead>" +
             "	<tr>" +
-            "	<th></th>" +
             "	<th>Código</th>" +
+            "	<th>CNPJ</th>" +
             "	<th>Nome</th>" +
-            "	<th>Telefone</th>" +
-            "	<th>Email</th>" +
+            "	<th>Cidade</th>" +
+            "   <th>Ações</th>" +
             "	</tr>" +
             "</thead>" +
             "<tbody>" +
@@ -86,11 +87,15 @@ function Listar() {
             );
     for (var i in tbClientes) {
         var cli = JSON.parse(tbClientes[i]);
-        $("#tblListar tbody").append("<tr>");
-        $("#tblListar tbody").append("<td>" + cli.i + "</td>");
-        $("#tblListar tbody").append("<td>" + cli.Nome + "</td>");
-        $("#tblListar tbody").append("<td>" + cli.Telefone + "</td>");
-        $("#tblListar tbody").append("<td>" + cli.Email + "</td>");
+        $("#tblListar tbody").append("<tr class=\"active\">");
+        $("#tblListar tbody").append("<td>" + cli.codigo + "</td>");
+        $("#tblListar tbody").append("<td>" + cli.cnpj + "</td>");
+        $("#tblListar tbody").append("<td>" + cli.nome + "</td>");
+        $("#tblListar tbody").append("<td>" + cli.cidade + "</td>");
+        $("#tblListar tbody").append("<td><button class=\"btn btn-primary\" onclick=\"editar()\" title=\"Editar\"> <span class=\"glyphicon glyphicon-pencil\"></span> </button>\n\
+                                          <button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+       // $("#tblListar tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
+                               
         $("#tblListar tbody").append("</tr>");
     }
 }
