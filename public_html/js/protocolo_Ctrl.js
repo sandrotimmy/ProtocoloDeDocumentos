@@ -1,4 +1,11 @@
+scr = "clienteCtrl";
 
+function iniciarTelaClientes(){
+
+//    removeAddElements(11); 
+    ListarClientes();
+    
+}
 function removeAddElements(component) {
     if (component === 0) {// 0 Ativa Pagina Home
         document.getElementById("dadosEmpresa").style.display = "block";

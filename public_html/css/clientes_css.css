@@ -1,0 +1,13 @@
+
+
+
+colunaCod {
+    width: 100px;
+    padding:10px;
+    _width: 255px;
+}
+colunaCnpj{
+    width: 200px;
+    padding:10px;
+    _width: 495px;
+}

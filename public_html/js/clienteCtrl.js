@@ -71,8 +71,8 @@ function Excluir() {
 }
 
 function ListarClientes() {
-    $("#tblListar").html("");
-    $("#tblListar").html(
+    $("#tblListarClientes").html("");
+    $("#tblListarClientes").html(
             "<thead>" +
             "	<tr>" +
             "	<th>Código</th>" +
@@ -87,16 +87,16 @@ function ListarClientes() {
             );
     for (var i in tbClientes) {
         var cli = JSON.parse(tbClientes[i]);
-        $("#tblListar tbody").append("<tr class=\"active\">");
-        $("#tblListar tbody").append("<td>" + cli.codigo + "</td>");
-        $("#tblListar tbody").append("<td>" + cli.cnpj + "</td>");
-        $("#tblListar tbody").append("<td>" + cli.nome + "</td>");
-        $("#tblListar tbody").append("<td>" + cli.cidade + "</td>");
-        $("#tblListar tbody").append("<td><button class=\"btn btn-primary\" onclick=\"editar()\" title=\"Editar\"> <span class=\"glyphicon glyphicon-pencil\"></span> </button>\n\
+        $("#tblListarClientes tbody").append("<tr class=\"active\">");
+        $("#tblListarClientes tbody").append("<td>" + cli.codigo + "</td>");
+        $("#tblListarClientes tbody").append("<td>" + cli.cnpj + "</td>");
+        $("#tblListarClientes tbody").append("<td>" + cli.nome + "</td>");
+        $("#tblListarClientes tbody").append("<td>" + cli.cidade + "</td>");
+        $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"editar()\" title=\"Editar\"> <span class=\"glyphicon glyphicon-pencil\"></span> </button>\n\
                                           <button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
-       // $("#tblListar tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
+       // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
                                
-        $("#tblListar tbody").append("</tr>");
+        $("#tblListarClientes tbody").append("</tr>");
     }
 }
 
