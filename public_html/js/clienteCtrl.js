@@ -92,8 +92,8 @@ function ListarClientes() {
         $("#tblListarClientes tbody").append("<td>" + cli.cnpj + "</td>");
         $("#tblListarClientes tbody").append("<td>" + cli.nome + "</td>");
         $("#tblListarClientes tbody").append("<td>" + cli.cidade + "</td>");
-        $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"editar()\" title=\"Editar\"> <span class=\"glyphicon glyphicon-pencil\"></span> </button>\n\
-                                          <button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+        $("#tblListarClientes tbody").append("<td> <button type=\"button\" class=\"btn btn-primary actionModal\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
+                                             <button class=\"btn btn-primary\" onclick=\"Excluir()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
        // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
                                
         $("#tblListarClientes tbody").append("</tr>");
