@@ -17,7 +17,7 @@ $(function () {
 });
 function AdicionarCliente() {
     
-    var cod = GerarID();
+    var cod = GerarIdCli();
     var cliente = JSON.stringify({
         codigo: cod,
         cnpj: $("#txtCnpj").val(),
@@ -33,12 +33,13 @@ function AdicionarCliente() {
     alert("Cliente " + cod + " Cadastrado com Sucesso!");
     return true;
 }
+
 //Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
 // Nao devemos re-usar IDs
-function GerarID(){
+function GerarIdCli(){
     var ultimoCod = -1;
     if (tbClientes.length === 0){
-        ultimoCod = 1;        
+        ultimoCod = 1;
     }
     else {
         var ultimoCli = JSON.parse(tbClientes[tbClientes.length-1]);
@@ -64,10 +65,18 @@ function Editar() {
     return true;
 }
 
-function Excluir() {
-    tbClientes.splice(indice_selecionado, 1);
-    localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
-    alert("Registro excluído.");
+function ExcluirCliente(id) {
+    
+    for (var i in tbClientes) {
+        var cli = JSON.parse(tbClientes[i]);
+        
+        if(cli.codigo === id){
+            tbClientes.splice(i, 1);
+            localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
+            alert("Registro excluídoo.");            
+        }
+        
+    }
 }
 
 function ListarClientes() {
@@ -93,7 +102,7 @@ function ListarClientes() {
         $("#tblListarClientes tbody").append("<td>" + cli.nome + "</td>");
         $("#tblListarClientes tbody").append("<td>" + cli.cidade + "</td>");
         $("#tblListarClientes tbody").append("<td> <button type=\"button\" class=\"btn btn-primary actionModal\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
-                                             <button class=\"btn btn-primary\" onclick=\"Excluir()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+                                             <button class=\"btn btn-primary\" onclick=\"ExcluirCliente("+cli.codigo+")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
        // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
                                
         $("#tblListarClientes tbody").append("</tr>");
