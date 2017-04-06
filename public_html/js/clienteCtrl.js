@@ -17,7 +17,7 @@ $(function () {
 });
 function AdicionarCliente() {
 
-    var cod = GerarID();
+    var cod = GerarIdCli();
     var cliente = JSON.stringify({
         codigo: cod,
         cnpj: $("#txtCnpj").val(),
@@ -33,9 +33,10 @@ function AdicionarCliente() {
     alert("Cliente " + cod + " Cadastrado com Sucesso!");
     return true;
 }
+
 //Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
 // Nao devemos re-usar IDs
-function GerarID() {
+function GerarIdCli() {
     var ultimoCod = -1;
     if (tbClientes.length === 0) {
         ultimoCod = 1;
@@ -48,33 +49,31 @@ function GerarID() {
     return ultimoCod;
 }
 
-function exibirCliente(codCliente) {
-
-    for (var i = 0; i < tbClientes.length; i++) {
-        var clienteTemp = JSON.parse(tbClientes[i]);
-        var codTemp = clienteTemp.codigo;
-        if (codCliente === codTemp) {
-            $("#cnpjClient").val(clienteTemp.cnpj);
-            $("#nomeClient").val(clienteTemp.nome);
-            $("#addressClient").val(clienteTemp.endereco);
-            $("#numberClient").val(clienteTemp.numero);
-            $("#districtClient").val(clienteTemp.bairro);
-            $("#cityClient").val(clienteTemp.cidade);
-            $("#zipCodeClient").val(clienteTemp.cep);
-            break;
-        }
+function EditarCadastrar() {
+    if (document.getElementById("idClient").value === "") {
+        AdicionarCliente();
+    } else {
+        EditarCliente(document.getElementById("idClient").value);
     }
 }
 
-function EditarCliente(codCliente) {
+function EditarCliente(id) {
+
+    for (var i in tbClientes) {
+        var cli = JSON.parse(tbClientes[i]);
+        if (cli.codigo.toString() === id) {
+            indice_selecionado = i;
+        }
+    }
     tbClientes[indice_selecionado] = JSON.stringify({
-        cnpj: $("#txtCnpj").val(),
-        nome: $("#txtNameClient").val(),
-        endereco: $("#txtEndereco").val(),
-        numero: $("#txtNumero").val(),
-        bairro: $("#txtBairro").val(),
-        cidade: $("#txtCidade").val(),
-        cep: $("#txtCep").val()
+        codigo: $("#idClient").val(),
+        cnpj: $("#cnpjClient").val(),
+        nome: $("#nomeClient").val(),
+        endereco: $("#addressClient").val(),
+        numero: $("#numberClient").val(),
+        bairro: $("#districtClient").val(),
+        cidade: $("#cityClient").val(),
+        cep: $("#zipCodeClient").val()
     });//Altera o item selecionado na tabela
     localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
     alert("Informações editadas.");
@@ -82,10 +81,38 @@ function EditarCliente(codCliente) {
     return true;
 }
 
-function Excluir() {
-    tbClientes.splice(indice_selecionado, 1);
-    localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
-    alert("Registro excluído.");
+function ExcluirCliente(id) {
+
+    for (var i in tbClientes) {
+        var cli = JSON.parse(tbClientes[i]);
+
+        if (cli.codigo === id) {
+            tbClientes.splice(i, 1);
+            localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
+            alert("Registro excluídoo.");
+        }
+
+    }
+}
+
+function ExibirCliente(id) {
+    for (var i in tbClientes) {
+        var cli = JSON.parse(tbClientes[i]);
+
+        if (cli.codigo === id) {
+            $("#idClient").val(cli.codigo);
+            $("#cnpjClient").val(cli.cnpj);
+            $("#nomeClient").val(cli.nome);
+            $("#addressClient").val(cli.endereco);
+            $("#numberClient").val(cli.numero);
+            $("#districtClient").val(cli.bairro);
+            $("#cityClient").val(cli.cidade);
+            $("#zipCodeClient").val(cli.cep);
+            break;
+        }
+    }
+
+
 }
 
 function ListarClientes() {
@@ -110,8 +137,8 @@ function ListarClientes() {
         $("#tblListarClientes tbody").append("<td>" + cli.cnpj + "</td>");
         $("#tblListarClientes tbody").append("<td>" + cli.nome + "</td>");
         $("#tblListarClientes tbody").append("<td>" + cli.cidade + "</td>");
-        $("#tblListarClientes tbody").append("<td> <button type=\"button\" class=\"btn btn-primary actionModal\" onclick=\"exibirCliente(1)\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
-                                             <button class=\"btn btn-primary\" onclick=\"Excluir()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+        $("#tblListarClientes tbody").append("<td> <button type=\"button\" class=\"btn btn-primary actionModal\" onclick=\"ExibirCliente(" + cli.codigo + ")\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
+                                             <button class=\"btn btn-primary\" onclick=\"ExcluirCliente(" + cli.codigo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
         // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
 
         $("#tblListarClientes tbody").append("</tr>");

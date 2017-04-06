@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<html lang="" ng-app ng-controller="testeCtrl">
+<html>
     <head>
         <meta charset="utf-8">
         <meta name="description" content="">
@@ -112,10 +112,14 @@
                         <div class="modal-content">
                             <div class="modal-header" style="padding:15px 30px;">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4><span class="glyphicon"></span> Editar Cliente</h4>
+                                <h4><span class="glyphicon"></span> Cliente</h4>
                             </div>
                             <div class="modal-body" style="padding:40px 50px;">
                                 <form role="form" id="modalForm">
+                                    <div class="form-group">
+                                        <label for="idClient"><span class="glyphicon"></span> Código</label>
+                                        <input type="text" class="form-control" id="idClient" disabled>
+                                    </div>
                                     <div class="form-group">
                                         <label for="cnpjClient"><span class="glyphicon"></span> CNPJ</label>
                                         <input type="text" class="form-control" id="cnpjClient">
@@ -144,7 +148,7 @@
                                         <label for="zipCodeClient"><span class="glyphicon"></span> cep</label>
                                         <input type="text" class="form-control" id="zipCodeClient">
                                     </div>
-                                    <button type="submit" class="btn btn-success btn-block" onclick="EditarCliente(1)"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+                                    <button type="submit" class="btn btn-success btn-block" onclick="EditarCadastrar()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
                                     <button type="submit" class="btn btn-danger btn-default pull-left btn-block" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                                 </form>
                             </div>
@@ -167,7 +171,7 @@
             <form class="form-horizontal positionFormRegister" role="form" >
                 <label for="txtCodClient" >Cód</label>
                 <input id="txtCodClient" name="cod_client" type="text" class="form-control" disabled/>
-                <label for="txtCnpj" >Nome</label>
+                <label for="txtCnpj" >CNPJ</label>
                 <input id="txtCnpj" name="Cnpj" type="text" class="form-control" placeholder="C.N.P.J."/>
                 <label for="txtNameClient" >Nome</label>
                 <input id="txtNameClient" name="nameClient" type="text" class="form-control" placeholder="Nome"/>
