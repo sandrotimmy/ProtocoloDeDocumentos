@@ -16,7 +16,7 @@ $(function () {
         tbClientes = [];
 });
 function AdicionarCliente() {
-    
+
     var cod = GerarID();
     var cliente = JSON.stringify({
         codigo: cod,
@@ -35,20 +35,38 @@ function AdicionarCliente() {
 }
 //Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
 // Nao devemos re-usar IDs
-function GerarID(){
+function GerarID() {
     var ultimoCod = -1;
-    if (tbClientes.length === 0){
-        ultimoCod = 1;        
-    }
-    else {
-        var ultimoCli = JSON.parse(tbClientes[tbClientes.length-1]);
+    if (tbClientes.length === 0) {
+        ultimoCod = 1;
+    } else {
+        var ultimoCli = JSON.parse(tbClientes[tbClientes.length - 1]);
         ultimoCod = ultimoCli.codigo;
         ultimoCod++;
     }
-    
+
     return ultimoCod;
 }
-function Editar() {
+
+function exibirCliente(codCliente) {
+
+    for (var i = 0; i < tbClientes.length; i++) {
+        var clienteTemp = JSON.parse(tbClientes[i]);
+        var codTemp = clienteTemp.codigo;
+        if (codCliente === codTemp) {
+            $("#cnpjClient").val(clienteTemp.cnpj);
+            $("#nomeClient").val(clienteTemp.nome);
+            $("#addressClient").val(clienteTemp.endereco);
+            $("#numberClient").val(clienteTemp.numero);
+            $("#districtClient").val(clienteTemp.bairro);
+            $("#cityClient").val(clienteTemp.cidade);
+            $("#zipCodeClient").val(clienteTemp.cep);
+            break;
+        }
+    }
+}
+
+function EditarCliente(codCliente) {
     tbClientes[indice_selecionado] = JSON.stringify({
         cnpj: $("#txtCnpj").val(),
         nome: $("#txtNameClient").val(),
@@ -71,8 +89,8 @@ function Excluir() {
 }
 
 function ListarClientes() {
-    $("#tblListar").html("");
-    $("#tblListar").html(
+    $("#tblListarClientes").html("");
+    $("#tblListarClientes").html(
             "<thead>" +
             "	<tr>" +
             "	<th>Código</th>" +
@@ -87,16 +105,16 @@ function ListarClientes() {
             );
     for (var i in tbClientes) {
         var cli = JSON.parse(tbClientes[i]);
-        $("#tblListar tbody").append("<tr class=\"active\">");
-        $("#tblListar tbody").append("<td>" + cli.codigo + "</td>");
-        $("#tblListar tbody").append("<td>" + cli.cnpj + "</td>");
-        $("#tblListar tbody").append("<td>" + cli.nome + "</td>");
-        $("#tblListar tbody").append("<td>" + cli.cidade + "</td>");
-        $("#tblListar tbody").append("<td><button class=\"btn btn-primary\" onclick=\"editar()\" title=\"Editar\"> <span class=\"glyphicon glyphicon-pencil\"></span> </button>\n\
-                                          <button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
-       // $("#tblListar tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
-                               
-        $("#tblListar tbody").append("</tr>");
+        $("#tblListarClientes tbody").append("<tr class=\"active\">");
+        $("#tblListarClientes tbody").append("<td>" + cli.codigo + "</td>");
+        $("#tblListarClientes tbody").append("<td>" + cli.cnpj + "</td>");
+        $("#tblListarClientes tbody").append("<td>" + cli.nome + "</td>");
+        $("#tblListarClientes tbody").append("<td>" + cli.cidade + "</td>");
+        $("#tblListarClientes tbody").append("<td> <button type=\"button\" class=\"btn btn-primary actionModal\" onclick=\"exibirCliente(1)\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
+                                             <button class=\"btn btn-primary\" onclick=\"Excluir()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+        // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
+
+        $("#tblListarClientes tbody").append("</tr>");
     }
 }
 

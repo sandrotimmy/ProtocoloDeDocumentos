@@ -93,13 +93,14 @@ function Logar() {
         alert("Usuário ou senha Incorretos!");
         return false;
     }
-    function isLogado() {
-        var logado = sessionStorage.getItem("Logado");
-        if (logado !== "true") {
-            alert("Você deve logar antes!");
-            window.location.replace("/ProtocoloDeDocumentos/index.html");
-        }
-
-
-    }
 }
+function isLogado() {
+    var logado = sessionStorage.getItem("Logado");
+    if (logado !== "true") {
+        alert("Você deve logar antes!");
+        window.location.replace("/ProtocoloDeDocumentos/index.html");
+    }
+
+
+}
+
