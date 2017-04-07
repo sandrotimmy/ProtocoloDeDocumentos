@@ -12,58 +12,91 @@ $(function () {
 
     tbItens = localStorage.getItem("tbItens");// Recupera os dados armazenados
     tbItens = JSON.parse(tbItens); // Converte string para objeto
-    if (tbItens === null) // Caso não haja conteúdo, iniciamos um vetor vazio
-        tbItens = [];
+    if (tbItens == null) // Caso não haja conteúdo, iniciamos um vetor vazio
+        tbItenss = [];
 });
 function AdicionarItem() {
-    
-    var cod = GerarID();
+
+    var cod = GerarIdItem();
     var item = JSON.stringify({
         codigo: cod,
-        nome: $("#txtNomeItem").val(),
-        tipo: $("#txtTipo").val(),
-        retorno: $("#txtRetorno").val()
+        nome: $("#nomeItem").val(),
+        tipo: $("#tipo").val(),
+        retorno: $("#retorno").val()
     });
     tbItens.push(item);
     localStorage.setItem("tbItens", JSON.stringify(tbItens));
     alert("Item " + cod + " Cadastrado com Sucesso!");
-    return true;
+    ListarItens();
 }
-//Limitaçao do GerarID() -> Sempre compara com o ID do ultimo item. Se o ultimo item for excluido, o ID sera re-usado.
+
+//Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
 // Nao devemos re-usar IDs
-function GerarID(){
+function GerarIdItem() {
     var ultimoCod = -1;
-    if (tbItens.length === 0){
-        ultimoCod = 1;        
-    }
-    else {
-        var ultimoCli = JSON.parse(tbItens[tbItens.length-1]);
-        ultimoCod = ultimoCli.codigo;
+    if (tbItens.length == 0) {
+        ultimoCod = 1;
+    } else {
+        var ultimoItem = JSON.parse(tbItens[tbItens.length - 1]);
+        ultimoCod = ultimoItem.codigo;
         ultimoCod++;
     }
-    
     return ultimoCod;
 }
-function Editar() {
+
+function EditarCadastrarItem() {
+    if (document.getElementById("idItem").value == "") {
+        AdicionarItem();
+    } else {
+        EditarItem(document.getElementById("idItem").value);
+    }
+}
+
+function EditarItem(id) {
+
+    for (var i in tbItens) {
+        var item = JSON.parse(tbItens[i]);
+        if (item.codigo.toString() == id) {
+            indice_selecionado = i;
+        }
+    }
     tbItens[indice_selecionado] = JSON.stringify({
-        cnpj: $("#txtCnpj").val(),
-        nome: $("#txtNameClient").val(),
-        endereco: $("#txtEndereco").val(),
-        numero: $("#txtNumero").val(),
-        bairro: $("#txtBairro").val(),
-        cidade: $("#txtCidade").val(),
-        cep: $("#txtCep").val()
-    });//Altera o item selecionado na tabela
+        codigo: $("#idItem").val(),
+        nome: $("#nomeItem").val(),
+        tipo: $("#tipo").val(),
+        retorno: $("#retorno").val()
+    });
     localStorage.setItem("tbItens", JSON.stringify(tbItens));
     alert("Informações editadas.");
     operacao = "A"; //Volta ao padrão
-    return true;
+    ListarItens();
 }
 
-function Excluir() {
-    tbItens.splice(indice_selecionado, 1);
-    localStorage.setItem("tbItens", JSON.stringify(tbItens));
-    alert("Registro excluído.");
+function ExcluirItem(id) {
+
+    for (var i in tbItens) {
+        var item = JSON.parse(tbItens[i]);
+
+        if (item.codigo == id) {
+            tbItens.splice(i, 1);
+            localStorage.setItem("tbItens", JSON.stringify(tbItens));
+            alert("Registro excluídoo.");
+            ListarItens();
+        }
+    }
+}
+
+function ExibirItem(id) {
+    for (var i in tbItens) {
+        var item = JSON.parse(tbItens[i]);
+        if (item.codigo == id) {
+            $("#idItem").val(item.codigo);
+            $("#nomeItem").val(item.nome);
+            $("#tipo").val(item.tipo);
+            $("#retorno").val(item.retorno);
+            break;
+        }
+    }
 }
 
 function ListarItens() {
@@ -88,10 +121,10 @@ function ListarItens() {
         $("#tblListarItens tbody").append("<td>" + item.nome + "</td>");
         $("#tblListarItens tbody").append("<td>" + item.tipo + "</td>");
         $("#tblListarItens tbody").append("<td>" + item.retorno + "</td>");
-        $("#tblListarItens tbody").append("<td><button class=\"btn btn-primary\" onclick=\"editar()\" title=\"Editar\"> <span class=\"glyphicon glyphicon-pencil\"></span> </button>\n\
-                                          <button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
-       // $("#tblListarItens tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
-                               
+        $("#tblListarItens tbody").append("<td> <button id=\"btn_itens_Edit\" type=\"button\" class=\"btn btn-primary\" onclick=\"ExibirItem(" + item.codigo + ")\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
+                                             <button class=\"btn btn-primary\" onclick=\"ExcluirItem(" + item.codigo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+        // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
+
         $("#tblListarItens tbody").append("</tr>");
     }
 }

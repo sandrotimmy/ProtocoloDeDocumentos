@@ -12,7 +12,7 @@ $(function () {
 
     tbClientes = localStorage.getItem("tbClientes");// Recupera os dados armazenados
     tbClientes = JSON.parse(tbClientes); // Converte string para objeto
-    if (tbClientes === null) // Caso não haja conteúdo, iniciamos um vetor vazio
+    if (tbClientes == null) // Caso não haja conteúdo, iniciamos um vetor vazio
         tbClientes = [];
 });
 function AdicionarCliente() {
@@ -39,7 +39,7 @@ function AdicionarCliente() {
 // Nao devemos re-usar IDs
 function GerarIdCli() {
     var ultimoCod = -1;
-    if (tbClientes.length === 0) {
+    if (tbClientes.length == 0) {
         ultimoCod = 1;
     } else {
         var ultimoCli = JSON.parse(tbClientes[tbClientes.length - 1]);
@@ -50,8 +50,8 @@ function GerarIdCli() {
     return ultimoCod;
 }
 
-function EditarCadastrar() {
-    if (document.getElementById("idClient").value === "") {
+function EditarCadastrarCliente() {
+    if (document.getElementById("idClient").value == "") {
         AdicionarCliente();
     } else {
         EditarCliente(document.getElementById("idClient").value);
@@ -62,7 +62,7 @@ function EditarCliente(id) {
 
     for (var i in tbClientes) {
         var cli = JSON.parse(tbClientes[i]);
-        if (cli.codigo.toString() === id) {
+        if (cli.codigo.toString() == id) {
             indice_selecionado = i;
         }
     }
@@ -87,7 +87,7 @@ function ExcluirCliente(id) {
     for (var i in tbClientes) {
         var cli = JSON.parse(tbClientes[i]);
 
-        if (cli.codigo === id) {
+        if (cli.codigo == id) {
             tbClientes.splice(i, 1);
             localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
             alert("Registro excluídoo.");
@@ -100,7 +100,7 @@ function ExibirCliente(id) {
     for (var i in tbClientes) {
         var cli = JSON.parse(tbClientes[i]);
 
-        if (cli.codigo === id) {
+        if (cli.codigo == id) {
             $("#idClient").val(cli.codigo);
             $("#cnpjClient").val(cli.cnpj);
             $("#nomeClient").val(cli.nome);
@@ -138,7 +138,7 @@ function ListarClientes() {
         $("#tblListarClientes tbody").append("<td>" + cli.cnpj + "</td>");
         $("#tblListarClientes tbody").append("<td>" + cli.nome + "</td>");
         $("#tblListarClientes tbody").append("<td>" + cli.cidade + "</td>");
-        $("#tblListarClientes tbody").append("<td> <button type=\"button\" class=\"btn btn-primary actionModal\" onclick=\"ExibirCliente(" + cli.codigo + ")\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
+        $("#tblListarClientes tbody").append("<td> <button id=\"btn_clientes_Edit\" type=\"button\" class=\"btn btn-primary actionModal\" onclick=\"ExibirCliente(" + cli.codigo + ")\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
                                              <button class=\"btn btn-primary\" onclick=\"ExcluirCliente(" + cli.codigo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
         // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
 
