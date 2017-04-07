@@ -54,16 +54,16 @@
         </div>
     </nav>
     <!--Menu principal-->
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-static-top container-fluid">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">e-Pro</a>
             </div>
             <ul class="nav navbar-nav">
-                <li><a onclick="removeAddElements(0)">Home</a></li>
-                <li><a onclick="removeAddElements(1); ListarClientes()">Clientes</a></li>
-                <li><a onclick="removeAddElements(2); ListarItens()">Itens</a></li>
-                <li><a onclick="removeAddElements(3)">Protocolo</a></li>
+                <li><a class="icon-bar " href="#" onclick="removeAddElements(0)">Home</a></li>
+                <li><a class="icon-bar " href="#" onclick="removeAddElements(1); ListarClientes()">Clientes</a></li>
+                <li><a class="icon-bar " href="#" onclick="removeAddElements(2); ListarItens()">Itens</a></li>
+                <li><a class="icon-bar " href="#" onclick="removeAddElements(3)">Protocolo</a></li>
             </ul>
         </div>
     </nav>
@@ -81,7 +81,7 @@
         <!--Tela de listagem dos CLIENTES cadastrados -->
         <div id="listClient" style="display:none" class="container">
             <p class="marginForms">Listagem de Clientes</p>
-            <input id="btn_clientes" type="button" class="btn btn-primary marginForms" value="Novo Cliente" onclick="removeAddElements(11)"/>
+            <input id="btn_clientes" type="button" class="btn btn-primary marginForms actionModal" value="Novo Cliente"/>
             <div class="panel panel-primary  marginForms">
                 <div class="panel-heading">
                     <h3 class="panel-title">Lista de Clientes</h3>
@@ -91,8 +91,8 @@
                         <!-- TABELA DINAMICA. Criada pelo ListarClientes()-->
                         <thead>
                             <tr>
-                                <th class="colunaCod">Código</th>
-                                <th class="colunaCnpj">CNPJ</th>
+                                <th>Código</th>
+                                <th>CNPJ</th>
                                 <th>Nome</th>
                                 <th>Cidade</th>
                                 <th>Ações</th>

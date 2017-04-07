@@ -20,18 +20,19 @@ function AdicionarCliente() {
     var cod = GerarIdCli();
     var cliente = JSON.stringify({
         codigo: cod,
-        cnpj: $("#txtCnpj").val(),
-        nome: $("#txtNameClient").val(),
-        endereco: $("#txtEndereco").val(),
-        numero: $("#txtNumero").val(),
-        bairro: $("#txtBairro").val(),
-        cidade: $("#txtCidade").val(),
-        cep: $("#txtCep").val()
+        cnpj: $("#cnpjClient").val(),
+        nome: $("#nomeClient").val(),
+        endereco: $("#addressClient").val(),
+        numero: $("#numberClient").val(),
+        bairro: $("#districtClient").val(),
+        cidade: $("#cityClient").val(),
+        cep: $("#zipCodeClient").val()
     });
     tbClientes.push(cliente);
     localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
     alert("Cliente " + cod + " Cadastrado com Sucesso!");
-    return true;
+    $("#myModal").modal(".close");
+    ListarClientes();
 }
 
 //Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
@@ -78,7 +79,7 @@ function EditarCliente(id) {
     localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
     alert("Informações editadas.");
     operacao = "A"; //Volta ao padrão
-    return true;
+    ListarClientes();
 }
 
 function ExcluirCliente(id) {
@@ -90,8 +91,8 @@ function ExcluirCliente(id) {
             tbClientes.splice(i, 1);
             localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
             alert("Registro excluídoo.");
+            ListarClientes();
         }
-
     }
 }
 
