@@ -83,8 +83,21 @@
     <div id="initialScreen" class="jumbotron"  >
         <!--Tela "Home" com os Dados da EMPRESA -->
         <div id="dadosEmpresa" class="panel panel-default marginForms">
-            <div class="panel-heading">
-                <h3 class="panel-title">Empresa</h3>
+            <div class="panel-heading row">
+                <div class="col-md-1">
+                    <h3 class="panel-title">Empresa</h3>
+                </div>
+                <div class="col-md-1">
+                    <div class="dropdown">
+                        <button class="btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" id="btn_empresa" onclick="EditarCadastrarEmpresa()">Alterar Dados</a></li>
+                            <li><a href="#" id="btn_excluirEmpresa" onclick="ExcluirEmpresa()">Excluir</a></li>
+                        </ul>
+                     </div>
+                </div>
             </div>
             <label class="formLabelEmpresa">C.N.P.J.: </label>
             <h3 id="txtCnpjEmpresa" class="formDadosEmpresa"></h3>
@@ -100,9 +113,9 @@
             <h3 id="txtCidadeEmpresa" class="formDadosEmpresa"></h3>
             <label class="formLabelEmpresa">CEP: </label>
             <h3 id="txtCepEmpresa" class="formDadosEmpresa"></h3>
+            <br />
         </div>
-        <input id="btn_empresa" type="button" class="btn btn-primary marginForms" value="Alterar Dados" onclick="EditarCadastrarEmpresa()"/>
-        <input id="btn_excluirEmpresa" type="button" class="btn btn-primary marginForms" value="excluir" onclick="ExcluirEmpresa()"/>
+              
 
         <!-- Modal de Cadastro e alteração da EMPRESA -->
         <div id="modalEmpresa">  
