@@ -112,8 +112,6 @@ function ExibirCliente(id) {
             break;
         }
     }
-
-
 }
 
 function ListarClientes() {

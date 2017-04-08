@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/forms.css">
         <link rel="stylesheet" href="css/clientes_css.css">
+        <link rel="stylesheet" href="css/empresa_css.css">
         <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
         <script type="text/javascript" src="js/vendor/angular.min.js"></script>
         <script type="text/javascript" src="js/vendor/jquery.mask.js"></script>
@@ -19,6 +20,7 @@
         <script type="text/javascript" src="js/clienteCtrl.js"></script>
         <script type="text/javascript" src="js/protocolo_Ctrl.js"></script>
         <script type="text/javascript" src="js/itensCtrl.js"></script>
+        <script type="text/javascript" src="js/empresaCtrl.js"></script>
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -39,6 +41,12 @@
         <script>
             isLogado();
         </script>
+        <script>
+            window.onload = function () {
+                inserirDados();
+            }
+        </script>
+
         <style>
             body {
                 padding-top: 50px;
@@ -71,13 +79,77 @@
     <!-- Aqui ficam todas as telas do Sistema, para carregá-las dinamicamente sem  
     ter que carregar toda a tela do sistema novamente, pra isso chame o método
     removeAddElements() exibindo e escondendo os componentes necessários-->
+
     <div id="initialScreen" class="jumbotron"  >
         <!--Tela "Home" com os Dados da EMPRESA -->
-        <div id="dadosEmpresa" class="container">
-            <p class="marginForms">Dados da Empresa</p>
-            <h3>Aqui fica os dados da empresa.</h3>
-            <h3>Falta criar o Formulário para criar e alterar os dados.</h3>
-            <input id="btn_empresa" type="button" class="btn btn-primary marginForms" value="Alterar Dados"/><br/><br/>
+        <div id="dadosEmpresa" class="panel panel-default marginForms">
+            <div class="panel-heading">
+                <h3 class="panel-title">Empresa</h3>
+            </div>
+            <label class="formLabelEmpresa">C.N.P.J.: </label>
+            <h3 id="txtCnpjEmpresa" class="formDadosEmpresa"></h3>
+            <label class="formLabelEmpresa">Nome: </label>
+            <h3 id="txtNomeEmpresa" class="formDadosEmpresa"></h3>
+            <label class="formLabelEmpresa">Endereço: </label>
+            <h3 id="txtEnderecoEmpresa" class="formDadosEmpresa"></h3>
+            <label class="formLabelEmpresa">Número: </label>
+            <h3 id="txtNumeroEmpresa" class="formDadosEmpresa"></h3>
+            <label class="formLabelEmpresa">Bairro: </label>
+            <h3 id="txtBairroEmpresa" class="formDadosEmpresa"></h3>
+            <label class="formLabelEmpresa">Cidade: </label>
+            <h3 id="txtCidadeEmpresa" class="formDadosEmpresa"></h3>
+            <label class="formLabelEmpresa">CEP: </label>
+            <h3 id="txtCepEmpresa" class="formDadosEmpresa"></h3>
+        </div>
+        <input id="btn_empresa" type="button" class="btn btn-primary marginForms" value="Alterar Dados" onclick="EditarCadastrarEmpresa()"/>
+        <input id="btn_excluirEmpresa" type="button" class="btn btn-primary marginForms" value="excluir" onclick="ExcluirEmpresa()"/>
+
+        <!-- Modal de Cadastro e alteração da EMPRESA -->
+        <div id="modalEmpresa">  
+            <div class="modal fade" id="myModalEmpresa" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding:15px 30px;">
+                            <button type="submit" class="close" data-dismiss="modal">&times;</button>
+                            <h4><span class="glyphicon"></span>Empresa</h4>
+                        </div>
+                        <div class="modal-body" style="padding:40px 50px;">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="cnpjEmpresa"><span class="glyphicon"></span> C.N.P.J.</label>
+                                    <input type="text"  class="form-control" id="cnpjEmpresa">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nomeEmpresa"><span class="glyphicon"></span> Nome</label>
+                                    <input type="text" class="form-control" id="nomeEmpresa">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addressEmpresa"><span class="glyphicon"></span> Endereco</label>
+                                    <input type="text" class="form-control" id="addressEmpresa">
+                                </div>
+                                <div class="form-group">
+                                    <label for="numberEmpresa"><span class="glyphicon "></span> Numero</label>
+                                    <input type="text" class="form-control" id="numberEmpresa">
+                                </div>
+                                <div class="form-group">
+                                    <label for="districtEmpresa"><span class="glyphicon"></span> Bairro</label>
+                                    <input type="text" class="form-control" id="districtEmpresa">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cityEmpresa"><span class="glyphicon"></span> Cidade</label>
+                                    <input type="text" class="form-control" id="cityEmpresa">
+                                </div>
+                                <div class="form-group">
+                                    <label for="zipCodeEmpresa"><span class="glyphicon"></span> cep</label>
+                                    <input type="text" class="form-control" id="zipCodeEmpresa">
+                                </div>
+                                <button type="submit" class="btn btn-success btn-block" onclick="EditarEmpresa()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+                                <button type="submit" class="btn btn-danger btn-default pull-left btn-block" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                            </form>
+                        </div>
+                    </div>      
+                </div>
+            </div> 
         </div>
         <!--Tela de listagem dos CLIENTES cadastrados -->
         <div id="listClient" style="display:none" class="container">
@@ -156,6 +228,12 @@
             </div>
             <script>
                 $(document).ready(function () {
+                    $(document.body).on("click", "#btn_empresa", function () {
+                        $("#myModalEmpresa").modal();
+                    });
+                });
+
+                $(document).ready(function () {
                     $(document.body).on("click", "#btn_clientes", function () {
                         $("#myModalClient").modal();
                     });
@@ -225,14 +303,14 @@
                                 </div>
                                 <select class="form-control" id="tipo">
                                     <option value="">Selecione...</option>
-                                    <option value="Documentos Empresa">Documentos Empresa</option>
-                                    <option value="Documentos Sócios">Documentos Sócios</option>
-                                    <option value="Impostos">Impostos</option>
-                                    <option value="Atos Constitutivos">Atos Constitutivos</option>
-                                    <option value="Livros Contábeis">Livros Contábeis</option>
-                                    <option value="Livros Fiscais">Livros Fiscais</option>
-                                    <option value="Livros Empregados">Livros Empregados</option>
-                                    <option value="Livros Inspeção">Livros Contábeis</option>
+                                    <option value="Documentos Empresa">Documento Empresarial</option>
+                                    <option value="Documentos Sócios">Documento Sócio</option>
+                                    <option value="Impostos">Imposto</option>
+                                    <option value="Atos Constitutivos">Ato Constitutivo</option>
+                                    <option value="Livros Contábeis">Livro Contábil</option>
+                                    <option value="Livros Fiscais">Livro Fiscal</option>
+                                    <option value="Livros Empregados">Livro de Empregado</option>
+                                    <option value="Livros Inspeção">Livro de Inventário</option>
                                 </select>
                                 <label for="retorno"><span class="glyphicon"></span>Retornar?</label>
                                 <select class="form-control" id="retorno">
