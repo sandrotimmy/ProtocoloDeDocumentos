@@ -1,10 +1,10 @@
 scr = "clienteCtrl";
 
-function iniciarTelaClientes(){
+function iniciarTelaClientes() {
 
 //    removeAddElements(11); 
     ListarClientes();
-    
+
 }
 function removeAddElements(component) {
     if (component === 0) {// 0 Ativa Pagina Home
@@ -40,7 +40,44 @@ function removeAddElements(component) {
     }
 }
 
+function closeModal(modal) {
 
+    ("myModalClient").removeData('bs.modal');
+}
+function alterBehaviorModal() {
+    //Abre Modal EMPRESA
+    $(document.body).on("click", "#btn_empresa", function () {
+        $("#myModalEmpresa").modal();
+    });
+    //Abre Modal CLIENTES
+    $(document.body).on("click", "#btn_clientes", function () {
+        $("#myModalClient").modal();
+    });
+    //Abre Modal CLIENTES PARA EDITAR
+    $(document.body).on("click", "#btn_clientes_Edit", function () {
+        $("#myModalClient").modal();
+    });
+    //Abre Modal ITENS
+    $(document.body).on("click", "#btn_itens", function () {
+        $("#myModalItens").modal();
+    });
+    //Abre Modal ITENS PARA EDITAR
+    $(document.body).on("click", "#btn_itens_Edit", function () {
+        $("#myModalItens").modal();
+    });
+    //Fecha o modal EMPRESA zerando os campos
+    $(document.body).on("click", "#btn_CadEmpresa", function () {
+        $('#myModalEmpresa').modal('hide');
+    });
+    //Fecha o modal CLIENTES zerando os campos
+    $(document.body).on("click", "#btn_CancelClient", function () {
+        $('#myModalClient').modal('hide');
+    });
+    //Fecha o modal ITENS zerando os campos
+    $(document.body).on("click", "#btn_CancelItens", function () {
+        $('#myModalItens').modal('hide');
+    });
+}
 
 function isLogado() {
     var logado = sessionStorage.getItem("Logado");

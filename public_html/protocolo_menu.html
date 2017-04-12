@@ -42,11 +42,22 @@
             isLogado();
         </script>
         <script>
+            $("#buttonReadMore").click(function () {
+                $("#moreInformations").toggle();
+            });
+        </script>
+        <script>
+            //Carrega os dados da empresa na tema inicial "Home" 
             window.onload = function () {
                 inserirDados();
-            }
+            };
         </script>
-
+        <script>
+            //Carrega o comportamento dos Modais
+            $(document).ready(function () {
+                alterBehaviorModal();
+            });
+        </script>
         <style>
             body {
                 padding-top: 50px;
@@ -76,10 +87,6 @@
             </ul>
         </div>
     </nav>
-    <!-- Aqui ficam todas as telas do Sistema, para carregá-las dinamicamente sem  
-    ter que carregar toda a tela do sistema novamente, pra isso chame o método
-    removeAddElements() exibindo e escondendo os componentes necessários-->
-
     <div id="initialScreen" class="jumbotron"  >
         <!--Tela "Home" com os Dados da EMPRESA -->
         <div id="dadosEmpresa" class="panel panel-default marginForms">
@@ -96,7 +103,7 @@
                             <li><a href="#" id="btn_empresa" onclick="EditarCadastrarEmpresa()">Alterar Dados</a></li>
                             <li><a href="#" id="btn_excluirEmpresa" onclick="ExcluirEmpresa()">Excluir</a></li>
                         </ul>
-                     </div>
+                    </div>
                 </div>
             </div>
             <label class="formLabelEmpresa">C.N.P.J.: </label>
@@ -115,15 +122,12 @@
             <h3 id="txtCepEmpresa" class="formDadosEmpresa"></h3>
             <br />
         </div>
-              
-
         <!-- Modal de Cadastro e alteração da EMPRESA -->
         <div id="modalEmpresa">  
             <div class="modal fade" id="myModalEmpresa" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header" style="padding:15px 30px;">
-                            <button type="submit" class="close" data-dismiss="modal">&times;</button>
                             <h4><span class="glyphicon"></span>Empresa</h4>
                         </div>
                         <div class="modal-body" style="padding:40px 50px;">
@@ -157,7 +161,7 @@
                                     <input type="text" class="form-control" id="zipCodeEmpresa">
                                 </div>
                                 <button type="submit" class="btn btn-success btn-block" onclick="EditarEmpresa()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
-                                <button type="submit" class="btn btn-danger btn-default pull-left btn-block" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                                <button id="btn_CadEmpresa" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                             </form>
                         </div>
                     </div>      
@@ -194,7 +198,6 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header" style="padding:15px 30px;">
-                                <button type="submit" class="close" data-dismiss="modal">&times;</button>
                                 <h4><span class="glyphicon"></span> Cliente</h4>
                             </div>
                             <div class="modal-body" style="padding:40px 50px;">
@@ -232,41 +235,13 @@
                                         <input type="text" class="form-control" id="zipCodeClient">
                                     </div>
                                     <button type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarCliente()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
-                                    <button type="submit" class="btn btn-danger btn-default pull-left btn-block" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                                    <button id="btn_CancelClient" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                                 </form>
                             </div>
                         </div>      
                     </div>
                 </div> 
             </div>
-            <script>
-                $(document).ready(function () {
-                    $(document.body).on("click", "#btn_empresa", function () {
-                        $("#myModalEmpresa").modal();
-                    });
-                });
-
-                $(document).ready(function () {
-                    $(document.body).on("click", "#btn_clientes", function () {
-                        $("#myModalClient").modal();
-                    });
-                });
-                $(document).ready(function () {
-                    $(document.body).on("click", "#btn_clientes_Edit", function () {
-                        $("#myModalClient").modal();
-                    });
-                });
-                $(document).ready(function () {
-                    $(document.body).on("click", "#btn_itens", function () {
-                        $("#myModalItens").modal();
-                    });
-                });
-                $(document).ready(function () {
-                    $(document.body).on("click", "#btn_itens_Edit", function () {
-                        $("#myModalItens").modal();
-                    });
-                });
-            </script>
         </div>
         <!--Tela de listagem dos ITENS cadastrados -->
         <div id="listItens" style="display:none" class="container">
@@ -298,7 +273,6 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header" style="padding:15px 30px;">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4><span class="glyphicon"></span>Itens</h4>
                         </div>
                         <div class="modal-body" style="padding:40px 50px;">
@@ -332,7 +306,7 @@
                                     <option value="Não">Não</option>
                                 </select>
                                 <button type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarItem()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
-                                <button type="submit" class="btn btn-danger btn-default pull-left btn-block" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                                <button id="btn_CancelItens" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                             </form>
                         </div>
                     </div>      
@@ -413,12 +387,6 @@
     <!-- /container -->        
     <!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.0.js"><\/script>')</script>-->
-
-    <script>
-        $("#buttonReadMore").click(function () {
-            $("#moreInformations").toggle();
-        });
-    </script>
     <!--     Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
         (function (b, o, i, l, e, r) {
@@ -436,5 +404,4 @@
         ga('create', 'UA-XXXXX-X', 'auto');
         ga('send', 'pageview');
     </script>
-
 </html>
