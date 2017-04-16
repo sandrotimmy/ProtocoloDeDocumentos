@@ -3,35 +3,37 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!-->  <!--<![endif]-->
+
+<html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/main.css">
-    <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
-    <script type="text/javascript" src="js/loginCtrl.js"></script>
-    <script type="text/javascript" src="js/vendor/angular.min.js"></script>
-
-
-
-    <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    
     <title>e-Pro</title>
+</head>
+
+<body>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="index.html">e-Pro</a>
         </div>
+        
         <div id="navbar" class="navbar-collapse collapse">
+            <!--Formulário de login-->
             <form class="navbar-form navbar-right" role="form">
+                <!--Campo Nome de Usuario-->
                 <div class="form-group">
-                    <input id="txtUsuario" type="text" placeholder="Usuário" class="form-control">
+                    <input id="txtUsuario" type="text" placeholder="Usuário" class="form-control" required>
                 </div>
+                <!--Campo Senha-->
                 <div class="form-group">
-                    <input id="txtPassword" type="password" placeholder="Senha" class="form-control">
+                    <input id="txtPassword" type="password" placeholder="Senha" class="form-control" required>
                 </div>
+                <!--Botão Entrar-->
                 <input id="buttonEnter" type="button" class="btn btn-success" value="Entrar &raquo;" onclick="Logar()">
             </form>
         </div>
@@ -54,22 +56,28 @@
             </ul> 
         </div>
     </div>
-    <form id="formRegister" class="positionFormRegister">
+
+    
+    <form name="formRegister" id="formRegister" class="positionFormRegister">
+        <!--nome de usuario-->
         <div class="input-group">
             <span class="input-group-addon"></span>
             <label></label>
-            <input id="txtNome" type="text" class="form-control" placeholder="Crie seu nome de Usuário" autocomplete="off">
+            <input name="txtName" id="txtNome" type="text" class="form-control" placeholder="Crie seu nome de Usuário" autocomplete="off">
         </div>
+        <!--email-->
         <div class="input-group">
             <span class="input-group-addon"></span>
             <label></label>
-            <input id="txtEmail" type="text" class="form-control" placeholder="Seu endereço de e-mail" autocomplete="off">
+            <input name="txtEmail" id="txtEmail" type="text" class="form-control" placeholder="Seu endereço de e-mail" autocomplete="off">
         </div>
+        <!--senha-->
         <div class="input-group">
             <span class="input-group-addon"></span>
             <label></label>
-            <input id="txtSenha" type="password" class="form-control" placeholder="Crie sua senha" autocomplete="off">
+            <input name="txtSenha" id="txtSenha" type="password" class="form-control" placeholder="Crie sua senha" autocomplete="off">
         </div>
+        <!--botão submit-->
         <div>
             <input id="buttonSubmitRegister" type="submit" class="btn btn-primary btn-lg positionFormRegister" value="Cadastrar no e-Pro &raquo;" onclick="Adicionar()">
         </div>
@@ -79,14 +87,7 @@
     <p>&copy; Desenvolvimento WEB 2017</p>
 </footer>
 
-<!-- /container -->        
-<!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.0.js"><\/script>')</script>-->
-<script>
-    $("#buttonReadMore").click(function () {
-        $("#moreInformations").toggle();
-    });
-</script>
+
 <!--     Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <script>
     (function (b, o, i, l, e, r) {
@@ -105,4 +106,26 @@
     ga('send', 'pageview');
 </script>
 
-
+<!--bootstrap-->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+<!--css-->
+<link rel="stylesheet" href="css/main.css">
+<!--jquery-->>
+<script type="text/javascript" src="js/vendor/jquery.min.js"></script>
+<!--angular-->
+<script type="text/javascript" src="js/vendor/angular.min.js"></script>
+<!--modernizr-->
+<script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+<!--javascript-->
+<script type="text/javascript" src="js/loginCtrl.js"></script>
+<!-- /container -->        
+<!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.0.js"><\/script>')</script>-->
+<script>
+    $("#buttonReadMore").click(function () {
+        $("#moreInformations").toggle();
+    });
+</script>
+</body>
+</html>
