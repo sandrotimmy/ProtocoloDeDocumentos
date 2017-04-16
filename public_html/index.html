@@ -11,6 +11,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--bootstrap-->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <!--css-->
+    <link rel="stylesheet" href="css/main.css">
     <!--icone barra do navegador-->
     <link rel="shortcut icon" href="img/bar_icon.ico" type="image/x-icon" />
     <title>e-Pro</title>
@@ -57,22 +62,23 @@
             </ul> 
         </div>
     </div>
-
-    
     <form name="formRegister" id="formRegister" class="positionFormRegister">
         <!--nome de usuario-->
+        <div id="alertUsu"></div>
         <div class="input-group">
             <span class="input-group-addon"></span>
             <label></label>
             <input name="txtName" id="txtNome" type="text" class="form-control" placeholder="Crie seu nome de Usuário" autocomplete="off">
         </div>
         <!--email-->
+        <div id="alertEmail"></div>
         <div class="input-group">
             <span class="input-group-addon"></span>
             <label></label>
             <input name="txtEmail" id="txtEmail" type="text" class="form-control" placeholder="Seu endereço de e-mail" autocomplete="off">
         </div>
         <!--senha-->
+        <div id="alertSenha"></div>
         <div class="input-group">
             <span class="input-group-addon"></span>
             <label></label>
@@ -107,17 +113,15 @@
     ga('send', 'pageview');
 </script>
 
-<!--bootstrap-->
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/bootstrap-theme.min.css">
-<!--css-->
-<link rel="stylesheet" href="css/main.css">
-<!--jquery-->>
+
+<!--jquery-->
 <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
 <!--angular-->
 <script type="text/javascript" src="js/vendor/angular.min.js"></script>
 <!--modernizr-->
 <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+<!--Validação de login e usuario-->
+<script tye="text/javascript" src="js/validaLoginUser.js"></script>
 <!--javascript-->
 <script type="text/javascript" src="js/loginCtrl.js"></script>
 <!-- /container -->        

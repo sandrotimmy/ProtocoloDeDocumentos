@@ -31,7 +31,20 @@ el.ok {
     color: green;
 }
 
-
+#alertUsu, #alertEmail, #alertSenha {
+    height: 40px;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    background-color: red;
+    border: 1px solid red;
+    border-radius: 4px;
+    font-family: monospace;
+    margin: 2px;
+    display: none;
+}
 
 
 
