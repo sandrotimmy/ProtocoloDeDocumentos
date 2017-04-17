@@ -13,7 +13,7 @@ $(function () {
     tbItens = localStorage.getItem("tbItens");// Recupera os dados armazenados
     tbItens = JSON.parse(tbItens); // Converte string para objeto
     if (tbItens == null) // Caso não haja conteúdo, iniciamos um vetor vazio
-        tbItenss = [];
+        tbItens = [];
 });
 function AdicionarItem() {
 

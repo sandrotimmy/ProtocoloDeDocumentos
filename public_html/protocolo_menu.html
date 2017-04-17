@@ -25,7 +25,7 @@
         <!--scripts-->
         <script type="text/javascript" src="js/loginCtrl.js"></script>
         <script type="text/javascript" src="js/clienteCtrl.js"></script>
-        <script type="text/javascript" src="js/protocolo_Ctrl.js"></script>
+        <script type="text/javascript" src="js/protocolo_interface_ctrl.js"></script>
         <script type="text/javascript" src="js/itensCtrl.js"></script>
         <script type="text/javascript" src="js/empresaCtrl.js"></script>
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
@@ -178,98 +178,77 @@
         <!--Tela de listagem dos CLIENTES cadastrados -->
         <div id="listClient" style="display:none" class="container">
             <p class="marginForms">Listagem de Clientes</p>
-            <input id="btn_clientes" type="button" class="btn btn-primary marginForms actionModal" value="Novo Cliente"/>
+            <input id="btn_clientes" type="button" class="btn btn-primary marginForms" value="Novo Cliente"/><br/><br/>
             <div class="panel panel-primary  marginForms">
                 <div class="panel-heading">
                     <h3 class="panel-title">Lista de Clientes</h3>
                 </div>
                 <div class="panel-body">
                     <table class="table table-striped table-hover" id="tblListarClientes">
-                        <!-- TABELA DINAMICA. Criada pelo ListarClientes()-->
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>CNPJ</th>
-                                <th>Nome</th>
-                                <th>Cidade</th>
-                                <th>Ações</th>
-                                <th></th>
-                            </tr>
-                        </thead>
                     </table>
                 </div>
             </div>
-            <!-- Modal de Cadastro e alteração de clientes -->
-            <div id="modalContainer">  
-                <div class="modal fade" id="myModalClient" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header" style="padding:15px 30px;">
-                                <h4><span class="glyphicon"></span> Cliente</h4>
-                            </div>
-                            <div class="modal-body" style="padding:40px 50px;">
-                                <form role="form" id="modalForm">
-                                    <div class="form-group">
-                                        <label for="idClient"><span class="glyphicon"></span> Código</label>
-                                        <input type="text" class="form-control" id="idClient" disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="cnpjClient"><span class="glyphicon"></span> CNPJ</label>
-                                        <input type="text"  class="form-control" id="cnpjClient">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="nomeClient"><span class="glyphicon"></span> Nome</label>
-                                        <input type="text" class="form-control" id="nomeClient">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="addressClient"><span class="glyphicon"></span> Endereco</label>
-                                        <input type="text" class="form-control" id="addressClient">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="numberClient"><span class="glyphicon "></span> Numero</label>
-                                        <input type="text" class="form-control" id="numberClient">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="districtClient"><span class="glyphicon"></span> Bairro</label>
-                                        <input type="text" class="form-control" id="districtClient">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="cityClient"><span class="glyphicon"></span> Cidade</label>
-                                        <input type="text" class="form-control" id="cityClient">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="zipCodeClient"><span class="glyphicon"></span> cep</label>
-                                        <input type="text" class="form-control" id="zipCodeClient">
-                                    </div>
-                                    <button type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarCliente()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
-                                    <button id="btn_CancelClient" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
-                                </form>
-                            </div>
-                        </div>      
-                    </div>
-                </div> 
-            </div>
+        </div>
+        <!-- Modal de Cadastro e alteração de clientes -->
+        <div id="modalContainer">  
+            <div class="modal fade" id="myModalClient" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding:15px 30px;">
+                            <h4><span class="glyphicon"></span> Cliente</h4>
+                        </div>
+                        <div class="modal-body" style="padding:40px 50px;">
+                            <form role="form" id="modalForm">
+                                <div class="form-group">
+                                    <label for="idClient"><span class="glyphicon"></span> Código</label>
+                                    <input type="text" class="form-control" id="idClient" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cnpjClient"><span class="glyphicon"></span> CNPJ</label>
+                                    <input type="text"  class="form-control" id="cnpjClient">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nomeClient"><span class="glyphicon"></span> Nome</label>
+                                    <input type="text" class="form-control" id="nomeClient">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addressClient"><span class="glyphicon"></span> Endereco</label>
+                                    <input type="text" class="form-control" id="addressClient">
+                                </div>
+                                <div class="form-group">
+                                    <label for="numberClient"><span class="glyphicon "></span> Numero</label>
+                                    <input type="text" class="form-control" id="numberClient">
+                                </div>
+                                <div class="form-group">
+                                    <label for="districtClient"><span class="glyphicon"></span> Bairro</label>
+                                    <input type="text" class="form-control" id="districtClient">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cityClient"><span class="glyphicon"></span> Cidade</label>
+                                    <input type="text" class="form-control" id="cityClient">
+                                </div>
+                                <div class="form-group">
+                                    <label for="zipCodeClient"><span class="glyphicon"></span> cep</label>
+                                    <input type="text" class="form-control" id="zipCodeClient">
+                                </div>
+                                <button type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarCliente()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+                                <button id="btn_CancelClient" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                            </form>
+                        </div>
+                    </div>      
+                </div>
+            </div> 
         </div>
         <!--Tela de listagem dos ITENS cadastrados -->
         <div id="listItens" style="display:none" class="container">
             <p class="marginForms">Listagem de itens</p>
-            <input id="btn_itens" type="submit" class="btn btn-primary marginForms" value="Novo Item"/><br/><br/>
+            <input id="btn_itens" type="button" class="btn btn-primary marginForms" value="Novo Item"/><br/><br/>
             <div class="panel panel-primary  marginForms">
                 <div class="panel-heading">
                     <h3 class="panel-title">Lista de Itens</h3>
                 </div>
                 <div class="panel-body">
                     <table class="table table-striped table-hover" id="tblListarItens">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Nome</th>
-                                <th>Tipo</th>
-                                <th>Retornar?</th> 
-                                <th>Ações</th> 
-                                <th></th> 
-                            </tr>
-                        </thead>
                     </table>
                 </div>
             </div>
@@ -323,67 +302,69 @@
         <!--Tela de listagem dos PROTOCOLOS cadastrados -->
         <div id="listProtocolos" style="display:none" class="container">
             <p class="marginForms">Listagem de Protocolos Emitidos</p>
-            <input id="btn_protocolo" type="button" class="btn btn-primary marginForms" value="Novo Item" onclick="removeAddElements(31)"/><br/><br/>
+            <input id="btn_protocolo" type="submit" class="btn btn-primary marginForms" value="Novo Protocolo" onclick="removeAddElements(31)"/><br/><br/>
             <div class="panel panel-primary  marginForms">
                 <div class="panel-heading">
                     <h3 class="panel-title">Lista de Protocolos</h3>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Seq.</th>
-                                <th>Cód.</th>
-                                <th>Data</th>
-                                <th>Cliente</th>
-                                <th>Situação</th>
-                            </tr>
-                        </thead>
+                    <table class="table table-striped" id="tbListarProtocolos">
                     </table>
                 </div>
             </div>
         </div>
-        <!--Tela de cadastro dos PROTOCOLOS-->
-        <div id="formProtocolo" style="display:none" class="container">
-            <p class="marginForms">Cadastro de Protocolos</p>
-            <form class="form-horizontal positionFormRegister" role="form" >
-                <label for="txtCodItem" >Cód</label>
-                <input id="txtCodItem" name="cod_item" type="text" class="form-control" disabled/>
-                <label for="txtData" >Data</label>
-                <input id="txtData" name="data" type="text" class="form-control" placeholder="Data"/>
-                <label for="txtCliente" >Cliente</label>
-                <select class="form-control" id="txtCliente">
-                    <option value="">Selecione o Cliente...</option>
-                </select>
-                <label for="txtItem" >Item</label>
-                <select class="form-control" id="txtItem">
-                    <option value="">Selecione o Item...</option>
-                </select>
-                <button type="submit" class="btn btn-primary">Adicionar</button>
-                <br/>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Lista de Itens</h3>
-                    </div>
-                    <div class="panel-body">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Seq.</th>
-                                    <th>Cód.</th>
-                                    <th>Nome</th>
-                                    <th>Tipo</th>
-                                    <th>Retornar?</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+        <!-- Modal de Cadastro e alteração de PROTOCOLOS -->
+        <div>  
+            <div class="modal fade" id="myModalProtocol" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding:15px 30px;">
+                            <h4><span class="glyphicon"></span>Protocolo</h4>
+                        </div>
+                        <div class="modal-body" style="padding:40px 50px;">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="idProtocolo"><span class="glyphicon"></span>Código</label>
+                                    <input type="text" class="form-control" id="idProtocolo" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dataProtocolo"><span class="glyphicon"></span>Data</label>
+                                    <input type="text" class="form-control" id="dataProtocolo">
+                                </div>
+                                <label for="cliente"><span class="glyphicon"></span>Cliente</label>
+                                <select class="form-control" id="cliente">
+                                    <option value="">Selecione...</option>
+                                </select>
+                                <label for="retorno"><span class="glyphicon"></span>Item</label>
+                                <select class="form-control" id="item">
+                                    <option value="">Selecione...</option>
+                                </select>
+                                <input id="btn_add_item" type="button" class="btn btn-primary" value="Adicionar Item"/><br/><br/>
+                                <div class="panel-body">
+                                    <table class="table table-striped" id="tbListarItensAdd">
+                                        <thead>
+                                        <tr class="active">
+                                            <th>Código</th>
+                                            <th>Item</th>
+                                            <th>Tipo</th>
+                                            <th>Retorno?</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group">
+                                    <label for="observacoes"><span class="glyphicon"></span>Observações</label>
+                                    <input type="text" class="form-control" id="observacoes">
+                                </div>
+                                <button type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarItem()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+                                <button id="btn_CancelProtocolo" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                            </form>
+                        </div>
+                    </div>      
                 </div>
-                <label for="txtObservations" >Obervações</label>
-                <input id="txtObservations" name="observations" type="text" class="form-control" placeholder="Observações"/>
-                <button type="submit" class="btn btn-primary">Salvar</button>
-                <button type="submit" class="btn btn-default">Cancelar</button>
-            </form>
+            </div> 
         </div>
     </div>
     <!--Rodapé-->
