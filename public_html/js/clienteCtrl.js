@@ -113,6 +113,18 @@ function ExibirCliente(id) {
         }
     }
 }
+//Método em construção que irá carregar is clientes na comboBox para seleção no protocolo
+//function ListaClientesProtocolo() {
+//
+//    $("#clienteProtocolo").add()
+//    for (var i in tbClientes) {
+//        
+//        var cli = JSON.parse(tbClientes[i]);
+//        if (cli.codigo.toString() == id) {
+//            indice_selecionado = i;
+//        }
+//    }
+//}
 
 function ListarClientes() {
     $("#tblListarClientes").html("");

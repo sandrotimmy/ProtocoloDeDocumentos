@@ -65,6 +65,7 @@
                 alterBehaviorModal();
             });
         </script>
+
         <style>
             body {
                 padding-top: 50px;
@@ -332,7 +333,7 @@
                                     <input type="text" class="form-control" id="dataProtocolo">
                                 </div>
                                 <label for="cliente"><span class="glyphicon"></span>Cliente</label>
-                                <select class="form-control" id="cliente">
+                                <select class="form-control" id="clienteProtocolo" onload="ListaClientesProtocolo()">
                                     <option value="">Selecione...</option>
                                 </select>
                                 <label for="retorno"><span class="glyphicon"></span>Item</label>
@@ -341,17 +342,17 @@
                                 </select>
                                 <input id="btn_add_item" type="button" class="btn btn-primary" value="Adicionar Item"/><br/><br/>
                                 <div class="panel-body">
-                                    <table class="table table-striped" id="tbListarItensAdd">
+                                    <table class="table table-striped" id="tblListarItensProtocolo">
                                         <thead>
-                                        <tr class="active">
-                                            <th>Código</th>
-                                            <th>Item</th>
-                                            <th>Tipo</th>
-                                            <th>Retorno?</th>
-                                        </tr>
+                                            <tr class="active">
+                                                <th>Código</th>
+                                                <th>Item</th>
+                                                <th>Tipo</th>
+                                                <th>Retorno?</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                            </tbody>
+                                        </tbody>
                                     </table>
                                 </div>
                                 <div class="form-group">
