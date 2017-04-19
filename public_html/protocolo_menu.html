@@ -28,6 +28,8 @@
         <script type="text/javascript" src="js/protocolo_interface_ctrl.js"></script>
         <script type="text/javascript" src="js/itensCtrl.js"></script>
         <script type="text/javascript" src="js/empresaCtrl.js"></script>
+        <script type="text/javascript" src="js/protocoloCtrl.js"></script>
+        <script type="text/javascript" src="js/itensProtocoloCtrl.js"></script>
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -89,9 +91,9 @@
             </div>
             <ul class="nav navbar-nav">
                 <li><a class="icon-bar " href="#" onclick="removeAddElements(0)">Home</a></li>
-                <li><a class="icon-bar " href="#" onclick="removeAddElements(1); ListarClientes()">Clientes</a></li>
-                <li><a class="icon-bar " href="#" onclick="removeAddElements(2); ListarItens()">Itens</a></li>
-                <li><a class="icon-bar " href="#" onclick="removeAddElements(3)">Protocolo</a></li>
+                <li><a class="icon-bar " href="#" onclick="removeAddElements(1), ListarClientes()">Clientes</a></li>
+                <li><a class="icon-bar " href="#" onclick="removeAddElements(2), ListarItens()">Itens</a></li>
+                <li><a class="icon-bar " href="#" onclick="removeAddElements(3), ListarProtocolos(), ListaClientesProtocolo(), ListaItensProtocolo()">Protocolo</a></li>
             </ul>
         </div>
     </nav>
@@ -190,7 +192,7 @@
                 </div>
             </div>
         </div>
-        <!-- Modal de Cadastro e alteração de clientes -->
+        <!-- Modal de Cadastro e alteração de CLIENTES -->
         <div id="modalContainer">  
             <div class="modal fade" id="myModalClient" role="dialog">
                 <div class="modal-dialog">
@@ -303,13 +305,13 @@
         <!--Tela de listagem dos PROTOCOLOS cadastrados -->
         <div id="listProtocolos" style="display:none" class="container">
             <p class="marginForms">Listagem de Protocolos Emitidos</p>
-            <input id="btn_protocolo" type="submit" class="btn btn-primary marginForms" value="Novo Protocolo" onclick="removeAddElements(31)"/><br/><br/>
+            <input id="btn_protocolo" type="submit" class="btn btn-primary marginForms" value="Novo Protocolo"/><br/><br/>
             <div class="panel panel-primary  marginForms">
                 <div class="panel-heading">
                     <h3 class="panel-title">Lista de Protocolos</h3>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-striped" id="tbListarProtocolos">
+                    <table class="table table-striped" id="tblListarProtocolos">
                     </table>
                 </div>
             </div>
@@ -332,15 +334,15 @@
                                     <label for="dataProtocolo"><span class="glyphicon"></span>Data</label>
                                     <input type="text" class="form-control" id="dataProtocolo">
                                 </div>
-                                <label for="cliente"><span class="glyphicon"></span>Cliente</label>
-                                <select class="form-control" id="clienteProtocolo" onload="ListaClientesProtocolo()">
+                                <label for="clienteProtocolo"><span class="glyphicon"></span>Cliente</label>
+                                <select class="form-control" id="clienteProtocolo">
                                     <option value="">Selecione...</option>
                                 </select>
-                                <label for="retorno"><span class="glyphicon"></span>Item</label>
-                                <select class="form-control" id="item">
+                                <label for="itemProtocolo"><span class="glyphicon"></span>Item</label>
+                                <select class="form-control" id="itemProtocolo">
                                     <option value="">Selecione...</option>
                                 </select>
-                                <input id="btn_add_item" type="button" class="btn btn-primary" value="Adicionar Item"/><br/><br/>
+                                <input id="btn_add_item" type="button" class="btn btn-primary" value="Adicionar Item" onclick="AdicionarItemProtocolo()"/>
                                 <div class="panel-body">
                                     <table class="table table-striped" id="tblListarItensProtocolo">
                                         <thead>
@@ -349,6 +351,7 @@
                                                 <th>Item</th>
                                                 <th>Tipo</th>
                                                 <th>Retorno?</th>
+                                                <th>Ações</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -359,8 +362,8 @@
                                     <label for="observacoes"><span class="glyphicon"></span>Observações</label>
                                     <input type="text" class="form-control" id="observacoes">
                                 </div>
-                                <button type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarItem()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
-                                <button id="btn_CancelProtocolo" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                                <button type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarProtocolo()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+                                <button id="btn_CancelProtocolo" type="reset" class="btn btn-danger btn-default pull-left btn-block" onclick="limparTabela()" ><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                             </form>
                         </div>
                     </div>      

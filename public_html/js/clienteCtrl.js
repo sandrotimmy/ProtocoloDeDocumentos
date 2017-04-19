@@ -113,18 +113,21 @@ function ExibirCliente(id) {
         }
     }
 }
-//Método em construção que irá carregar is clientes na comboBox para seleção no protocolo
-//function ListaClientesProtocolo() {
-//
-//    $("#clienteProtocolo").add()
-//    for (var i in tbClientes) {
-//        
-//        var cli = JSON.parse(tbClientes[i]);
-//        if (cli.codigo.toString() == id) {
-//            indice_selecionado = i;
-//        }
-//    }
-//}
+//Carregar os clientes na comboBox para seleção no protocolo
+function ListaClientesProtocolo() {
+    var select = document.getElementById("clienteProtocolo");
+    if (select.length <= 1) {
+        for (var i = 0; i < tbClientes.length; i++) {
+            var cli = JSON.parse(tbClientes[i]);
+            var opt = cli.nome;
+            var val = cli.codigo;
+            var el = document.createElement("option");
+            el.textContent = opt;
+            el.value = val;
+            select.appendChild(el);
+        }
+    }
+}
 
 function ListarClientes() {
     $("#tblListarClientes").html("");
@@ -153,6 +156,16 @@ function ListarClientes() {
         // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
 
         $("#tblListarClientes tbody").append("</tr>");
+    }
+}
+
+function localizaCliente(codCliente) {
+    for (var i = 0; i < tbClientes.length; i++) {
+        var clienteTemp = JSON.parse(tbClientes[i]);
+        var codTemp = clienteTemp.codigo;
+        if (codTemp == codCliente) {
+            return clienteTemp.nome;
+        }
     }
 }
 

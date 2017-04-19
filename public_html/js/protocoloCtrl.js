@@ -10,7 +10,7 @@ var tbProtocolos;
 
 $(function () {
 
-    tbProtocolos = localStorage.getProtocolo("tbProtocolos");// Recupera os dados armazenados
+    tbProtocolos = localStorage.getItem("tbProtocolos");// Recupera os dados armazenados
     tbProtocolos = JSON.parse(tbProtocolos); // Converte string para objeto
     if (tbProtocolos == null) // Caso não haja conteúdo, iniciamos um vetor vazio
         tbProtocolos = [];
@@ -18,14 +18,17 @@ $(function () {
 function AdicionarProtocolo() {
 
     var cod = GerarIdProtocolo();
+    $("#idProtocolo").val(cod);
+    var select = document.getElementById("clienteProtocolo");
+    var clienteSelecionado = select.options[select.selectedIndex].value;
     var protocolo = JSON.stringify({
         codigo: cod,
-        nome: $("#nomeProtocolo").val(),
-        tipo: $("#tipo").val(),
-        retorno: $("#retorno").val()
+        data: $("#dataProtocolo").val(),
+        codCliente: clienteSelecionado,
+        observacoes: $("#observacoes").val()
     });
     tbProtocolos.push(protocolo);
-    localStorage.setProtocolo("tbProtocolos", JSON.stringify(tbProtocolos));
+    localStorage.setItem("tbProtocolos", JSON.stringify(tbProtocolos));
     alert("Protocolo " + cod + " Cadastrado com Sucesso!");
     ListarProtocolos();
 }
@@ -53,6 +56,8 @@ function EditarCadastrarProtocolo() {
 }
 
 function EditarProtocolo(id) {
+    var select = document.getElementById("clienteProtocolo");
+    var clienteSelecionado = select.options[select.selectedIndex].value;
 
     for (var i in tbProtocolos) {
         var protocolo = JSON.parse(tbProtocolos[i]);
@@ -61,12 +66,11 @@ function EditarProtocolo(id) {
         }
     }
     tbProtocolos[indice_selecionado] = JSON.stringify({
-        codigo: $("#idProtocolo").val(),
-        nome: $("#nomeProtocolo").val(),
-        tipo: $("#tipo").val(),
-        retorno: $("#retorno").val()
+        data: $("#dataProtocolo").val(),
+        codCliente: clienteSelecionado,
+        observacoes: $("#observacoes").val()
     });
-    localStorage.setProtocolo("tbProtocolos", JSON.stringify(tbProtocolos));
+    localStorage.setItem("tbProtocolos", JSON.stringify(tbProtocolos));
     alert("Informações editadas.");
     operacao = "A"; //Volta ao padrão
     ListarProtocolos();
@@ -76,27 +80,42 @@ function ExcluirProtocolo(id) {
 
     for (var i in tbProtocolos) {
         var protocolo = JSON.parse(tbProtocolos[i]);
-
         if (protocolo.codigo == id) {
             tbProtocolos.splice(i, 1);
-            localStorage.setProtocolo("tbProtocolos", JSON.stringify(tbProtocolos));
-            alert("Registro excluídoo.");
+            localStorage.setItem("tbProtocolos", JSON.stringify(tbProtocolos));
+            ExcluirItemPorProtocolo(protocolo.codigo);
+            alert("Registro excluído.");
             ListarProtocolos();
         }
     }
+
 }
 
+function SeletorCliente(codCliente) {
+    var select = document.getElementById("clienteProtocolo");
+    for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].value == codCliente) {
+            select.options[i].selected = "true";
+            break;
+        }
+    }
+}
 function ExibirProtocolo(id) {
+    ListaItensProtocolo();
+    ListaClientesProtocolo();
+    var codProtocolo;
     for (var i in tbProtocolos) {
         var protocolo = JSON.parse(tbProtocolos[i]);
         if (protocolo.codigo == id) {
             $("#idProtocolo").val(protocolo.codigo);
-            $("#nomeProtocolo").val(protocolo.nome);
-            $("#tipo").val(protocolo.tipo);
-            $("#retorno").val(protocolo.retorno);
+            $("#dataProtocolo").val(protocolo.data);
+            SeletorCliente(protocolo.codCliente);
+            $("#observacoes").val(protocolo.observacoes);
+            codProtocolo = protocolo.codigo;
             break;
         }
     }
+    ListarItensProtocolo(codProtocolo);
 }
 
 function ListarProtocolos() {
@@ -105,10 +124,10 @@ function ListarProtocolos() {
             "<thead>" +
             "	<tr>" +
             "	<th>Código</th>" +
-            "	<th>Nome</th>" +
-            "	<th>Tipo</th>" +
-            "	<th>Retornar?</th>" +
-            "   <th>Ações</th>" +
+            "	<th>Data</th>" +
+            "	<th>Cliente</th>" +
+            "	<th>Observações</th>" +
+            "	<th>Ações</th>" +
             "	</tr>" +
             "</thead>" +
             "<tbody>" +
@@ -116,15 +135,14 @@ function ListarProtocolos() {
             );
     for (var i in tbProtocolos) {
         var protocolo = JSON.parse(tbProtocolos[i]);
+        var nomeCliente = localizaCliente(protocolo.codCliente);
         $("#tblListarProtocolos tbody").append("<tr class=\"active\">");
         $("#tblListarProtocolos tbody").append("<td>" + protocolo.codigo + "</td>");
-        $("#tblListarProtocolos tbody").append("<td>" + protocolo.nome + "</td>");
-        $("#tblListarProtocolos tbody").append("<td>" + protocolo.tipo + "</td>");
-        $("#tblListarProtocolos tbody").append("<td>" + protocolo.retorno + "</td>");
+        $("#tblListarProtocolos tbody").append("<td>" + protocolo.data + "</td>");
+        $("#tblListarProtocolos tbody").append("<td>" + nomeCliente + "</td>");
+        $("#tblListarProtocolos tbody").append("<td>" + protocolo.observacoes + "</td>");
         $("#tblListarProtocolos tbody").append("<td> <button id=\"btn_protocolo_Edit\" type=\"button\" class=\"btn btn-primary\" onclick=\"ExibirProtocolo(" + protocolo.codigo + ")\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
                                              <button class=\"btn btn-primary\" onclick=\"ExcluirProtocolo(" + protocolo.codigo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
-        // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
-
         $("#tblListarProtocolos tbody").append("</tr>");
     }
 }

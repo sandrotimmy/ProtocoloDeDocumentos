@@ -52,7 +52,6 @@ function AdicionarEmpresa() {
     });
     tbEmpresa.push(empresa);
     localStorage.setItem("tbEmpresa", JSON.stringify(tbEmpresa));
-    alert("Empresa Cadastrada com Sucesso!");
     inserirDados();
 }
 
