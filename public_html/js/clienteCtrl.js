@@ -51,7 +51,7 @@ function GerarIdCli() {
 }
 
 function EditarCadastrarCliente() {
-    if (document.getElementById("idClient").value == "") {
+    if (document.getElementById("idClient").value === "") {
         AdicionarCliente();
     } else {
         EditarCliente(document.getElementById("idClient").value);
