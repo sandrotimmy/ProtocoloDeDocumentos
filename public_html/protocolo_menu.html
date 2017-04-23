@@ -29,6 +29,7 @@
         <script type="text/javascript" src="js/itensCtrl.js"></script>
         <script type="text/javascript" src="js/empresaCtrl.js"></script>
         <script type="text/javascript" src="js/protocoloCtrl.js"></script>
+        <script type="text/javascript" src="js/reciboCtrl.js"></script>
         <script type="text/javascript" src="js/itensProtocoloCtrl.js"></script>
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -316,6 +317,8 @@
                 </div>
             </div>
         </div>
+        <input id="btn_recibo" type="button" class="btn btn-primary marginForms" value="Emitir Recibo" onclick="gerarRecibo()" /><br/><br/>
+
         <!-- Modal de Cadastro e alteração de PROTOCOLOS -->
         <div>  
             <div class="modal fade" id="myModalProtocol" role="dialog">

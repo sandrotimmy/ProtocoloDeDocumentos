@@ -1,5 +1,5 @@
 
 
 function gerarRecibo() {
-    window.location.replace("./reciboProtocolo.html");
+    window.open("./reciboProtocolo.html", "blank");
 }
