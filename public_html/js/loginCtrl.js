@@ -8,6 +8,7 @@ var operacao = "A"; //"A"=Adição; "E"=Edição
 var indice_selecionado = -1; //Índice do item selecionado na lista
 var tbUsuarios;
 
+
 $(function () {
 
     tbUsuarios = localStorage.getItem("tbUsuarios");// Recupera os dados armazenados
@@ -15,17 +16,19 @@ $(function () {
     if (tbUsuarios === null) // Caso não haja conteúdo, iniciamos um vetor vazio
         tbUsuarios = [];
 });
+
 function Adicionar() {
     var usuario = JSON.stringify({
         Nome: $("#txtNome").val(),
         email: $("#txtEmail").val(),
         Senha: $("#txtSenha").val()
-    });
+    }); 
     tbUsuarios.push(usuario);
     localStorage.setItem("tbUsuarios", JSON.stringify(tbUsuarios));
     alert("Usuário Cadastrado com Sucesso!");
     return true;
 }
+        
 function Editar() {
     tbUsuarios[indice_selecionado] = JSON.stringify({
         Codigo: $("#txtCodigo").val(),
@@ -70,6 +73,7 @@ function Listar() {
         $("#tblListar tbody").append("</tr>");
     }
 }
+
 function Logar() {
     var nomeUsuario = $("#txtUsuario").val();
     var senhaUsuario = $("#txtPassword").val();
@@ -96,7 +100,7 @@ function Logar() {
 }
 function isLogado() {
     var logado = sessionStorage.getItem("Logado");
-    if (logado !== "true") {
+    if (logado != "true") {
         alert("Você deve logar antes!");
         window.location.replace("/ProtocoloDeDocumentos/index.html");
     }

@@ -13,7 +13,7 @@ $(function () {
     tbItens = localStorage.getItem("tbItens");// Recupera os dados armazenados
     tbItens = JSON.parse(tbItens); // Converte string para objeto
     if (tbItens == null) // Caso não haja conteúdo, iniciamos um vetor vazio
-        tbItenss = [];
+        tbItens = [];
 });
 function AdicionarItem() {
 
@@ -99,6 +99,23 @@ function ExibirItem(id) {
     }
 }
 
+//Carregar os clientes na comboBox para seleção no protocolo
+function ListaItensProtocolo() {
+    var select = document.getElementById("itemProtocolo");
+    if (select.length <= 1) {
+        for (var i = 0; i < tbItens.length; i++) {
+            var item = JSON.parse(tbItens[i]);
+            var opt = item.nome;
+            var val = item.codigo;
+            var el = document.createElement("option");
+            el.textContent = opt;
+            el.value = val;
+            select.appendChild(el);
+        }
+    }
+}
+
+
 function ListarItens() {
     $("#tblListarItens").html("");
     $("#tblListarItens").html(
@@ -126,6 +143,16 @@ function ListarItens() {
         // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
 
         $("#tblListarItens tbody").append("</tr>");
+    }
+}
+
+function localizaItem(codItem) {
+    for (var i = 0; i < tbItens.length; i++) {
+        var itemTemp = JSON.parse(tbItens[i]);
+        var codTemp = itemTemp.codigo;
+        if (codTemp == codItem) {
+            return itemTemp;
+        }
     }
 }
 
