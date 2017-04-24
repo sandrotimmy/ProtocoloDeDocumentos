@@ -113,6 +113,15 @@ function ExibirCliente(id) {
         }
     }
 }
+
+function passaDadosCliente(id) {
+    for (var i in tbClientes) {
+        var cli = JSON.parse(tbClientes[i]);
+        if (cli.codigo == id) {
+            return cli;
+        }
+    }
+}
 //Carregar os clientes na comboBox para seleção no protocolo
 function ListaClientesProtocolo() {
     var select = document.getElementById("clienteProtocolo");

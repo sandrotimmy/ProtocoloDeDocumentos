@@ -75,8 +75,10 @@
                 padding-bottom: 20px;
             }
         </style>
+
         <title>e-Pro</title>
-        <!--Componente barra no topo-->
+    </head>
+    <!--Componente barra no topo-->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -317,7 +319,6 @@
                 </div>
             </div>
         </div>
-        <input id="btn_recibo" type="button" class="btn btn-primary marginForms" value="Emitir Recibo" onclick="gerarRecibo()" /><br/><br/>
 
         <!-- Modal de Cadastro e alteração de PROTOCOLOS -->
         <div>  
@@ -348,17 +349,7 @@
                                 <input id="btn_add_item" type="button" class="btn btn-primary" value="Adicionar Item" onclick="AdicionarItemProtocolo()"/>
                                 <div class="panel-body">
                                     <table class="table table-striped" id="tblListarItensProtocolo">
-                                        <thead>
-                                            <tr class="active">
-                                                <th>Código</th>
-                                                <th>Item</th>
-                                                <th>Tipo</th>
-                                                <th>Retorno?</th>
-                                                <th>Ações</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
+
                                     </table>
                                 </div>
                                 <div class="form-group">

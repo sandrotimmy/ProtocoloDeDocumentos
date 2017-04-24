@@ -130,3 +130,31 @@ function ListarItensProtocolo(codProtocolo) {
     }
 }
 
+function passarItensProtocoloRecibo(codProtocolo) {
+    $("#tblListarItensRecibo").html("");
+    $("#tblListarItensRecibo").html(
+            "<thead>" +
+            "	<tr>" +
+            "	<th>Código</th>" +
+            "	<th>Nome</th>" +
+            "	<th>Tipo</th>" +
+            "	<th>Retornar?</th>" +
+            "	</tr>" +
+            "</thead>" +
+            "<tbody>" +
+            "</tbody>"
+            );
+    for (var i in tbItensProtocolo) {
+        var protTemp = JSON.parse(tbItensProtocolo[i]);
+        var codProtTemp = protTemp.codProtocolo;
+        if (codProtTemp == codProtocolo) {
+            var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
+            $("#tblListarItensRecibo tbody").append("<tr class=\"active\">");
+            $("#tblListarItensRecibo tbody").append("<td>" + itemProtocolo.codigo + "</td>");
+            $("#tblListarItensRecibo tbody").append("<td>" + itemProtocolo.nome + "</td>");
+            $("#tblListarItensRecibo tbody").append("<td>" + itemProtocolo.tipo + "</td>");
+            $("#tblListarItensRecibo tbody").append("<td>" + itemProtocolo.retorno + "</td>");
+            $("#tblListarItensRecibo tbody").append("</tr>");
+        }
+    }
+}

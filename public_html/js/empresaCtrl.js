@@ -101,3 +101,19 @@ function ExibirEmpresa() {
         $("#zipCodeEmpresa").val(empresa.cep);
     }
 }
+
+function passaDadosEmpresa() {
+
+    if (tbEmpresa.length > 0) {
+        var empresa = JSON.parse(tbEmpresa[0]);
+        var dadosEmpresa = {
+            nomeEmpresa: empresa.nome,
+            enderecoEmpresa: empresa.endereco,
+            numeroEmpresa: empresa.numero,
+            bairroEmpresa: empresa.bairro,
+            cidadeEmpresa: empresa.cidade,
+            cnpjEmpresa: empresa.cnpj
+        };
+        return dadosEmpresa;
+    }
+}

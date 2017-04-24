@@ -7,13 +7,18 @@
 var operacao = "A"; //"A"=Adição; "E"=Edição
 var indice_selecionado = -1; //Índice do protocolo selecionado na lista
 var tbProtocolos;
+var dadosRecibo;//recebe os dados para emissão do recibo de protocolo
 
 $(function () {
 
     tbProtocolos = localStorage.getItem("tbProtocolos");// Recupera os dados armazenados
+    dadosRecibo = sessionStorage.getItem("dadosRecibo");// Recupera os dados armazenados
     tbProtocolos = JSON.parse(tbProtocolos); // Converte string para objeto
+    dadosRecibo = JSON.parse(dadosRecibo); // Converte string para objeto
     if (tbProtocolos == null) // Caso não haja conteúdo, iniciamos um vetor vazio
         tbProtocolos = [];
+    if (dadosRecibo != null)
+        sessionStorage.clear("dadosRecibo");
 });
 function AdicionarProtocolo() {
 
@@ -31,6 +36,29 @@ function AdicionarProtocolo() {
     localStorage.setItem("tbProtocolos", JSON.stringify(tbProtocolos));
     alert("Protocolo " + cod + " Cadastrado com Sucesso!");
     ListarProtocolos();
+    enviaDadosRecibo(cod);
+}
+
+function enviaDadosRecibo(codProtocolo) {
+
+    var protocolo = passaDadosProtocolo(codProtocolo);
+    var empresa = passaDadosEmpresa();
+    var cliente = passaDadosCliente(protocolo.codCliente);
+
+    var dadosRec = JSON.stringify({
+        dadosProtocoloCod: protocolo.codigo,
+        dadosEmpresaCnpj: empresa.cnpjEmpresa,
+        dadosEmpresaNome: empresa.nomeEmpresa,
+        dadosEmpresaEndereco: empresa.enderecoEmpresa,
+        dadosEmpresaNumero: empresa.numeroEmpresa,
+        dadosEmpresaBairro: empresa.bairroEmpresa,
+        dadosEmpresaCidade: empresa.cidadeEmpresa,
+        dadosClienteNome: cliente.nome,
+        dadosProtocoloObservacoes: protocolo.observacoes
+    });
+    sessionStorage.setItem("dadosRecibo", dadosRec);
+    gerarRecibo();
+
 }
 
 //Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
@@ -74,6 +102,7 @@ function EditarProtocolo(id) {
     alert("Informações editadas.");
     operacao = "A"; //Volta ao padrão
     ListarProtocolos();
+    enviaDadosRecibo(id);
 }
 
 function ExcluirProtocolo(id) {
@@ -100,6 +129,18 @@ function SeletorCliente(codCliente) {
         }
     }
 }
+
+function passaDadosProtocolo(id) {
+
+    var protocolo;
+    for (var i in tbProtocolos) {
+        protocolo = JSON.parse(tbProtocolos[i]);
+        if (protocolo.codigo == id) {
+            return protocolo;
+        }
+    }
+}
+
 function ExibirProtocolo(id) {
     ListaItensProtocolo();
     ListaClientesProtocolo();
@@ -141,8 +182,10 @@ function ListarProtocolos() {
         $("#tblListarProtocolos tbody").append("<td>" + protocolo.data + "</td>");
         $("#tblListarProtocolos tbody").append("<td>" + nomeCliente + "</td>");
         $("#tblListarProtocolos tbody").append("<td>" + protocolo.observacoes + "</td>");
-        $("#tblListarProtocolos tbody").append("<td> <button id=\"btn_protocolo_Edit\" type=\"button\" class=\"btn btn-primary\" onclick=\"ExibirProtocolo(" + protocolo.codigo + ")\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
-                                             <button class=\"btn btn-primary\" onclick=\"ExcluirProtocolo(" + protocolo.codigo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+        $("#tblListarProtocolos tbody").append("<td> \n\
+                                             <button class=\"btn btn-primary\" onclick=\"enviaDadosRecibo(" + protocolo.codigo + ")\" title=\"Recibo\"><span class=\"glyphicon glyphicon-search\"></span></button>\n\
+                                             <button id=\"btn_protocolo_Edit\" type=\"button\" class=\"btn btn-primary\" onclick=\"ExibirProtocolo(" + protocolo.codigo + ")\"title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
+                                             <button class=\"btn btn-primary\" onclick=\"ExcluirProtocolo(" + protocolo.codigo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button>\n\</td>");
         $("#tblListarProtocolos tbody").append("</tr>");
     }
 }
