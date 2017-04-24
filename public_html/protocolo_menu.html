@@ -31,6 +31,7 @@
         <script type="text/javascript" src="js/protocoloCtrl.js"></script>
         <script type="text/javascript" src="js/reciboCtrl.js"></script>
         <script type="text/javascript" src="js/itensProtocoloCtrl.js"></script>
+        <script type="text/javascript" src="js/validaProtocolos.js"></script>
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -78,6 +79,8 @@
 
         <title>e-Pro</title>
     </head>
+
+    <body>
     <!--Componente barra no topo-->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -146,8 +149,11 @@
                         <div class="modal-body" style="padding:40px 50px;">
                             <form role="form">
                                 <div class="form-group">
+                                    <p style="color: red">Preencha todos os campos para liberar o cadastro</p>
+                                </div>
+                                <div class="form-group">
                                     <label for="cnpjEmpresa"><span class="glyphicon"></span> C.N.P.J.</label>
-                                    <input type="text"  class="form-control" id="cnpjEmpresa">
+                                    <input type="text"  class="form-control" id="cnpjEmpresa" maxlength="18" placeholder="Formato 00.000.000/0000-00">
                                 </div>
                                 <div class="form-group">
                                     <label for="nomeEmpresa"><span class="glyphicon"></span> Nome</label>
@@ -170,10 +176,10 @@
                                     <input type="text" class="form-control" id="cityEmpresa">
                                 </div>
                                 <div class="form-group">
-                                    <label for="zipCodeEmpresa"><span class="glyphicon"></span> cep</label>
-                                    <input type="text" class="form-control" id="zipCodeEmpresa">
+                                    <label for="zipCodeEmpresa"><span class="glyphicon"></span> CEP</label>
+                                    <input type="text" class="form-control" id="zipCodeEmpresa" placeholder="Formato 00000-000" maxlength="9">
                                 </div>
-                                <button type="submit" class="btn btn-success btn-block" onclick="EditarEmpresa()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+                                <button disabled id="btnCadastrarEmp" type="submit" class="btn btn-success btn-block" onclick="EditarEmpresa()" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
                                 <button id="btn_CadEmpresa" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                             </form>
                         </div>
@@ -211,11 +217,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="cnpjClient"><span class="glyphicon"></span> CNPJ</label>
-                                    <input type="text"  class="form-control" id="cnpjClient">
+                                    <input type="text"  class="form-control" id="cnpjClient" maxlength="18" placeholder="Formato 00.000.000/0000-00">
                                 </div>
                                 <div class="form-group">
                                     <label for="nomeClient"><span class="glyphicon"></span> Nome</label>
-                                    <input type="text" class="form-control" id="nomeClient">
+                                    <input type="text" class="form-control" id="nomeClient" placeholder="Campo Obrigatório">
                                 </div>
                                 <div class="form-group">
                                     <label for="addressClient"><span class="glyphicon"></span> Endereco</label>
@@ -234,10 +240,10 @@
                                     <input type="text" class="form-control" id="cityClient">
                                 </div>
                                 <div class="form-group">
-                                    <label for="zipCodeClient"><span class="glyphicon"></span> cep</label>
-                                    <input type="text" class="form-control" id="zipCodeClient">
+                                    <label for="zipCodeClient"><span class="glyphicon"></span> CEP</label>
+                                    <input type="text" class="form-control" id="zipCodeClient" placeholder="Formato 00000-000" maxlength="9" pattern="/[0-9]{5}[-][0-9]{3}/">
                                 </div>
-                                <button type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarCliente()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+                                <button disabled id="btnCadClient" type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarCliente()" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
                                 <button id="btn_CancelClient" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                             </form>
                         </div>
@@ -270,6 +276,9 @@
                         <div class="modal-body" style="padding:40px 50px;">
                             <form role="form">
                                 <div class="form-group">
+                                    <p style="color: red">Preencha todos os campos para liberar o cadastro</p>    
+                                </div>
+                                <div class="form-group">
                                     <label for="idItem"><span class="glyphicon"></span>Código</label>
                                     <input type="text" class="form-control" id="idItem" disabled>
                                 </div>
@@ -297,7 +306,7 @@
                                     <option value="Sim">Sim</option>
                                     <option value="Não">Não</option>
                                 </select>
-                                <button type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarItem()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+                                <button id="btnCadItem" type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarItem()" disabled data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
                                 <button id="btn_CancelItens" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                             </form>
                         </div>
@@ -336,7 +345,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="dataProtocolo"><span class="glyphicon"></span>Data</label>
-                                    <input type="text" class="form-control" id="dataProtocolo">
+                                    <input type="date" class="form-control" id="dataProtocolo">
                                 </div>
                                 <label for="clienteProtocolo"><span class="glyphicon"></span>Cliente</label>
                                 <select class="form-control" id="clienteProtocolo">
@@ -356,7 +365,7 @@
                                     <label for="observacoes"><span class="glyphicon"></span>Observações</label>
                                     <input type="text" class="form-control" id="observacoes">
                                 </div>
-                                <button type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarProtocolo()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+                                <button disabled id="btnCadProtocol" type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarProtocolo()" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
                                 <button id="btn_CancelProtocolo" type="reset" class="btn btn-danger btn-default pull-left btn-block" onclick="limparTabela()" ><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                             </form>
                         </div>
@@ -390,4 +399,5 @@
         ga('create', 'UA-XXXXX-X', 'auto');
         ga('send', 'pageview');
     </script>
+</body>
 </html>

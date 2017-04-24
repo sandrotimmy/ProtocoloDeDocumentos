@@ -1,12 +1,12 @@
 //Agoritimo para desabilitar botões submit
 
-
-/*Botão do cadastro de usuario
-Faz o botão submit do cadastro de usuario ficar desabilitado no carregamento*/
+//Faz o botão submit do cadastro de usuario e de login ficarem desabilitados no carregamento
 $(document).ready(function() { 
     $('#buttonSubmitRegister').prop('disabled', true); 
+    $('#buttonEnter').prop('disabled', true);
 });
 
+//Botão do cadastro de usuario
 //Faz o botão submit do cadastro de usuario ficar desabilitados
 $(document).keyup(function() {
     if ($("#txtNome").val().length <= 4 || (! $("#txtEmail").val().match(/[^@]+@[^@]+\.[^@]+/)) || $("#txtSenha").val().length <= 4){
@@ -69,12 +69,7 @@ $(document).keyup(function() {
     });
 });
 
-/*Botão de login
-Faz o botão submit do login ficar desabilitado no carregamento*/
-$(document).ready(function() { 
-    $('#buttonEnter').prop('disabled', true); 
-});
-
+//Botão de login
 //Faz o botão submit do login ficar desabilitado se os campos tiverem menos de 1 caractere
 $(document).keyup(function() {
     if ($("#txtUsuario").val().length <= 4 || $("#txtPassword").val().length <= 4){
