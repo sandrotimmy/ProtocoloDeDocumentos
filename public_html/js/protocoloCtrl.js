@@ -17,8 +17,6 @@ $(function () {
     dadosRecibo = JSON.parse(dadosRecibo); // Converte string para objeto
     if (tbProtocolos == null) // Caso não haja conteúdo, iniciamos um vetor vazio
         tbProtocolos = [];
-    if (dadosRecibo != null)
-        sessionStorage.clear("dadosRecibo");
 });
 function AdicionarProtocolo() {
 
@@ -94,6 +92,7 @@ function EditarProtocolo(id) {
         }
     }
     tbProtocolos[indice_selecionado] = JSON.stringify({
+        codigo: $("#idProtocolo").val(),
         data: $("#dataProtocolo").val(),
         codCliente: clienteSelecionado,
         observacoes: $("#observacoes").val()

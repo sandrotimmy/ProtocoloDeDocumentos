@@ -21,7 +21,13 @@ function AdicionarItemProtocolo() {
     var itemSelecionado = select.options[select.selectedIndex].value;
     var item = localizaItem(itemSelecionado);
     var codItemProtocolo = GerarIdItemProtocolo();
-    var codProtocolo = GerarIdProtocolo();
+    var codProtocolo;
+    if (document.getElementById("idProtocolo").value == "") {
+        codProtocolo = GerarIdProtocolo();
+    } else {
+        codProtocolo = document.getElementById("idProtocolo").value;
+    }
+
     var itemProtocolo = JSON.stringify({
         codigo: codItemProtocolo,
         codProtocolo: codProtocolo,
@@ -60,11 +66,13 @@ function ExcluirItemProtocolo(id) {
 
     for (var i in tbItensProtocolo) {
         var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
-
+        
         if (itemProtocolo.codigo == id) {
+            var codProtocolo = itemProtocolo.codProtocolo;
             tbItensProtocolo.splice(i, 1);
             localStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
-            ListarItensProtocolo();
+            ListarItensProtocolo(codProtocolo);
+            break;
         }
     }
 }
@@ -115,8 +123,8 @@ function ListarItensProtocolo(codProtocolo) {
             "</tbody>"
             );
     for (var i in tbItensProtocolo) {
-        var protTemp = JSON.parse(tbItensProtocolo[i]);
-        var codProtTemp = protTemp.codProtocolo;
+        var itemProtTemp = JSON.parse(tbItensProtocolo[i]);
+        var codProtTemp = itemProtTemp.codProtocolo;
         if (codProtTemp == codProtocolo) {
             var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
             $("#tblListarItensProtocolo tbody").append("<tr class=\"active\">");
