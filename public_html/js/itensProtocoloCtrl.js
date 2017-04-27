@@ -16,28 +16,34 @@ $(function () {
         tbItensProtocolo = [];
 });
 
-function AdicionarItemProtocolo() {
-    var select = document.getElementById("itemProtocolo");
-    var itemSelecionado = select.options[select.selectedIndex].value;
-    var item = localizaItem(itemSelecionado);
-    var codItemProtocolo = GerarIdItemProtocolo();
-    var codProtocolo;
-    if (document.getElementById("idProtocolo").value == "") {
-        codProtocolo = GerarIdProtocolo();
-    } else {
-        codProtocolo = document.getElementById("idProtocolo").value;
-    }
+function AdicionarItemProt(codProtocolo) {
+    var selectItem = document.getElementById("itemProtocolo");
+    var temp = $("#itemProtocolo").val();
+    if (temp != "") {
 
-    var itemProtocolo = JSON.stringify({
-        codigo: codItemProtocolo,
-        codProtocolo: codProtocolo,
-        nome: item.nome,
-        tipo: item.tipo,
-        retorno: item.retorno
-    });
-    tbItensProtocolo.push(itemProtocolo);
-    localStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
-    ListarItensProtocolo(codProtocolo);
+        var select = document.getElementById("itemProtocolo");
+        var itemSelecionado = select.options[select.selectedIndex].value;
+        var item = localizaItem(itemSelecionado);
+        var codItemProtocolo = GerarIdItemProtocolo();
+        if (document.getElementById("idProtocolo").value == "") {
+            codProtocolo = GerarIdProtocolo();
+        } else {
+            codProtocolo = document.getElementById("idProtocolo").value;
+        }
+
+        var itemProtocolo = JSON.stringify({
+            codigo: codItemProtocolo,
+            codProtocolo: codProtocolo,
+            nome: item.nome,
+            tipo: item.tipo,
+            retorno: item.retorno
+        });
+        tbItensProtocolo.push(itemProtocolo);
+        localStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
+        ListarItensProtocolo(codProtocolo);
+    } else {
+        alert("Você deve Selecionar um Item para adicionar!");
+    }
 }
 
 //Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
@@ -66,7 +72,7 @@ function ExcluirItemProtocolo(id) {
 
     for (var i in tbItensProtocolo) {
         var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
-        
+
         if (itemProtocolo.codigo == id) {
             var codProtocolo = itemProtocolo.codProtocolo;
             tbItensProtocolo.splice(i, 1);

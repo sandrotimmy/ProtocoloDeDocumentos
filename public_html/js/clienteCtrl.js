@@ -51,7 +51,7 @@ function GerarIdCli() {
 }
 
 function EditarCadastrarCliente() {
-    if (document.getElementById("idClient").value === "") {
+    if (document.getElementById("idClient").value == "") {
         AdicionarCliente();
     } else {
         EditarCliente(document.getElementById("idClient").value);
@@ -160,7 +160,7 @@ function ListarClientes() {
         $("#tblListarClientes tbody").append("<td>" + cli.cnpj + "</td>");
         $("#tblListarClientes tbody").append("<td>" + cli.nome + "</td>");
         $("#tblListarClientes tbody").append("<td>" + cli.cidade + "</td>");
-        $("#tblListarClientes tbody").append("<td> <button id=\"btn_clientes_Edit\" type=\"button\" class=\"btn btn-primary actionModal\" onclick=\"ExibirCliente(" + cli.codigo + ")\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
+        $("#tblListarClientes tbody").append("<td> <button id=\"btn_clientes_Edit\" type=\"button\" class=\"btn btn-primary actionModal\" onclick=\"ExibirCliente(" + cli.codigo + ")\" title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span>\
                                              <button class=\"btn btn-primary\" onclick=\"ExcluirCliente(" + cli.codigo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
         // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
 

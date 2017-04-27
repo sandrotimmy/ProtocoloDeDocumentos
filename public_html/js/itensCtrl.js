@@ -138,7 +138,7 @@ function ListarItens() {
         $("#tblListarItens tbody").append("<td>" + item.nome + "</td>");
         $("#tblListarItens tbody").append("<td>" + item.tipo + "</td>");
         $("#tblListarItens tbody").append("<td>" + item.retorno + "</td>");
-        $("#tblListarItens tbody").append("<td> <button id=\"btn_itens_Edit\" type=\"button\" class=\"btn btn-primary\" onclick=\"ExibirItem(" + item.codigo + ")\"><span class=\"glyphicon glyphicon-pencil\"></span></button> </button>\n\
+        $("#tblListarItens tbody").append("<td> <button id=\"btn_itens_Edit\" type=\"button\" class=\"btn btn-primary\" onclick=\"ExibirItem(" + item.codigo + ")\" title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span>\
                                              <button class=\"btn btn-primary\" onclick=\"ExcluirItem(" + item.codigo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
         // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
 

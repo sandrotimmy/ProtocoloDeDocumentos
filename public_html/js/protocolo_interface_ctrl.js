@@ -71,13 +71,28 @@ function alterBehaviorModal() {
     $(document.body).on("click", "#btn_CancelClient", function () {
         $('#myModalClient').modal('hide');
     });
+    $(document.body).on("click", "#btnCadClient", function () {
+        $('#myModalClient').modal('hide');
+    });
     //Fecha o modal ITENS zerando os campos
     $(document.body).on("click", "#btn_CancelItens", function () {
+        $('#myModalItens').modal('hide');
+    });
+    $(document.body).on("click", "#btnCadItem", function () {
         $('#myModalItens').modal('hide');
     });
     //Fecha o modal PROTOCOLOS zerando os campos
     $(document.body).on("click", "#btn_CancelProtocolo", function () {
         $('#myModalProtocol').modal('hide');
+    });
+    $(document.body).on("click", "#btnCadProtocol", function () {
+        $('#myModalProtocol').modal('hide');
+        limparTabela();
+    });
+    //reseta a combobox de items quando ele for adicionado
+    $(document.body).on("click", "#btn_add_item", function () {
+        var select = document.getElementById("itemProtocolo");
+        select.options[0].selected = "true";
     });
 }
 
