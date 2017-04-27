@@ -147,7 +147,7 @@ function ListarItensProtocolo(codProtocolo) {
 function passarItensProtocoloRecibo(codProtocolo) {
     $("#tblListarItensRecibo").html("");
     $("#tblListarItensRecibo").html(
-            "<thead>" +
+            "<thead align=\"center\">" +
             "	<tr>" +
             "	<th>Código</th>" +
             "	<th>Nome</th>" +
@@ -164,7 +164,7 @@ function passarItensProtocoloRecibo(codProtocolo) {
         if (codProtTemp == codProtocolo) {
             var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
             $("#tblListarItensRecibo tbody").append("<tr class=\"active\">");
-            $("#tblListarItensRecibo tbody").append("<td>" + itemProtocolo.codigo + "</td>");
+            $("#tblListarItensRecibo tbody").append("<td align=\"center\">" + itemProtocolo.codigo + "</td>");
             $("#tblListarItensRecibo tbody").append("<td>" + itemProtocolo.nome + "</td>");
             $("#tblListarItensRecibo tbody").append("<td>" + itemProtocolo.tipo + "</td>");
             $("#tblListarItensRecibo tbody").append("<td>" + itemProtocolo.retorno + "</td>");
