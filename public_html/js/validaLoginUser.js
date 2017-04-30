@@ -6,37 +6,31 @@ $(document).ready(function() {
     $('#buttonEnter').prop('disabled', true);
 });
 
+
 //Botão do cadastro de usuario
 //Faz o botão submit do cadastro de usuario ficar desabilitados
 $(document).keyup(function() {
-    if ($("#txtNome").val().length <= 4 || (! $("#txtEmail").val().match(/[^@]+@[^@]+\.[^@]+/)) || $("#txtSenha").val().length <= 4){
+    var nameUsu = $("#txtNome").val().length;
+    var usuSenha = $("#txtSenha").val().length;
+    if (nameUsu <= 4 || (! $("#txtEmail").val().match(/[^@]+@[^@]+\.[^@]+/)) || usuSenha <= 4){
         $(document).ready(function() {
         $('#buttonSubmitRegister').prop('disabled', true);
         });
+    }else {
+        $('#buttonSubmitRegister').prop('disabled', false);    
     }
 
-//Habilita o botão submit do cadastro de usuario
-    if ($("#txtNome").val().length > 4 && $("#txtEmail").val().match(/[^@]+@[^@]+\.[^@]+/) && $("#txtSenha").val().length > 4){
-        $(document).ready(function() {
-        $('#buttonSubmitRegister').prop('disabled', false);
-        });   
-    }   
-});
-
-//Algoritmo para avisos dos campos de preenchimento
-$(document).keyup(function() {
-//verifica nome de usuario
+    //verifica nome de usuario
     $("#txtNome").blur(function() {
-        if ($("#txtNome").val().length < 5) {
+        var nameUsu = $("#txtNome").val().length;
+        if (nameUsu < 5) {
             $("#txtNome").css('background', '#fb4745');
             $("#alertUsu").show('fast')
             $("#alertUsu").text('O campo nome deve ter ao menos 5 caracteres');  
-
-        }
-        if ($("#txtNome").val().length >= 5) {
+        }else{
             $("#txtNome").css('background', '#6ebe51'); 
             $("#alertUsu").hide('fast');
-        } 
+        }        
     });
 
 //verifica email
@@ -56,54 +50,42 @@ $(document).keyup(function() {
 
 //verifica senha
     $("#txtSenha").blur(function() {
-        if ($("#txtSenha").val().length < 5) {
+        var usuSenha = $("#txtSenha").val().length;
+        if (usuSenha < 5) {
             $("#txtSenha").css('background', '#fb4745');
             $("#alertSenha").show('fast')
             $("#alertSenha").text('O campo senha deve ter ao menos 5 caracteres');  
-
+        }else {
+            $("#txtSenha").css('background', '#6ebe51');
+            $("#alertSenha").hide('fast');    
         }
-        if ($("#txtSenha").val().length >= 5) {
-            $("#txtSenha").css('background', '#6ebe51'); 
-            $("#alertSenha").hide('fast');
-        } 
-    });
-});
+    });  
 
-//Botão de login
-//Faz o botão submit do login ficar desabilitado se os campos tiverem menos de 1 caractere
-$(document).keyup(function() {
-    if ($("#txtUsuario").val().length <= 4 || $("#txtPassword").val().length <= 4){
+
+    //Botão de Login
+    //Faz o botão submit do login ficar desabilitado se os campos tiverem menos de 5 caracteres
+    var campLog = $("#txtUsuario").val().length;
+    var campSenha = $("#txtPassword").val().length;
+
+    if (campLog <= 4 || campSenha <= 4){
         $(document).ready(function() {
         $('#buttonEnter').prop('disabled', true);
         });
+    }else {
+        $('#buttonEnter').prop('disabled', false);    
     }
 
-//Habilita o botão submit do login se os campos tiverem mais de 1 caractere
-    if ($("#txtUsuario").val().length > 4 && $("#txtPassword").val().length > 4){
-        $(document).ready(function() {
-        $('#buttonEnter').prop('disabled', false);
-        });   
-    }   
-}); 
-
 //Algoritmo para avisos do campo de login
-$(document).keyup(function() {
 //verifica nome de usuario
-    $("#txtUsuario").blur(function() {
-        if ($("#txtUsuario").val().length < 5) {
+    $("#txtUsuario, #txtPassword").blur(function() {
+        if (campLog <= 4) {
             $("#txtUsuario").css('background', '#fb4745');
-        }
-        if ($("#txtUsuario").val().length >= 5) {
+        }else {
             $("#txtUsuario").css('background', '#6ebe51'); 
         } 
-    });
-
-//verifica email
-    $("#txtPassword").blur(function() {
-        if ($("#txtPassword").val().length < 5) {
-            $("#txtPassword").css('background', '#fb4745');  
-        }
-        if ($("#txtPassword").val().length >= 5) {
+        if (campSenha <= 4) {
+            $("#txtPassword").css('background', '#fb4745');
+        }else {
             $("#txtPassword").css('background', '#6ebe51'); 
         } 
     });
