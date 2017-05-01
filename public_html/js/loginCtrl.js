@@ -23,10 +23,25 @@ function Adicionar() {
         email: $("#txtEmail").val(),
         Senha: $("#txtSenha").val()
     }); 
-    tbUsuarios.push(usuario);
-    localStorage.setItem("tbUsuarios", JSON.stringify(tbUsuarios));
-    alert("Usuário Cadastrado com Sucesso!");
-    return true;
+    var igual = false;
+    for (i = 0; i < tbUsuarios.length; i++){
+        var nome = $("#txtNome").val();
+        var usuarioTemp = JSON.parse(tbUsuarios[i]);
+        var nomeTemp = usuarioTemp.Nome;
+        if (nomeTemp === nome){
+            igual = true;
+            break;
+        }
+    }
+    if (igual == true) {
+        alert("Usuário ja existente, escolha outro nome!")
+        return false;
+    }else{
+        tbUsuarios.push(usuario);
+        localStorage.setItem("tbUsuarios", JSON.stringify(tbUsuarios));
+        alert("Usuário Cadastrado com Sucesso!");
+        return true;   
+    }   
 }
         
 function Editar() {

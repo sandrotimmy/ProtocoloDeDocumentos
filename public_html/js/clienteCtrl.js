@@ -28,11 +28,27 @@ function AdicionarCliente() {
         cidade: $("#cityClient").val(),
         cep: $("#zipCodeClient").val()
     });
-    tbClientes.push(cliente);
-    localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
-    alert("Cliente " + cod + " Cadastrado com Sucesso!");
-    $("#myModal").modal(".close");
-    ListarClientes();
+    var igual = false;
+    for (var i = 0; i < tbClientes.length; i++) {
+        var clientCnpj = $("#cnpjClient").val();
+        var clienteTemp = JSON.parse(tbClientes[i]);
+        var nomeTemp = clienteTemp.Nome;
+        var cnpjTemp = clienteTemp.cnpj;
+        if (cnpjTemp === clientCnpj) {
+                igual = true;
+                break;  
+        }
+    }
+    if (igual == true) {
+        alert("Cliente ja cadastrado, cadastro não realizado!")
+        return false;
+    }else{
+        tbClientes.push(cliente);
+        localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
+        alert("Cliente " + cod + " Cadastrado com Sucesso!");
+        $("#myModal").modal(".close");
+        ListarClientes();  
+    }
 }
 
 //Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
