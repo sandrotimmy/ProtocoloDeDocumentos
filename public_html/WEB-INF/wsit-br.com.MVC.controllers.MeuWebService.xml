@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?> 
- <definitions 
- xmlns="http://schemas.xmlsoap.org/wsdl/" 
- xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
- xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
- xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="WebServiceService" targetNamespace="http://controllers.MVC.com.br/" xmlns:tns="http://controllers.MVC.com.br/" 
- >
-    <service name="WebServiceService"/>
-</definitions>
