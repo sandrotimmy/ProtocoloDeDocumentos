@@ -5,24 +5,43 @@
  */
 package br.com.MVC.models;
 
-/**
- *
- * @author Sandro Machado
- */
-public class Usuarios {
-    private int idUsuarios;
-    private String userName;
-    private String email;
-    private String senha;
 
-    public Usuarios(int idUsuarios, String userName, String email, String senha) {
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
+
+
+@Entity
+public class Usuarios implements Serializable {
+
+    @Id
+    @GeneratedValue(generator = "s_usuarios")
+    @GenericGenerator(name = "s_usuarios", strategy = "increment")
+    private int idUsuarios;
+    @Column(length = 100, nullable = false)
+    private String userName;
+    @Column(length = 100, nullable = false)
+    private String email;
+    @Column(length = 100, nullable = false)
+    private String password;
+
+    public Usuarios() {
+    }
+
+    public Usuarios(String userName, String email, String password) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
+
+    public Usuarios(int idUsuarios, String userName, String email, String password) {
         this.idUsuarios = idUsuarios;
         this.userName = userName;
         this.email = email;
-        this.senha = senha;
-    }
-
-    public Usuarios() {
+        this.password = password;
     }
 
     public int getIdUsuarios() {
@@ -37,8 +56,8 @@ public class Usuarios {
         return email;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
     public void setIdUsuarios(int idUsuarios) {
@@ -53,8 +72,17 @@ public class Usuarios {
         this.email = email;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Cod: "+idUsuarios+" User: "+userName+" Email: "+email+" senha: "+password; //To change body of generated methods, choose Tools | Templates.
     }
     
+    
+    
+    
+
 }

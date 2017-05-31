@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `protocolodb` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `protocolodb`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win32 (AMD64)
 --
 -- Host: localhost    Database: protocolodb
@@ -23,12 +25,12 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuarios` (
-  `idusuarios` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `userName` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
-  `senha` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idusuarios`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+  `idUsuarios` int(11) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `userName` varchar(100) NOT NULL,
+  PRIMARY KEY (`idUsuarios`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +39,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'teste','teste','teste'),(2,'teste','teste','teste'),(3,'teste','teste','teste'),(4,'teste','teste','teste'),(5,'teste','teste','teste'),(6,'teste','teste','teste'),(7,'teste','teste','teste'),(8,'sandro','sandro','sandro'),(9,'teste','teste','teste');
+INSERT INTO `usuarios` VALUES (1,'smachado.ti@gmail.com','1234','sandro');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-28 23:29:24
+-- Dump completed on 2017-05-31 13:56:01
