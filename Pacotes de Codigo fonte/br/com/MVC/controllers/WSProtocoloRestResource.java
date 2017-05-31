@@ -5,11 +5,16 @@
  */
 package br.com.MVC.controllers;
 
+import br.com.MVC.models.Usuarios;
+import com.google.gson.Gson;
+import javax.json.Json;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import static javax.ws.rs.HttpMethod.POST;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
@@ -32,17 +37,24 @@ public class WSProtocoloRestResource {
     }
 
     /**
-     * Retrieves representation of an instance of br.com.MVC.controllers.WSProtocoloRestResource
+     * Retrieves representation of an instance of
+     * br.com.MVC.controllers.WSProtocoloRestResource
+     *
      * @return an instance of java.lang.String
      */
     @GET
     @Produces("application/json")
     public String getJson() {
-       return "Nome: Sandro, Sobre: Machado";
+        Usuarios usuario = new Usuarios(01, "sandro", "smachado.ti@gmail.com", "batima123");
+        Gson gson = new Gson();
+
+        return gson.toJson(usuario);
     }
 
     /**
-     * PUT method for updating or creating an instance of WSProtocoloRestResource
+     * PUT method for updating or creating an instance of
+     * WSProtocoloRestResource
+     *
      * @param content representation for the resource
      */
     @PUT

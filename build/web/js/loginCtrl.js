@@ -21,12 +21,11 @@ function Adicionar() {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/ProtocoloDeDocumentos/webresources/WSProtocoloRest",
-        contentType: "application/json",
+        url: "webresources/WSProtocoloRest",
+        contentType: "application/json; charset=utf-8",
         dataType: "json",
-        async: true,
         success: function (data) {
-            alert(data + ", Sucesso!");
+            alert(data.idUsuarios + data.userName);
         }
     });
 }
