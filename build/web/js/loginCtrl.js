@@ -20,12 +20,17 @@ $(function () {
 function Adicionar() {
 
     $.ajax({
-        type: "GET",
-        url: "webresources/WSProtocoloRest",
+        type: "POST",
+        url: "webresources/WSProtocoloRest/usuarios/cadastrar/"+
+                $("#txtNome").val()+"/"+
+                $("#txtEmail").val()+"/"+
+                $("#txtSenha").val(),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            alert(data.idUsuarios + data.userName);
+            alert(data.idUsuarios +" "+ data.userName);
+        }, error(err){
+            alert("Erro ao processar a requisição " + err.responseText);
         }
     });
 }

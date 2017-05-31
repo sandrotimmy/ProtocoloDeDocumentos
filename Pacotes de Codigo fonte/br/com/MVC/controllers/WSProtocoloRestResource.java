@@ -17,6 +17,7 @@ import static javax.ws.rs.HttpMethod.POST;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -29,34 +30,34 @@ public class WSProtocoloRestResource {
 
     @Context
     private UriInfo context;
+    private UsuariosCtrl usuariosCtrl;
+    private Gson gson;
 
-    /**
-     * Creates a new instance of WSProtocoloRestResource
-     */
     public WSProtocoloRestResource() {
+        usuariosCtrl = new UsuariosCtrl();
+        gson = new Gson();
     }
 
-    /**
-     * Retrieves representation of an instance of
-     * br.com.MVC.controllers.WSProtocoloRestResource
-     *
-     * @return an instance of java.lang.String
-     */
-    @GET
+//    @POST
+//    @Produces("application/json")
+//    public String getJson() {
+//        Usuarios usuario = new Usuarios(01, "sandro", "smachado.ti@gmail.com", "batima123");
+//        Gson gson = new Gson();
+//
+//        return gson.toJson(usuario);
+//    }
+    @POST
     @Produces("application/json")
-    public String getJson() {
-        Usuarios usuario = new Usuarios(01, "sandro", "smachado.ti@gmail.com", "batima123");
-        Gson gson = new Gson();
-
+    @Path("usuarios/cadastrar/{userName}/{email}/{password}")
+    public String cadastrarUsuarios(
+            @PathParam("userName") String userName,
+            @PathParam("email") String email,
+            @PathParam("password") String password) {
+        Usuarios usuario = new Usuarios (userName, email, password);
+        usuariosCtrl.cadastrarUsuario(usuario);
         return gson.toJson(usuario);
     }
 
-    /**
-     * PUT method for updating or creating an instance of
-     * WSProtocoloRestResource
-     *
-     * @param content representation for the resource
-     */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public void putJson(String content) {
