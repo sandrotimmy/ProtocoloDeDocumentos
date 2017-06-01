@@ -20,12 +20,6 @@ public class Main {
      * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws SQLException {
-        UsuariosCtrl usuariosCtrl  = new UsuariosCtrl();
-
-        boolean existe = usuariosCtrl.logar("sandro", "033238");
-        
-        System.out.println(existe);
+        EntityManager em = ConexaoEntityManager.getInstance();
     }
-
-
 }

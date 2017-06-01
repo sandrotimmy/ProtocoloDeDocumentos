@@ -18,29 +18,35 @@ USE `protocolodb`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `usuarios`
+-- Table structure for table `empresa`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
+DROP TABLE IF EXISTS `empresa`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `usuarios` (
-  `idUsuarios` int(11) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `userName` varchar(100) NOT NULL,
-  PRIMARY KEY (`idUsuarios`)
+CREATE TABLE `empresa` (
+  `idEmpresa` int(11) NOT NULL,
+  `bairro` varchar(20) DEFAULT NULL,
+  `cep` varchar(10) DEFAULT NULL,
+  `cidade` varchar(70) DEFAULT NULL,
+  `cnpj` varchar(18) NOT NULL,
+  `endereco` varchar(255) DEFAULT NULL,
+  `nome` varchar(255) NOT NULL,
+  `numero` varchar(8) DEFAULT NULL,
+  `usuarioEmpresa` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idEmpresa`),
+  KEY `fk_usuario_empresa` (`usuarioEmpresa`),
+  CONSTRAINT `fk_usuario_empresa` FOREIGN KEY (`usuarioEmpresa`) REFERENCES `usuarios` (`idUsuarios`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `usuarios`
+-- Dumping data for table `empresa`
 --
 
-LOCK TABLES `usuarios` WRITE;
-/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'smachado.ti@gmail.com','1234','sandro'),(2,'smachado.ti@gmail.com','033238','sandro'),(3,'smachadfsdf@sdfs.com','sdfsfdsdfsdfs','asdasdasdsad'),(4,'smachadfsdf@sdfs.com','sdfsdfsdfsdf','asdasdasdasdasd');
-/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+LOCK TABLES `empresa` WRITE;
+/*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
+/*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-01 15:50:47
+-- Dump completed on 2017-06-01 15:50:42

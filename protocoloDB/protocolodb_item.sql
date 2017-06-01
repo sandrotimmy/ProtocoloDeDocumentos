@@ -18,29 +18,31 @@ USE `protocolodb`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `usuarios`
+-- Table structure for table `item`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
+DROP TABLE IF EXISTS `item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `usuarios` (
-  `idUsuarios` int(11) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `userName` varchar(100) NOT NULL,
-  PRIMARY KEY (`idUsuarios`)
+CREATE TABLE `item` (
+  `idItem` int(11) NOT NULL,
+  `nome` varchar(150) NOT NULL,
+  `retorno` varchar(4) NOT NULL,
+  `tipo` varchar(255) NOT NULL,
+  `empresaItem` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idItem`),
+  KEY `fk_empresa_item` (`empresaItem`),
+  CONSTRAINT `fk_empresa_item` FOREIGN KEY (`empresaItem`) REFERENCES `empresa` (`idEmpresa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `usuarios`
+-- Dumping data for table `item`
 --
 
-LOCK TABLES `usuarios` WRITE;
-/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'smachado.ti@gmail.com','1234','sandro'),(2,'smachado.ti@gmail.com','033238','sandro'),(3,'smachadfsdf@sdfs.com','sdfsfdsdfsdfs','asdasdasdsad'),(4,'smachadfsdf@sdfs.com','sdfsdfsdfsdf','asdasdasdasdasd');
-/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+LOCK TABLES `item` WRITE;
+/*!40000 ALTER TABLE `item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-01 15:50:47
+-- Dump completed on 2017-06-01 15:50:41

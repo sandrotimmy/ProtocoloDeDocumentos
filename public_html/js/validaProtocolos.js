@@ -2,7 +2,7 @@ $(document).ready(function() {
 	//Desabilita submit do cadastro da empresa até todos os campos serem preenchidos
 	var btn = document.getElementById('btnCadastrarEmp');
 		$('#zipCodeEmpresa,#cnpjEmpresa,#nomeEmpresa,#addressEmpresa,#numberEmpresa,#districtEmpresa,#cityEmpresa').on('input', function() {
-			btn.disabled = !$('#zipCodeEmpresa').val().match(/[0-9]{5}[-][0-9]{3}/) 
+			btn.disabled = !$('#zipCodeEmpresa').val().match(/[0-9][.]{2}[0-9]{3}[-][0-9]{3}/) 
 				|| !$('#cnpjEmpresa').val().match(/[0-9]{2}[\.][0-9]{3}[\.][0-9]{3}[\/][0-9]{4}[\-][0-9]{2}/) 
 				|| $("#nomeEmpresa").val().length <= 0 || $("#addressEmpresa").val().length <= 0 
 				|| $("#numberEmpresa").val().length <= 0 || $("#districtEmpresa").val().length <= 0
