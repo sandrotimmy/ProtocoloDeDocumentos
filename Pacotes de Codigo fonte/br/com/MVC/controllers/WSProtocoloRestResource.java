@@ -7,13 +7,10 @@ package br.com.MVC.controllers;
 
 import br.com.MVC.models.Usuarios;
 import com.google.gson.Gson;
-import javax.json.Json;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import static javax.ws.rs.HttpMethod.POST;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
@@ -28,24 +25,16 @@ import javax.ws.rs.core.MediaType;
 @Path("WSProtocoloRest")
 public class WSProtocoloRestResource {
 
-    @Context
-    private UriInfo context;
-    private UsuariosCtrl usuariosCtrl;
-    private Gson gson;
+    private final UsuariosCtrl usuariosCtrl;
+    private final ProtocoloAppCtrl protocoloCtrl;
+    private final Gson gson;
 
     public WSProtocoloRestResource() {
         usuariosCtrl = new UsuariosCtrl();
+        protocoloCtrl = new ProtocoloAppCtrl();
         gson = new Gson();
     }
 
-//    @POST
-//    @Produces("application/json")
-//    public String getJson() {
-//        Usuarios usuario = new Usuarios(01, "sandro", "smachado.ti@gmail.com", "batima123");
-//        Gson gson = new Gson();
-//
-//        return gson.toJson(usuario);
-//    }
     @POST
     @Produces("application/json")
     @Path("usuarios/cadastrar/{userName}/{email}/{password}")
@@ -64,9 +53,21 @@ public class WSProtocoloRestResource {
     public String logar(
             @PathParam("userName") String userName,
             @PathParam("password") String password) {
-       boolean existe = usuariosCtrl.logar(userName, password);
-       String boo = gson.toJson(existe);
+        boolean existe = protocoloCtrl.logar(userName, password);
+        String boo = gson.toJson(existe);
         return boo;
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("empresa/cadastrar/{userName}/{email}/{password}")
+    public String cadastrarEmpresa(
+            @PathParam("userName") String userName,
+            @PathParam("email") String email,
+            @PathParam("password") String password) {
+        Usuarios usuario = new Usuarios(userName, email, password);
+        usuario = usuariosCtrl.cadastrarUsuario(usuario);
+        return gson.toJson(usuario);
     }
 
     @PUT

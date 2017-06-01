@@ -27,10 +27,10 @@ function Adicionar(e) {
         contentType: "application/json; charset=utf-8",
         dataType: "JSON",
         async: false,
-        success: function (data) {
-            alert("Usuário Cadastrado Com sucesso!" + data.userName);
-        }, error(data) {
-            alert("Erro ao processar a requisição " + data.userName);
+        success: function () {
+            alert("Usuário Cadastrado Com sucesso!");
+        }, error() {
+            alert("Erro ao processar a requisição ");
         }
     });
 }

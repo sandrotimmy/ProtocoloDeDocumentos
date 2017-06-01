@@ -7,15 +7,13 @@
 var operacao = "A"; //"A"=Adição; "E"=Edição
 var indice_selecionado = -1; //Índice do item selecionado na lista
 var tbEmpresa;
-
 $(function () {
 
-    tbEmpresa = localStorage.getItem("tbEmpresa");// Recupera os dados armazenados
+    tbEmpresa = localStorage.getItem("tbEmpresa"); // Recupera os dados armazenados
     tbEmpresa = JSON.parse(tbEmpresa); // Converte string para objeto
     if (tbEmpresa == null) // Caso não haja conteúdo, iniciamos um vetor vazio
         tbEmpresa = [];
 });
-
 function inserirDados() {
 
     if (tbEmpresa.length > 0) {
@@ -40,19 +38,37 @@ function inserirDados() {
 
 function AdicionarEmpresa() {
 
-    var empresa = JSON.stringify({
-        codigo: 1,
-        cnpj: $("#cnpjEmpresa").val(),
-        nome: $("#nomeEmpresa").val(),
-        endereco: $("#addressEmpresa").val(),
-        numero: $("#numberEmpresa").val(),
-        bairro: $("#districtEmpresa").val(),
-        cidade: $("#cityEmpresa").val(),
-        cep: $("#zipCodeEmpresa").val()
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/empresa/cadastrar/" +
+                $("#txtNome").val() + "/" +
+                $("#cnpjEmpresa").val() + "/" +
+                $("#nomeEmpresa").val() + "/" +
+                $("#addressEmpresa").val() + "/" +
+                $("#numberEmpresa").val() + "/" +
+                $("#districtEmpresa").val() + "/" +
+                $("#cityEmpresa").val() + "/" +
+                $("#zipCodeEmpresa").val(),
+
+        contentType: "application/json; charset=utf-8",
+        dataType: "JSON",
+        async: false,
+        success: function (data) {
+            $("#idEmpresa").val(data.codigo);
+            $("#cnpjEmpresa").val(data.cnpj);
+            $("#nomeEmpresa").val(data.nome);
+            $("#addressEmpresa").val(data.endereco);
+            $("#numberEmpresa").val(data.numero);
+            $("#districtEmpresa").val(data.bairro);
+            $("#cityEmpresa").val(data.cidade);
+            $("#zipCodeEmpresa").val(data.cep);
+
+            alert("Empresa Cadastrada Com sucesso!");
+
+        }, error() {
+            alert("Erro ao processar a requisição ");
+        }
     });
-    tbEmpresa.push(empresa);
-    localStorage.setItem("tbEmpresa", JSON.stringify(tbEmpresa));
-    inserirDados();
 }
 
 function EditarCadastrarEmpresa() {
@@ -74,7 +90,7 @@ function EditarEmpresa() {
         bairro: $("#districtEmpresa").val(),
         cidade: $("#cityEmpresa").val(),
         cep: $("#zipCodeEmpresa").val()
-    });//Altera o item selecionado na tabela
+    }); //Altera o item selecionado na tabela
     localStorage.setItem("tbEmpresa", JSON.stringify(tbEmpresa));
     alert("Informações editadas.");
     operacao = "A"; //Volta ao padrão
