@@ -24,18 +24,15 @@ public class UsuariosDAO {
         this.listaUsuarios = new ArrayList();
     }
 
-    public boolean cadastrarUsuario(Usuarios usuario) {
-        try{
+    public Usuarios cadastrarUsuario(Usuarios usuario) {
+
         em = ConexaoEntityManager.getInstance();
         em.getTransaction().begin();
         em.persist(usuario);
         em.getTransaction().commit();
         em.close();
-        }catch (Exception e){
-            return false;
-        }
-        JOptionPane.showMessageDialog(null, "Usuario Cadastrado com Sucesso!");
-        return true;
+
+        return usuario;
     }
 
     public void atualizaUsuario(Usuarios usuario) {
@@ -69,8 +66,8 @@ public class UsuariosDAO {
 
     public List getListaUsuarios() {
         em = ConexaoEntityManager.getInstance();
-        List listaComissoes = em.createQuery("FROM USUARIOS").getResultList();
-        return listaComissoes;
+        List listaUsuarios = em.createQuery("FROM Usuarios", Usuarios.class).getResultList();
+        return listaUsuarios;
     }
 
     public Usuarios getUsuario(Integer codUsuarios) {

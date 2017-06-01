@@ -53,9 +53,20 @@ public class WSProtocoloRestResource {
             @PathParam("userName") String userName,
             @PathParam("email") String email,
             @PathParam("password") String password) {
-        Usuarios usuario = new Usuarios (userName, email, password);
-        usuariosCtrl.cadastrarUsuario(usuario);
+        Usuarios usuario = new Usuarios(userName, email, password);
+        usuario = usuariosCtrl.cadastrarUsuario(usuario);
         return gson.toJson(usuario);
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("usuarios/logar/{userName}/{password}")
+    public String logar(
+            @PathParam("userName") String userName,
+            @PathParam("password") String password) {
+       boolean existe = usuariosCtrl.logar(userName, password);
+       String boo = gson.toJson(existe);
+        return boo;
     }
 
     @PUT

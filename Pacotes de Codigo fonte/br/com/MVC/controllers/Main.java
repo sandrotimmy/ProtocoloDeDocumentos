@@ -20,19 +20,11 @@ public class Main {
      * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws SQLException {
+        UsuariosCtrl usuariosCtrl  = new UsuariosCtrl();
+
+        boolean existe = usuariosCtrl.logar("sandro", "033238");
         
-        UsuariosCtrl ctrl = new UsuariosCtrl();
-        
-        Usuarios usuario = ctrl.getUsuario(01);
-        
-        System.out.println(usuario.toString());
-        
-//        EntityManager em = ConexaoEntityManager.getInstance();
-//        
-//        Usuarios usuario = em.createQuery("FROM Usuarios" , Usuarios.class).getSingleResult();
-//        System.out.println(usuario.toString());
-//        em.close();
-        
+        System.out.println(existe);
     }
 
 

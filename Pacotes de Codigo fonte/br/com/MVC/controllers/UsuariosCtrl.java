@@ -2,6 +2,7 @@ package br.com.MVC.controllers;
 
 import br.com.MVC.DAO.UsuariosDAO;
 import br.com.MVC.models.Usuarios;
+import java.util.List;
 
 /**
  *
@@ -19,7 +20,21 @@ public class UsuariosCtrl {
         return persistUsuarios.getUsuario(codUsuarios);
     }
 
-    public boolean cadastrarUsuario(Usuarios usuario) {
+    public Usuarios cadastrarUsuario(Usuarios usuario) {
         return persistUsuarios.cadastrarUsuario(usuario);
+    }
+
+    public boolean logar(String userName, String password) {
+        List<Usuarios> listaUsuarios = persistUsuarios.getListaUsuarios();
+        boolean existe = false;
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            String usuarioTemp = listaUsuarios.get(i).getUserName();
+            String senhaTemp = listaUsuarios.get(i).getPassword();
+            if (usuarioTemp.equalsIgnoreCase(userName) && senhaTemp.equalsIgnoreCase(password)) {
+                existe = true;
+                break;
+            }
+        }
+        return existe;
     }
 }
