@@ -5,6 +5,8 @@
  */
 package br.com.MVC.controllers;
 
+import br.com.MVC.DAO.EmpresaDAO;
+import br.com.MVC.models.Empresa;
 import br.com.MVC.models.Usuarios;
 
 /**
@@ -14,14 +16,17 @@ import br.com.MVC.models.Usuarios;
 public class ProtocoloAppCtrl {
 
     Usuarios usuario;
+    Empresa empresa;
+    EmpresaDAO persistEmpresa;
     UsuariosCtrl usuarioCtrl;
 
     public ProtocoloAppCtrl() {
-    }
-
-    public ProtocoloAppCtrl(Usuarios usuario, UsuariosCtrl usuarioCtrl) {
-        this.usuario = usuario;
-        this.usuarioCtrl = usuarioCtrl;
+        usuario = new Usuarios();
+        empresa = new Empresa();
+        persistEmpresa = new EmpresaDAO();
+        usuarioCtrl = new UsuariosCtrl();
+        
+        
     }
 
     public boolean logar(String userName, String password) {
@@ -30,5 +35,11 @@ public class ProtocoloAppCtrl {
             usuario = usuarioCtrl.logarGetUsuario(userName, password);
         }
         return existe;
+    }
+    
+    public Empresa cadastrarEmpresa(Empresa empresa) {
+        empresa.setUsuarioEmpresa(usuario);
+        empresa = persistEmpresa.cadastrarEmpresa(empresa);
+        return empresa;
     }
 }

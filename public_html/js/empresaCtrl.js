@@ -41,7 +41,6 @@ function AdicionarEmpresa() {
     $.ajax({
         type: "POST",
         url: "webresources/WSProtocoloRest/empresa/cadastrar/" +
-                $("#txtNome").val() + "/" +
                 $("#cnpjEmpresa").val() + "/" +
                 $("#nomeEmpresa").val() + "/" +
                 $("#addressEmpresa").val() + "/" +

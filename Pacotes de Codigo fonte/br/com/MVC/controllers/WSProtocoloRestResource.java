@@ -5,6 +5,7 @@
  */
 package br.com.MVC.controllers;
 
+import br.com.MVC.models.Empresa;
 import br.com.MVC.models.Usuarios;
 import com.google.gson.Gson;
 import javax.ws.rs.core.Context;
@@ -60,15 +61,29 @@ public class WSProtocoloRestResource {
 
     @POST
     @Produces("application/json")
-    @Path("empresa/cadastrar/{userName}/{email}/{password}")
+    @Path("empresa/cadastrar/"+
+            "{cnpj}/" + 
+            "{nome}/" + 
+            "{endereco}/" +
+            "{numero}/" +
+            "{bairro}/" +
+            "{cidade}/" +
+            "{cep}")
     public String cadastrarEmpresa(
-            @PathParam("userName") String userName,
-            @PathParam("email") String email,
-            @PathParam("password") String password) {
-        Usuarios usuario = new Usuarios(userName, email, password);
-        usuario = usuariosCtrl.cadastrarUsuario(usuario);
-        return gson.toJson(usuario);
+            @PathParam("cnpj") String cnpj,
+            @PathParam("nome") String nome,
+            @PathParam("endereco") String endereco,
+            @PathParam("numero") String numero,
+            @PathParam("bairro") String bairro,
+            @PathParam("cidade") String cidade,
+            @PathParam("cep") String cep) {
+        Empresa empresa = new Empresa(cnpj, nome, endereco, numero, bairro, cidade, cep);
+        empresa = protocoloCtrl.cadastrarEmpresa(empresa);
+        String json = gson.toJson(empresa);
+        return json;
     }
+    
+    
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
