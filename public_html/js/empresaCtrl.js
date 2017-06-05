@@ -15,39 +15,55 @@ $(function () {
         tbEmpresa = [];
 });
 function inserirDados() {
+    var usuario = JSON.parse(sessionStorage.getItem("secaoUsuario"));
+    var codUsuario = String(usuario.idUsuarios);
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/empresa/getEmpresa/"+codUsuario,
+        contentType: "application/json; charset=utf-8",
+        dataType: "JSON",
+        async: false,
+        success: function (data) {
+            document.getElementById("txtCnpjEmpresa").innerHTML = data.cnpj;
+            document.getElementById("txtNomeEmpresa").innerHTML = data.nome;
+            document.getElementById("txtEnderecoEmpresa").innerHTML = data.endereco;
+            document.getElementById("txtNumeroEmpresa").innerHTML = data.numero;
+            document.getElementById("txtBairroEmpresa").innerHTML = data.bairro;
+            document.getElementById("txtCidadeEmpresa").innerHTML = data.cidade;
+            document.getElementById("txtCepEmpresa").innerHTML = data.cep;
 
-    if (tbEmpresa.length > 0) {
-        var empresa = JSON.parse(tbEmpresa[0]);
-        document.getElementById("txtCnpjEmpresa").innerHTML = empresa.cnpj;
-        document.getElementById("txtNomeEmpresa").innerHTML = empresa.nome;
-        document.getElementById("txtEnderecoEmpresa").innerHTML = empresa.endereco;
-        document.getElementById("txtNumeroEmpresa").innerHTML = empresa.numero;
-        document.getElementById("txtBairroEmpresa").innerHTML = empresa.bairro;
-        document.getElementById("txtCidadeEmpresa").innerHTML = empresa.cidade;
-        document.getElementById("txtCepEmpresa").innerHTML = empresa.cep;
-    } else {
-        document.getElementById("txtCnpjEmpresa").innerHTML = "";
-        document.getElementById("txtNomeEmpresa").innerHTML = "";
-        document.getElementById("txtEnderecoEmpresa").innerHTML = "";
-        document.getElementById("txtNumeroEmpresa").innerHTML = "";
-        document.getElementById("txtBairroEmpresa").innerHTML = "";
-        document.getElementById("txtCidadeEmpresa").innerHTML = "";
-        document.getElementById("txtCepEmpresa").innerHTML = "";
-    }
+        }, error() {
+            document.getElementById("txtCnpjEmpresa").innerHTML = "";
+            document.getElementById("txtNomeEmpresa").innerHTML = "";
+            document.getElementById("txtEnderecoEmpresa").innerHTML = "";
+            document.getElementById("txtNumeroEmpresa").innerHTML = "";
+            document.getElementById("txtBairroEmpresa").innerHTML = "";
+            document.getElementById("txtCidadeEmpresa").innerHTML = "";
+            document.getElementById("txtCepEmpresa").innerHTML = "";
+            alert("Erro ao processar a requisição ");
+        }
+    });
+
+
+
 }
 
 function AdicionarEmpresa() {
-
+    var cnpjTemp = $("#cnpjEmpresa").val();
+    var cnpj = cnpjTemp.replace("/", "");
+    var usuario = JSON.parse(sessionStorage.getItem("secaoUsuario"));
+    var codUsuario = String(usuario.idUsuarios);
     $.ajax({
         type: "POST",
         url: "webresources/WSProtocoloRest/empresa/cadastrar/" +
-                $("#cnpjEmpresa").val() + "/" +
+                cnpj + "/" +
                 $("#nomeEmpresa").val() + "/" +
                 $("#addressEmpresa").val() + "/" +
                 $("#numberEmpresa").val() + "/" +
                 $("#districtEmpresa").val() + "/" +
                 $("#cityEmpresa").val() + "/" +
-                $("#zipCodeEmpresa").val(),
+                $("#zipCodeEmpresa").val() + "/" +
+                codUsuario,
 
         contentType: "application/json; charset=utf-8",
         dataType: "JSON",

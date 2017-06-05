@@ -23,10 +23,13 @@ public class Main {
      */
     public static void main(String[] args) throws SQLException {
         ProtocoloAppCtrl p = new ProtocoloAppCtrl();
+        
+        if (p.logar("sandro", "033238")!=null){
+        
         Empresa empresa = new Empresa("516546", "sdfsdfsdf", "fgdfgfd", "fgdgfd", "fdfgdf", "fdgdfg", "dfgdf");
-        empresa = p.cadastrarEmpresa(empresa);
+        empresa = p.cadastrarEmpresa(empresa, 02);
         Gson gson = new Gson();
         String json = gson.toJson(empresa);
-        
+        }
     }
 }

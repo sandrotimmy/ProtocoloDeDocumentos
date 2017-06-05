@@ -71,9 +71,9 @@ public class EmpresaDAO {
         return listaEmpresa;
     }
 
-    public Empresa getEmpresa(Integer codEmpresa) {
+    public Empresa getEmpresa(Integer codUsuario) {
         em = ConexaoEntityManager.getInstance();
-        Empresa empresa = em.find(Empresa.class, codEmpresa);
+        Empresa empresa = em.createQuery("FROM Empresa where usuarioEmpresa = "+codUsuario, Empresa.class).getSingleResult();
         return empresa;
     }
 }

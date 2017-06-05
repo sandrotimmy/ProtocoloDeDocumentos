@@ -36,7 +36,7 @@ public class Empresa implements Serializable {
     @Column(length = 10)
     private String cep;
     //Usuario
-    @OneToOne (cascade = CascadeType.ALL)
+    @OneToOne (cascade = CascadeType.REFRESH)
     @JoinColumn(name = "usuarioEmpresa", foreignKey = @ForeignKey(name = "fk_usuario_empresa"))
     private Usuarios usuarioEmpresa;
     //cliente

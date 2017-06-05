@@ -96,11 +96,5 @@ function alterBehaviorModal() {
     });
 }
 
-function isLogado() {
-    var logado = sessionStorage.getItem("Logado");
-    if (logado !== "true") {
-        alert("Você deve logar antes!");
-        window.location.replace("/ProtocoloDeDocumentos/index.html");
-    }
-}
+
 

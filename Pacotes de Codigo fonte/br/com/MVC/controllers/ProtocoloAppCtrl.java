@@ -25,21 +25,28 @@ public class ProtocoloAppCtrl {
         empresa = new Empresa();
         persistEmpresa = new EmpresaDAO();
         usuarioCtrl = new UsuariosCtrl();
-        
-        
+
     }
 
-    public boolean logar(String userName, String password) {
+    public Usuarios logar(String userName, String password) {
         boolean existe = usuarioCtrl.logar(userName, password);
         if (existe) {
             usuario = usuarioCtrl.logarGetUsuario(userName, password);
+            return usuario;
+        } else {
+            return null;
         }
-        return existe;
+
     }
-    
-    public Empresa cadastrarEmpresa(Empresa empresa) {
+
+    public Empresa cadastrarEmpresa(Empresa empresa, int codUsuario) {
+        usuario = usuarioCtrl.getUsuario(codUsuario);
         empresa.setUsuarioEmpresa(usuario);
         empresa = persistEmpresa.cadastrarEmpresa(empresa);
         return empresa;
+    }
+
+    public Empresa getEmpresa(Integer codEmpresa) {
+        return persistEmpresa.getEmpresa(codEmpresa);
     }
 }

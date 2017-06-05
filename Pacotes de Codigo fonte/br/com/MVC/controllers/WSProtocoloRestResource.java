@@ -54,21 +54,21 @@ public class WSProtocoloRestResource {
     public String logar(
             @PathParam("userName") String userName,
             @PathParam("password") String password) {
-        boolean existe = protocoloCtrl.logar(userName, password);
-        String boo = gson.toJson(existe);
-        return boo;
+        Usuarios usuario = protocoloCtrl.logar(userName, password);
+        return gson.toJson(usuario);
     }
 
     @POST
     @Produces("application/json")
-    @Path("empresa/cadastrar/"+
-            "{cnpj}/" + 
-            "{nome}/" + 
-            "{endereco}/" +
-            "{numero}/" +
-            "{bairro}/" +
-            "{cidade}/" +
-            "{cep}")
+    @Path("empresa/cadastrar/"
+            + "{cnpj}/"
+            + "{nome}/"
+            + "{endereco}/"
+            + "{numero}/"
+            + "{bairro}/"
+            + "{cidade}/"
+            + "{cep}/"
+            + "{codUsuario}" )
     public String cadastrarEmpresa(
             @PathParam("cnpj") String cnpj,
             @PathParam("nome") String nome,
@@ -76,14 +76,22 @@ public class WSProtocoloRestResource {
             @PathParam("numero") String numero,
             @PathParam("bairro") String bairro,
             @PathParam("cidade") String cidade,
-            @PathParam("cep") String cep) {
+            @PathParam("cep") String cep,
+            @PathParam("codUsuario") String codUsuario) {
         Empresa empresa = new Empresa(cnpj, nome, endereco, numero, bairro, cidade, cep);
-        empresa = protocoloCtrl.cadastrarEmpresa(empresa);
+        empresa = protocoloCtrl.cadastrarEmpresa(empresa, Integer.parseInt(codUsuario));
         String json = gson.toJson(empresa);
         return json;
     }
-    
-    
+
+    @POST
+    @Produces("application/json")
+    @Path("empresa/getEmpresa/{codUsuario}")
+    public String getEmpresa(@PathParam("codUsuario")String codUsuario) {
+        Empresa empresa = protocoloCtrl.getEmpresa(Integer.parseInt(codUsuario));
+        String json = gson.toJson(empresa);
+        return json;
+    }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
