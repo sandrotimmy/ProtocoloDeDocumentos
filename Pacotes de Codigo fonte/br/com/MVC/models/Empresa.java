@@ -36,7 +36,7 @@ public class Empresa implements Serializable {
     @Column(length = 10)
     private String cep;
     //Usuario
-    @OneToOne
+    @OneToOne (cascade = CascadeType.REFRESH)
     @JoinColumn(name = "usuarioEmpresa", foreignKey = @ForeignKey(name = "fk_usuario_empresa"))
     private Usuarios usuarioEmpresa;
     //cliente
@@ -52,7 +52,18 @@ public class Empresa implements Serializable {
     public Empresa() {
     }
 
-    public Empresa(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa, List<Clientes> listClientes, List<Protocolo> listProtocolos, List<Item> listItens) {
+    public Empresa(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep) {
+        this.cnpj = cnpj;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.numero = numero;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.cep = cep;
+    }
+
+    public Empresa(int idEmpresa, String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa, List<Clientes> listClientes, List<Protocolo> listProtocolos, List<Item> listItens) {
+        this.idEmpresa = idEmpresa;
         this.cnpj = cnpj;
         this.nome = nome;
         this.endereco = endereco;
@@ -66,8 +77,8 @@ public class Empresa implements Serializable {
         this.listItens = listItens;
     }
 
-    public Empresa(int idEmpresa, String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa, List<Clientes> listClientes, List<Protocolo> listProtocolos, List<Item> listItens) {
-        this.idEmpresa = idEmpresa;
+    public Empresa(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa, List<Clientes> listClientes, List<Protocolo> listProtocolos, List<Item> listItens) {
+
         this.cnpj = cnpj;
         this.nome = nome;
         this.endereco = endereco;

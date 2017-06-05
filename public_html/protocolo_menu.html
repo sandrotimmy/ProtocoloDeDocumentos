@@ -8,8 +8,6 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        <!--icone barra do navegador-->
-        <link rel="shortcut icon" href="img/bar_icon.ico" type="image/x-icon" />
         <!--bootstrap e cc-->
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/main.css">
@@ -116,26 +114,26 @@
                                 <span class="glyphicon glyphicon-chevron-down"></span>
                                 <span class="caret"></span></button>
                             <ul class="dropdown-menu">
-                                <li><a href="#" id="btn_empresa" onclick="EditarCadastrarEmpresa()">Alterar Dados</a></li>
+                                <li><a href="#" id="btn_empresa" onclick="ExibirEmpresa()">Alterar Dados</a></li>
                                 <li><a href="#" id="btn_excluirEmpresa" onclick="ExcluirEmpresa()">Excluir</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <label class="formLabelEmpresa">C.N.P.J.: </label>
-                <h3 id="txtCnpjEmpresa" class="formDadosEmpresa">00.000.000/000-00</h3>
+                <h3 id="txtCnpjEmpresa" class="formDadosEmpresa"> </h3>
                 <label class="formLabelEmpresa">Nome: </label>
-                <h3 id="txtNomeEmpresa" class="formDadosEmpresa">Nome aqui</h3>
+                <h3 id="txtNomeEmpresa" class="formDadosEmpresa"> </h3>
                 <label class="formLabelEmpresa">Endereço: </label>
-                <h3 id="txtEnderecoEmpresa" class="formDadosEmpresa">Endereço Aqui</h3>
+                <h3 id="txtEnderecoEmpresa" class="formDadosEmpresa"> </h3>
                 <label class="formLabelEmpresa">Número: </label>
-                <h3 id="txtNumeroEmpresa" class="formDadosEmpresa">999</h3>
+                <h3 id="txtNumeroEmpresa" class="formDadosEmpresa"> </h3>
                 <label class="formLabelEmpresa">Bairro: </label>
-                <h3 id="txtBairroEmpresa" class="formDadosEmpresa">Bairro Aqui</h3>
+                <h3 id="txtBairroEmpresa" class="formDadosEmpresa"> </h3>
                 <label class="formLabelEmpresa">Cidade: </label>
-                <h3 id="txtCidadeEmpresa" class="formDadosEmpresa">Cidade Aqui</h3>
+                <h3 id="txtCidadeEmpresa" class="formDadosEmpresa"> </h3>
                 <label class="formLabelEmpresa">CEP: </label>
-                <h3 id="txtCepEmpresa" class="formDadosEmpresa">00.000-000</h3>
+                <h3 id="txtCepEmpresa" class="formDadosEmpresa"> </h3>
                 <br />
             </div>
             <!-- Modal de Cadastro e alteração da EMPRESA -->
@@ -177,9 +175,9 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="zipCodeEmpresa"><span class="glyphicon"></span> CEP</label>
-                                        <input type="text" class="form-control" id="zipCodeEmpresa" placeholder="Formato 00000-000" maxlength="9">
+                                        <input type="text" class="form-control" id="zipCodeEmpresa" placeholder="Formato 00.000-000" maxlength="10">
                                     </div>
-                                    <button disabled id="btnCadastrarEmp" type="submit" class="btn btn-success btn-block" onclick="EditarEmpresa()" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+                                    <button disabled id="btnCadastrarEmp" type="submit" class="btn btn-success btn-block" onclick="AdicionarEmpresa()" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
                                     <button id="btn_CadEmpresa" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                                 </form>
                             </div>

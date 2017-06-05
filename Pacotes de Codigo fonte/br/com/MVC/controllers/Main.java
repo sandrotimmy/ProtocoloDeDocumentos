@@ -5,7 +5,9 @@
  */
 package br.com.MVC.controllers;
 
+import br.com.MVC.models.Empresa;
 import br.com.MVC.models.Usuarios;
+import com.google.gson.Gson;
 import java.sql.SQLException;
 import javax.persistence.EntityManager;
 
@@ -20,6 +22,14 @@ public class Main {
      * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws SQLException {
-        EntityManager em = ConexaoEntityManager.getInstance();
+        ProtocoloAppCtrl p = new ProtocoloAppCtrl();
+        
+        if (p.logar("sandro", "033238")!=null){
+        
+        Empresa empresa = new Empresa("516546", "sdfsdfsdf", "fgdfgfd", "fgdgfd", "fdfgdf", "fdgdfg", "dfgdf");
+        empresa = p.cadastrarEmpresa(empresa, 02);
+        Gson gson = new Gson();
+        String json = gson.toJson(empresa);
+        }
     }
 }

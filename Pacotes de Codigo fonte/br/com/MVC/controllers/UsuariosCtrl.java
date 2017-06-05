@@ -37,4 +37,17 @@ public class UsuariosCtrl {
         }
         return existe;
     }
+    
+        public Usuarios logarGetUsuario (String userName, String password) {
+        List<Usuarios> listaUsuarios = persistUsuarios.getListaUsuarios();
+
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            String usuarioTemp = listaUsuarios.get(i).getUserName();
+            String senhaTemp = listaUsuarios.get(i).getPassword();
+            if (usuarioTemp.equalsIgnoreCase(userName) && senhaTemp.equalsIgnoreCase(password)) {
+                return listaUsuarios.get(i);
+            }
+        }
+        return null;
+    }
 }
