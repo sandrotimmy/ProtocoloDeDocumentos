@@ -1,0 +1,135 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->  <!--<![endif]-->
+
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--bootstrap-->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <!--css-->
+        <link rel="stylesheet" href="css/main.css">
+        <script type="text/javascript" src="js/vendor/jquery-3.2.0.js"></script>
+        <title>e-Pro</title>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">e-Pro</a>
+                </div>
+
+                <div id="navbar" class="navbar-collapse collapse">
+                    <!--Formulário de login-->
+                    <form class="navbar-form navbar-right" method="POST" role="form">
+                        <!--Campo Nome de Usuario-->
+                        <div class="form-group">
+                            <input id="txtUsuario" type="text" placeholder="Usuário" class="form-control" required>
+                        </div>
+                        <!--Campo Senha-->
+                        <div class="form-group">
+                            <input id="txtPassword" type="password" placeholder="Senha" class="form-control" required>
+                        </div>
+                        <!--Botão Entrar-->
+                        <input id="buttonEnter" type="button" class="btn btn-success" value="Entrar &raquo;" onclick="Logar()">
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main jumbotron com a Tela Inicial -->
+        <div class="jumbotron">
+            <div id="initialScreen" class="container">
+                <h1 id="title">e-Pro</h1>
+                <p id="description">Este é um sistema emissor de protocolos empresariais, instituido com o propósito de controlar a entrega de documentos a clientes.</p>
+                <p><input id="buttonReadMore" type="button" class="btn btn-primary btn-lg" name="readMore" value="Leia Mais &raquo;"></p>
+                <div id="moreInformations" style="display:none">
+                    <p>Com ele é possivel:</p>
+                    <ul> 
+                        <li>Emitir protocolos de entrega</li>
+                        <li>Retornar protocolos Emitidos</li>
+                        <li>Controlar protocolos</li>
+                        <li>Listar protocolos pendentes</li>
+                    </ul> 
+                </div>
+            </div>
+            <form name="formRegister" method="POST" id="formRegister" class="positionFormRegister">
+                <!--nome de usuario-->
+                <div id="alertUsu"></div>
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    <label></label>
+                    <input name="txtName" id="txtNome" type="text" class="form-control" placeholder="Crie seu nome de Usuário" autocomplete="off">
+                </div>
+                <!--email-->
+                <div id="alertEmail"></div>
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    <label></label>
+                    <input name="txtEmail" id="txtEmail" type="text" class="form-control" placeholder="Seu endereço de e-mail" autocomplete="off">
+                </div>
+                <!--senha-->
+                <div id="alertSenha"></div>
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    <label></label>
+                    <input name="txtSenha" id="txtSenha" type="password" class="form-control" placeholder="Crie sua senha" autocomplete="off">
+                </div>
+                <!--botão submit-->
+                <div>
+                    <input id="buttonSubmitRegister" type="submit" class="btn btn-primary btn-lg positionFormRegister" value="Cadastrar no e-Pro &raquo;" onclick="Adicionar()">
+                </div>
+            </form>
+        </div>
+        <footer>
+            <p>&copy; Desenvolvimento WEB 2017</p>
+        </footer>
+
+
+        <!--     Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function (b, o, i, l, e, r) {
+                b.GoogleAnalyticsObject = l;
+                b[l] || (b[l] =
+                        function () {
+                            (b[l].q = b[l].q || []).push(arguments)
+                        });
+                b[l].l = +new Date;
+                e = o.createElement(i);
+                r = o.getElementsByTagName(i)[0];
+                e.src = '//www.google-analytics.com/analytics.js';
+                r.parentNode.insertBefore(e, r)
+            }(window, document, 'script', 'ga'));
+            ga('create', 'UA-XXXXX-X', 'auto');
+            ga('send', 'pageview');
+        </script>
+
+
+        <!--jquery-->
+        <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
+        <!--angular-->
+        <script type="text/javascript" src="js/vendor/angular.min.js"></script>
+        <!--modernizr-->
+        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <!--Validação de login e usuario-->
+        <script type="text/javascript" src="js/validaLoginUser.js"></script>
+        <!--javascript-->
+        <script type="text/javascript" src="js/loginCtrl.js"></script>
+        <!-- /container -->        
+        <!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+            <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.0.js"><\/script>')</script>-->
+        <script>
+            $("#buttonReadMore").click(function () {
+                $("#moreInformations").toggle();
+            });
+        </script>
+    </body>
+</html>
