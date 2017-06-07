@@ -7,7 +7,6 @@
 var operacao = "A"; //"A"=Adição; "E"=Edição
 var indice_selecionado = -1; //Índice do item selecionado na lista
 var tbEmpresa;
-var empresa;
 $(function () {
 
     tbEmpresa = localStorage.getItem("tbEmpresa"); // Recupera os dados armazenados
@@ -20,21 +19,19 @@ function inserirDados() {
     var codUsuario = String(usuario.idUsuarios);
     $.ajax({
         type: "POST",
-        url: "webresources/WSProtocoloRest/empresa/getEmpresa/" + codUsuario,
+        url: "webresources/WSProtocoloRest/empresa/getEmpresa/"+codUsuario,
         contentType: "application/json; charset=utf-8",
         dataType: "JSON",
         async: false,
         success: function (data) {
-            var cnpjTemp = data.cnpj;
-            var cnpj = cnpjTemp.substr(0, 2) + "." + cnpjTemp.substr(2, 3) + "." + cnpjTemp.substr(5, 3) + "/" + cnpjTemp.substr(8, 4) + "-" + cnpjTemp.substr(12, 2);
-            document.getElementById("txtCnpjEmpresa").innerHTML = cnpj;
+            document.getElementById("txtCnpjEmpresa").innerHTML = data.cnpj;
             document.getElementById("txtNomeEmpresa").innerHTML = data.nome;
             document.getElementById("txtEnderecoEmpresa").innerHTML = data.endereco;
             document.getElementById("txtNumeroEmpresa").innerHTML = data.numero;
             document.getElementById("txtBairroEmpresa").innerHTML = data.bairro;
             document.getElementById("txtCidadeEmpresa").innerHTML = data.cidade;
             document.getElementById("txtCepEmpresa").innerHTML = data.cep;
-            empresa = data;
+
         }, error() {
             document.getElementById("txtCnpjEmpresa").innerHTML = "";
             document.getElementById("txtNomeEmpresa").innerHTML = "";
@@ -43,7 +40,7 @@ function inserirDados() {
             document.getElementById("txtBairroEmpresa").innerHTML = "";
             document.getElementById("txtCidadeEmpresa").innerHTML = "";
             document.getElementById("txtCepEmpresa").innerHTML = "";
-            alert("Empresa não cadastrada, insira os Dados!");
+            alert("Erro ao processar a requisição ");
         }
     });
 
@@ -53,8 +50,7 @@ function inserirDados() {
 
 function AdicionarEmpresa() {
     var cnpjTemp = $("#cnpjEmpresa").val();
-//    var cnpj = escape(cnpjTemp);
-    var cnpj = cnpjTemp.replace("/", "").replace(".", "").replace(".", "").replace("-", "");
+    var cnpj = cnpjTemp.replace("/", "");
     var usuario = JSON.parse(sessionStorage.getItem("secaoUsuario"));
     var codUsuario = String(usuario.idUsuarios);
     $.ajax({
@@ -81,8 +77,9 @@ function AdicionarEmpresa() {
             $("#districtEmpresa").val(data.bairro);
             $("#cityEmpresa").val(data.cidade);
             $("#zipCodeEmpresa").val(data.cep);
-            inserirDados();
+
             alert("Empresa Cadastrada Com sucesso!");
+
         }, error() {
             alert("Erro ao processar a requisição ");
         }
@@ -123,10 +120,10 @@ function ExcluirEmpresa() {
 }
 
 function ExibirEmpresa() {
-    if (empresa != null) {
-        var cnpjTemp = empresa.cnpj;
-        var cnpj = cnpjTemp.substr(0, 2) + "." + cnpjTemp.substr(2, 3) + "." + cnpjTemp.substr(5, 3) + "/" + cnpjTemp.substr(8, 4) + "-" + cnpjTemp.substr(12, 2);
-        $("#cnpjEmpresa").val(cnpj);
+    if (tbEmpresa.length > 0) {
+        var empresa = JSON.parse(tbEmpresa[0]);
+        $("#idEmpresa").val(empresa.codigo);
+        $("#cnpjEmpresa").val(empresa.cnpj);
         $("#nomeEmpresa").val(empresa.nome);
         $("#addressEmpresa").val(empresa.endereco);
         $("#numberEmpresa").val(empresa.numero);
