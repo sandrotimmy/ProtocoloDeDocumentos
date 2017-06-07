@@ -39,14 +39,20 @@ public class ProtocoloAppCtrl {
 
     }
 
-    public Empresa cadastrarEmpresa(Empresa empresa, int codUsuario) {
-        usuario = usuarioCtrl.getUsuario(codUsuario);
-        empresa.setUsuarioEmpresa(usuario);
+    public Empresa cadastrarEmpresa(Empresa empresa) {
         empresa = persistEmpresa.cadastrarEmpresa(empresa);
         return empresa;
     }
 
     public Empresa getEmpresa(Integer codEmpresa) {
         return persistEmpresa.getEmpresa(codEmpresa);
+    }
+
+    public Empresa atualizaEmpresa(Empresa empresa) {
+        return persistEmpresa.atualizaEmpresa(empresa);
+    }
+
+    public boolean removeEmpresa(int idEmpresa) {
+        return persistEmpresa.removeEmpresa(idEmpresa);
     }
 }
