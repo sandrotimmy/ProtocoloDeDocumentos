@@ -36,7 +36,7 @@ public class Empresa implements Serializable {
     @Column(length = 10)
     private String cep;
     //Usuario
-    @OneToOne (cascade = CascadeType.REFRESH)
+    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "usuarioEmpresa", foreignKey = @ForeignKey(name = "fk_usuario_empresa"))
     private Usuarios usuarioEmpresa;
     //cliente
@@ -53,6 +53,17 @@ public class Empresa implements Serializable {
     }
 
     public Empresa(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep) {
+        this.cnpj = cnpj;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.numero = numero;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.cep = cep;
+    }
+
+    public Empresa(int idEmpresa, String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep) {
+        this.idEmpresa = idEmpresa;
         this.cnpj = cnpj;
         this.nome = nome;
         this.endereco = endereco;

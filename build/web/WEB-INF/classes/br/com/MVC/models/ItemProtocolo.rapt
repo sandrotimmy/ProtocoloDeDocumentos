@@ -1,3 +1,6 @@
 br/com/MVC/models/Clientes_.java
+br/com/MVC/models/Item_.java
+br/com/MVC/models/Usuarios_.java
 br/com/MVC/models/ItemProtocolo_.java
+br/com/MVC/models/Empresa_.java
 br/com/MVC/models/Protocolo_.java
