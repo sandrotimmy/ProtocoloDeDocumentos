@@ -8,6 +8,7 @@ var operacao = "A"; //"A"=Adição; "E"=Edição
 var indice_selecionado = -1; //Índice do item selecionado na lista
 var tbClientes;
 
+
 $(function () {
 
     tbClientes = localStorage.getItem("tbClientes");// Recupera os dados armazenados
@@ -15,18 +16,53 @@ $(function () {
     if (tbClientes == null) // Caso não haja conteúdo, iniciamos um vetor vazio
         tbClientes = [];
 });
-function AdicionarCliente() {
 
-    var cod = GerarIdCli();
-    var cliente = JSON.stringify({
-        codigo: cod,
-        cnpj: $("#cnpjClient").val(),
+function AdicionarCliente() {
+    var cnpjTemp = $("#cnpjClient").val();
+    var cnpj = cnpjTemp.replace("/", "").replace(".", "").replace(".", "").replace("-", "");
+
+    var dataJson = JSON.stringify({
+        cnpj: cnpj,
         nome: $("#nomeClient").val(),
         endereco: $("#addressClient").val(),
         numero: $("#numberClient").val(),
         bairro: $("#districtClient").val(),
         cidade: $("#cityClient").val(),
-        cep: $("#zipCodeClient").val()
+        cep: $("#zipCodeClient").val(),
+        empresaCliente: empresa
+    });
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/clientes/cadastrar",
+        contentType: "application/json; charset=utf-8",
+        data: dataJson,
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            $("#idEmpresa").val(data.codigo);
+            $("#cnpjEmpresa").val(data.cnpj);
+            $("#nomeEmpresa").val(data.nome);
+            $("#addressEmpresa").val(data.endereco);
+            $("#numberEmpresa").val(data.numero);
+            $("#districtEmpresa").val(data.bairro);
+            $("#cityEmpresa").val(data.cidade);
+            $("#zipCodeEmpresa").val(data.cep);
+            inserirDados();
+            alert("Cliente Cadastrado com sucesso!");
+        }, error() {
+            alert("Erro ao processar a requisição ");
+        }
+    });
+    var cod = GerarIdCli();
+    var cliente = JSON.stringify({
+//        codigo: cod,
+//        cnpj: $("#cnpjClient").val(),
+//        nome: $("#nomeClient").val(),
+//        endereco: $("#addressClient").val(),
+//        numero: $("#numberClient").val(),
+//        bairro: $("#districtClient").val(),
+//        cidade: $("#cityClient").val(),
+//        cep: $("#zipCodeClient").val()
     });
     var igual = false;
     for (var i = 0; i < tbClientes.length; i++) {
@@ -35,19 +71,19 @@ function AdicionarCliente() {
         var nomeTemp = clienteTemp.Nome;
         var cnpjTemp = clienteTemp.cnpj;
         if (cnpjTemp === clientCnpj) {
-                igual = true;
-                break;  
+            igual = true;
+            break;
         }
     }
     if (igual == true) {
         alert("Cliente ja cadastrado, cadastro não realizado!")
         return false;
-    }else{
+    } else {
         tbClientes.push(cliente);
         localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
         alert("Cliente " + cod + " Cadastrado com Sucesso!");
         $("#myModal").modal(".close");
-        ListarClientes();  
+        ListarClientes();
     }
 }
 
@@ -169,6 +205,34 @@ function ListarClientes() {
             "<tbody>" +
             "</tbody>"
             );
+    
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/empresa/getListaCLientes/" + empresa.idEmpresa,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            if (data != null) {
+                data.forEach(function (each) {
+
+                    $("#tblListarClientes tbody").append("<tr class=\"active\">");
+                    $("#tblListarClientes tbody").append("<td>" + each.idCliente + "</td>");
+                    $("#tblListarClientes tbody").append("<td>" + each.cnpj + "</td>");
+                    $("#tblListarClientes tbody").append("<td>" + each.nome + "</td>");
+                    $("#tblListarClientes tbody").append("<td>" + each.cidade + "</td>");
+                    $("#tblListarClientes tbody").append("<td> <button id=\"btn_clientes_Edit\" type=\"button\" class=\"btn btn-primary actionModal\" onclick=\"ExibirCliente(" + cli.codigo + ")\" title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span>\
+                                             <button class=\"btn btn-primary\" onclick=\"ExcluirCliente(" + cli.codigo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+                    // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
+
+                    $("#tblListarClientes tbody").append("</tr>");
+                });
+            } else {
+
+            }
+        }
+    });
+
     for (var i in tbClientes) {
         var cli = JSON.parse(tbClientes[i]);
         $("#tblListarClientes tbody").append("<tr class=\"active\">");

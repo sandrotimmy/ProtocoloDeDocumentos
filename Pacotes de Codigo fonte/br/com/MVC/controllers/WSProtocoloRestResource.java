@@ -1,11 +1,9 @@
 package br.com.MVC.controllers;
 
+import br.com.MVC.models.Clientes;
 import br.com.MVC.models.Empresa;
 import br.com.MVC.models.Usuarios;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -13,7 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,17 +32,6 @@ public class WSProtocoloRestResource {
         gson = new Gson();
     }
 
-//    @POST
-//    @Produces("application/json")
-//    @Path("usuarios/cadastrar/{userName}/{email}/{password}")
-//    public String cadastrarUsuarios(
-//            @PathParam("userName") String userName,
-//            @PathParam("email") String email,
-//            @PathParam("password") String password) {
-//        Usuarios usuario = new Usuarios(userName, email, password);
-//        usuario = usuariosCtrl.cadastrarUsuario(usuario);
-//        return gson.toJson(usuario);
-//    }
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("usuarios/cadastrar")
@@ -111,8 +97,14 @@ public class WSProtocoloRestResource {
         return result;
     }
 
-    @PUT
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void putJson(String content) {
+    @Path("clientes/cadastrar")
+    public String cadastrarCliente(String cliente) {
+        Clientes clientesJson = (Clientes) gson.fromJson(cliente, Clientes.class);
+        Clientes clienteCadastrado = protocoloCtrl.cadastrarCliente(clientesJson);
+        String json = gson.toJson(clienteCadastrado);
+        return json;
     }
 }

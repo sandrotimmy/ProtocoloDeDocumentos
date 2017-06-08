@@ -36,17 +36,17 @@ public class Empresa implements Serializable {
     @Column(length = 10)
     private String cep;
     //Usuario
-    @OneToOne(cascade = CascadeType.REFRESH)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "usuarioEmpresa", foreignKey = @ForeignKey(name = "fk_usuario_empresa"))
     private Usuarios usuarioEmpresa;
     //cliente
-    @OneToMany(mappedBy = "empresaCliente", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "empresaCliente", fetch = FetchType.EAGER)
     private List<Clientes> listClientes;
     //Protocolo
-    @OneToMany(mappedBy = "empresaProtocolo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "empresaProtocolo", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Protocolo> listProtocolos;
     //Item
-    @OneToMany(mappedBy = "empresaItem", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "empresaItem", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Item> listItens;
 
     public Empresa() {

@@ -74,6 +74,16 @@ public class Clientes {
         this.empresaCliente = empresaCliente;
         this.listProtocolo = listProtocolo;
     }
+    public Clientes(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Empresa empresaCliente) {
+        this.cnpj = cnpj;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.numero = numero;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.cep = cep;
+        this.empresaCliente = empresaCliente;
+    }
 
     public int getIdCliente() {
         return idCliente;
