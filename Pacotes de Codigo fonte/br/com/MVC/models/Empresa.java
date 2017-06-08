@@ -36,17 +36,17 @@ public class Empresa implements Serializable {
     @Column(length = 10)
     private String cep;
     //Usuario
-    @OneToOne(cascade = CascadeType.REFRESH)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "usuarioEmpresa", foreignKey = @ForeignKey(name = "fk_usuario_empresa"))
     private Usuarios usuarioEmpresa;
-    //cliente
-    @OneToMany(mappedBy = "empresaCliente", fetch = FetchType.LAZY)
-    private List<Clientes> listClientes;
+//    //cliente
+//    @OneToMany(mappedBy = "empresaCliente", fetch = FetchType.EAGER)
+//    private List<Clientes> listClientes;
     //Protocolo
-    @OneToMany(mappedBy = "empresaProtocolo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "empresaProtocolo", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Protocolo> listProtocolos;
     //Item
-    @OneToMany(mappedBy = "empresaItem", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "empresaItem", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Item> listItens;
 
     public Empresa() {
@@ -83,12 +83,12 @@ public class Empresa implements Serializable {
         this.cidade = cidade;
         this.cep = cep;
         this.usuarioEmpresa = usuarioEmpresa;
-        this.listClientes = listClientes;
+//        this.listClientes = listClientes;
         this.listProtocolos = listProtocolos;
         this.listItens = listItens;
     }
 
-    public Empresa(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa, List<Clientes> listClientes, List<Protocolo> listProtocolos, List<Item> listItens) {
+    public Empresa(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa, List<Protocolo> listProtocolos, List<Item> listItens) {
 
         this.cnpj = cnpj;
         this.nome = nome;
@@ -98,7 +98,7 @@ public class Empresa implements Serializable {
         this.cidade = cidade;
         this.cep = cep;
         this.usuarioEmpresa = usuarioEmpresa;
-        this.listClientes = listClientes;
+//        this.listClientes = listClientes;
         this.listProtocolos = listProtocolos;
         this.listItens = listItens;
     }
@@ -139,9 +139,9 @@ public class Empresa implements Serializable {
         return usuarioEmpresa;
     }
 
-    public List<Clientes> getListClientes() {
-        return listClientes;
-    }
+//    public List<Clientes> getListClientes() {
+//        return listClientes;
+//    }
 
     public List<Protocolo> getListProtocolos() {
         return listProtocolos;
@@ -188,7 +188,7 @@ public class Empresa implements Serializable {
     }
 
     public void setListClientes(List<Clientes> listClientes) {
-        this.listClientes = listClientes;
+//        this.listClientes = listClientes;
     }
 
     public void setListProtocolos(List<Protocolo> listProtocolos) {

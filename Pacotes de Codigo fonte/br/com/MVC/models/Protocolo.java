@@ -34,15 +34,15 @@ public class Protocolo {
     @Column(length = 255)
     private String observacoes;
     //Empresa
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "empresaProtocolo", foreignKey = @ForeignKey(name = "fk_empresa_protocolo"))
     Empresa empresaProtocolo;
     //Cliente
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "clienteProtocolo", foreignKey = @ForeignKey(name = "fk_cliente_protocolo"))
     Clientes clienteProtocolo;
     //ItemProtocolo
-    @OneToMany(mappedBy = "protocoloItemProtocolo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "protocoloItemProtocolo", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<ItemProtocolo> protocoloItemProtocolo;
 
     public Protocolo() {

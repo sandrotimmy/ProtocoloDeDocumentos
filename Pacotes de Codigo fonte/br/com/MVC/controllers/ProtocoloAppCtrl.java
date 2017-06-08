@@ -5,9 +5,12 @@
  */
 package br.com.MVC.controllers;
 
+import br.com.MVC.DAO.ClientesDAO;
 import br.com.MVC.DAO.EmpresaDAO;
+import br.com.MVC.models.Clientes;
 import br.com.MVC.models.Empresa;
 import br.com.MVC.models.Usuarios;
+import java.util.List;
 
 /**
  *
@@ -19,12 +22,16 @@ public class ProtocoloAppCtrl {
     Empresa empresa;
     EmpresaDAO persistEmpresa;
     UsuariosCtrl usuarioCtrl;
+    Clientes cliente;
+    ClientesDAO persistClientes;
 
     public ProtocoloAppCtrl() {
         usuario = new Usuarios();
         empresa = new Empresa();
         persistEmpresa = new EmpresaDAO();
         usuarioCtrl = new UsuariosCtrl();
+        cliente = new Clientes();
+        persistClientes = new ClientesDAO();
 
     }
 
@@ -44,8 +51,8 @@ public class ProtocoloAppCtrl {
         return empresa;
     }
 
-    public Empresa getEmpresa(Integer codEmpresa) {
-        return persistEmpresa.getEmpresa(codEmpresa);
+    public Empresa getEmpresa(Integer codUsuario) {
+        return persistEmpresa.getEmpresa(codUsuario);
     }
 
     public Empresa atualizaEmpresa(Empresa empresa) {
@@ -55,4 +62,22 @@ public class ProtocoloAppCtrl {
     public boolean removeEmpresa(int idEmpresa) {
         return persistEmpresa.removeEmpresa(idEmpresa);
     }
+
+    public Clientes cadastrarCliente(Clientes cliente) {
+        cliente = persistClientes.cadastrarCliente(cliente);
+        return cliente;
+    }
+
+    public List getListaClientes (int codEmpresa){
+    return persistClientes.getListaClientes(codEmpresa);
+    }
+    
+    public boolean atualizaCliente(Clientes cliente) {
+        return persistClientes.atualizaCliente(cliente);
+    }
+    
+    public boolean removeCliente(int idCliente) {
+        return persistClientes.removeCliente(idCliente);
+    }
+    
 }

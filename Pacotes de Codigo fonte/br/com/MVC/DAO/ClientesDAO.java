@@ -18,11 +18,11 @@ import javax.swing.JOptionPane;
  * @author Sandro Machado
  */
 public class ClientesDAO {
-        private EntityManager em;
-    private final ArrayList<Clientes> listaClientes;
+
+    private EntityManager em;
 
     public ClientesDAO() {
-        this.listaClientes = new ArrayList();
+
     }
 
     public Clientes cadastrarCliente(Clientes cliente) {
@@ -36,7 +36,7 @@ public class ClientesDAO {
         return cliente;
     }
 
-    public void atualizaCliente(Clientes cliente) {
+    public boolean atualizaCliente(Clientes cliente) {
         if (cliente != null) {
             em = ConexaoEntityManager.getInstance();
             em.getTransaction().begin();
@@ -44,7 +44,7 @@ public class ClientesDAO {
             em.getTransaction().commit();
             em.close();
         }
-        JOptionPane.showMessageDialog(null, "Cliente Atualizado com Sucesso!");
+        return true;
     }
 
     public boolean removeCliente(int idCliente) {
@@ -65,9 +65,9 @@ public class ClientesDAO {
         return true;
     }
 
-    public List getListaClientes() {
+    public List getListaClientes(int codEmpresa) {
         em = ConexaoEntityManager.getInstance();
-        List listaClientes = em.createQuery("FROM Clientes", Clientes.class).getResultList();
+        List listaClientes = em.createQuery("FROM Clientes where empresaCliente = " + codEmpresa, Clientes.class).getResultList();
         return listaClientes;
     }
 
