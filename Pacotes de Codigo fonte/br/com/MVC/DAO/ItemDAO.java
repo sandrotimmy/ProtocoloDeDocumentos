@@ -19,10 +19,8 @@ import javax.swing.JOptionPane;
  */
 public class ItemDAO {
         private EntityManager em;
-    private final ArrayList<Item> listaItem;
 
     public ItemDAO() {
-        this.listaItem = new ArrayList();
     }
 
     public Item cadastrarItem(Item item) {
@@ -36,7 +34,7 @@ public class ItemDAO {
         return item;
     }
 
-    public void atualizaItem(Item item) {
+    public boolean atualizaItem(Item item) {
         if (item != null) {
             em = ConexaoEntityManager.getInstance();
             em.getTransaction().begin();
@@ -44,7 +42,7 @@ public class ItemDAO {
             em.getTransaction().commit();
             em.close();
         }
-        JOptionPane.showMessageDialog(null, "Item Atualizado com Sucesso!");
+        return true;
     }
 
     public boolean removeItem(int idItem) {
@@ -65,9 +63,9 @@ public class ItemDAO {
         return true;
     }
 
-    public List getListaItem() {
+    public List getListaItem(int idEmpresa) {
         em = ConexaoEntityManager.getInstance();
-        List listaItem = em.createQuery("FROM Item", Item.class).getResultList();
+        List listaItem = em.createQuery("FROM Item where empresaItem = " + idEmpresa, Item.class).getResultList();
         return listaItem;
     }
 

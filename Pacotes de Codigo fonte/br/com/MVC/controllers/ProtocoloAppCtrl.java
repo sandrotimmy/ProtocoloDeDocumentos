@@ -7,8 +7,12 @@ package br.com.MVC.controllers;
 
 import br.com.MVC.DAO.ClientesDAO;
 import br.com.MVC.DAO.EmpresaDAO;
+import br.com.MVC.DAO.ItemDAO;
+import br.com.MVC.DAO.ProtocoloDAO;
 import br.com.MVC.models.Clientes;
 import br.com.MVC.models.Empresa;
+import br.com.MVC.models.Item;
+import br.com.MVC.models.Protocolo;
 import br.com.MVC.models.Usuarios;
 import java.util.List;
 
@@ -24,6 +28,10 @@ public class ProtocoloAppCtrl {
     UsuariosCtrl usuarioCtrl;
     Clientes cliente;
     ClientesDAO persistClientes;
+    Item item;
+    ItemDAO persistItem;
+    Protocolo protocolo;
+    ProtocoloDAO persistProtocolo;
 
     public ProtocoloAppCtrl() {
         usuario = new Usuarios();
@@ -32,7 +40,10 @@ public class ProtocoloAppCtrl {
         usuarioCtrl = new UsuariosCtrl();
         cliente = new Clientes();
         persistClientes = new ClientesDAO();
-
+        item = new Item();
+        persistItem = new ItemDAO();
+        protocolo = new Protocolo();
+        persistProtocolo = new ProtocoloDAO();
     }
 
     public Usuarios logar(String userName, String password) {
@@ -68,16 +79,35 @@ public class ProtocoloAppCtrl {
         return cliente;
     }
 
-    public List getListaClientes (int codEmpresa){
-    return persistClientes.getListaClientes(codEmpresa);
+    public List getListaClientes(int codEmpresa) {
+        return persistClientes.getListaClientes(codEmpresa);
     }
-    
+
     public boolean atualizaCliente(Clientes cliente) {
         return persistClientes.atualizaCliente(cliente);
     }
-    
+
     public boolean removeCliente(int idCliente) {
         return persistClientes.removeCliente(idCliente);
     }
+
+    public Item cadastrarItem(Item item) {
+        return persistItem.cadastrarItem(item);
+    }
+
+    public List getListaItem(int codEmpresa) {
+        return persistItem.getListaItem(codEmpresa);
+    }
+
+    public boolean atualizaItem(Item item) {
+        return persistItem.atualizaItem(item);
+    }
+
+    public boolean removeItem(int idItem) {
+        return persistItem.removeItem(idItem);
+    }
     
+    public int getProximoCodProtocolo() {
+        return persistProtocolo.getProximoCodProtocolo();
+    }
 }

@@ -28,10 +28,10 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         ProtocoloAppCtrl p = new ProtocoloAppCtrl();
         Gson g = new Gson();
-        List<Clientes> listClientes = p.getListaClientes(Integer.parseInt("7"));
-        String json = g.toJson(listClientes);
+        Empresa empresa = p.getEmpresa(9);
+        String json = g.toJson(empresa);
 
-        System.out.println(g.toJson(listClientes));
+        System.out.println(g.toJson(empresa));
         System.out.println("");
         System.out.println("");
         System.out.println("");

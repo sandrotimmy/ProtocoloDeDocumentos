@@ -5,6 +5,7 @@
  */
 package br.com.MVC.models;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +20,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-public class Clientes {
+public class Clientes implements Serializable {
 
     @Id
     @GeneratedValue(generator = "s_cliente")

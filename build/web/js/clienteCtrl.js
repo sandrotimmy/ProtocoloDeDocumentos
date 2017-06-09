@@ -27,16 +27,8 @@ function AdicionarCliente() {
         dataType: "json",
         async: false,
         success: function (data) {
-            $("#idEmpresa").val(data.codigo);
-            $("#cnpjEmpresa").val(data.cnpj);
-            $("#nomeEmpresa").val(data.nome);
-            $("#addressEmpresa").val(data.endereco);
-            $("#numberEmpresa").val(data.numero);
-            $("#districtEmpresa").val(data.bairro);
-            $("#cityEmpresa").val(data.cidade);
-            $("#zipCodeEmpresa").val(data.cep);
-            inserirDados();
             alert("Cliente Cadastrado com sucesso!");
+            ListarClientes();
         }, error() {
             alert("Erro ao processar a requisição ");
         }
@@ -75,7 +67,7 @@ function EditarCliente(id) {
                 dataType: "json",
                 async: false,
                 success: function (data) {
-                    inserirDados();
+                    ListarClientes();
                     alert("Cliente Atualizado com sucesso!");
                 }, error() {
                     alert("Erro ao processar a requisição!");
@@ -119,22 +111,6 @@ function ExibirCliente(id) {
             return;
         }
     });
-}
-
-//Carregar os clientes na comboBox para seleção no protocolo
-function ListaClientesProtocolo() {
-    var select = document.getElementById("clienteProtocolo");
-    if (select.length <= 1) {
-        for (var i = 0; i < tbClientes.length; i++) {
-            var cli = JSON.parse(tbClientes[i]);
-            var opt = cli.nome;
-            var val = cli.codigo;
-            var el = document.createElement("option");
-            el.textContent = opt;
-            el.value = val;
-            select.appendChild(el);
-        }
-    }
 }
 
 function ListarClientes() {

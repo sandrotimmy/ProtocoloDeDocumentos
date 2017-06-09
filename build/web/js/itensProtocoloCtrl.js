@@ -7,45 +7,41 @@
 var operacao = "A"; //"A"=Adição; "E"=Edição
 var indice_selecionado = -1; //Índice do itemProtocolo selecionado na lista
 var tbItensProtocolo;
+var item;
 
 $(function () {
-
-    tbItensProtocolo = localStorage.getItem("tbItensProtocolo");// Recupera os dados armazenados
-    tbItensProtocolo = JSON.parse(tbItensProtocolo); // Converte string para objeto
-    if (tbItensProtocolo == null) // Caso não haja conteúdo, iniciamos um vetor vazio
-        tbItensProtocolo = [];
+    tbItensProtocolo = [];
 });
 
-function AdicionarItemProt(codProtocolo) {
-    var selectItem = document.getElementById("itemProtocolo");
+
+function adicionarItemProt(codProtocolo) {
+
     var temp = $("#itemProtocolo").val();
     if (temp != "") {
-
         var select = document.getElementById("itemProtocolo");
         var itemSelecionado = select.options[select.selectedIndex].value;
         var item = localizaItem(itemSelecionado);
-        var codItemProtocolo = GerarIdItemProtocolo();
-        if (document.getElementById("idProtocolo").value == "") {
-            codProtocolo = GerarIdProtocolo();
-        } else {
-            codProtocolo = document.getElementById("idProtocolo").value;
-        }
 
         var itemProtocolo = JSON.stringify({
-            codigo: codItemProtocolo,
-            codProtocolo: codProtocolo,
             nome: item.nome,
             tipo: item.tipo,
             retorno: item.retorno
         });
         tbItensProtocolo.push(itemProtocolo);
-        localStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
+        window.sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
         ListarItensProtocolo(codProtocolo);
     } else {
         alert("Você deve Selecionar um Item para adicionar!");
     }
 }
 
+function localizaItem(codItem) {
+    listItens.some(function (each, index) {
+        if (each.idItem == codItem) {
+            return each;
+        }
+    });
+}
 //Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
 // Nao devemos re-usar IDs
 function GerarIdItemProtocolo() {

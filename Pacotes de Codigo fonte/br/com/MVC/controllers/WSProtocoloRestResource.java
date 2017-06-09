@@ -2,6 +2,7 @@ package br.com.MVC.controllers;
 
 import br.com.MVC.models.Clientes;
 import br.com.MVC.models.Empresa;
+import br.com.MVC.models.Item;
 import br.com.MVC.models.Usuarios;
 import com.google.gson.Gson;
 import java.util.List;
@@ -136,6 +137,56 @@ public class WSProtocoloRestResource {
         JSONObject clienteJson = new JSONObject(idCliente);
         int idClienteJson = clienteJson.getInt("idCliente");
         String result = gson.toJson(protocoloCtrl.removeCliente(idClienteJson));
+        return result;
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("itens/cadastrar")
+    public String cadastrarItem(String item) {
+        Item itemJson = (Item) gson.fromJson(item, Item.class);
+        Item itemCadastrado = protocoloCtrl.cadastrarItem(itemJson);
+        String json = gson.toJson(itemCadastrado);
+        return json;
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("itens/getListaItens/{codEmpresa}")
+    public String getListItens(@PathParam("codEmpresa") String codEmpresa) {
+        List<Item> listItens = protocoloCtrl.getListaItem(Integer.parseInt(codEmpresa));
+        String json = gson.toJson(listItens);
+        return json;
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("itens/atualizar")
+    public String atualizaItem(String item) {
+        Item itemJson = (Item) gson.fromJson(item, Item.class);
+        return gson.toJson(protocoloCtrl.atualizaItem(itemJson));
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("itens/excluir")
+    public String removeItem(String idItem) throws JSONException {
+        JSONObject itemJson = new JSONObject(idItem);
+        int idItemJson = itemJson.getInt("idItem");
+        String result = gson.toJson(protocoloCtrl.removeItem(idItemJson));
+        return result;
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("protocolos/getProximoCodProtocolo")
+    public String getProximoCodProtocolo() throws JSONException {
+        String result = gson.toJson(protocoloCtrl.getProximoCodProtocolo());
         return result;
     }
 }

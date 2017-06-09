@@ -23,10 +23,10 @@
         <!--scripts-->
         <script type="text/javascript" src="js/loginCtrl.js"></script>
         <script type="text/javascript" src="js/protocolo_interface_ctrl.js"></script>
-        <script type="text/javascript" src="js/itensCtrl.js"></script>
         <script type="text/javascript" src="js/empresaCtrl.js"></script>
         <script type="text/javascript" src="js/clienteCtrl.js"></script>
         <script type="text/javascript" src="js/protocoloCtrl.js"></script>
+        <script type="text/javascript" src="js/itensCtrl.js"></script>
         <script type="text/javascript" src="js/reciboCtrl.js"></script>
         <script type="text/javascript" src="js/itensProtocoloCtrl.js"></script>
         <script type="text/javascript" src="js/validaProtocolos.js"></script>
@@ -97,7 +97,7 @@
                     <li><a class="icon-bar " href="#" onclick="removeAddElements(0)">Home</a></li>
                     <li><a class="icon-bar " href="#" onclick="removeAddElements(1), ListarClientes()">Clientes</a></li>
                     <li><a class="icon-bar " href="#" onclick="removeAddElements(2), ListarItens()">Itens</a></li>
-                    <li><a class="icon-bar " href="#" onclick="removeAddElements(3), ListarProtocolos(), ListaClientesProtocolo(), ListaItensProtocolo()">Protocolo</a></li>
+                    <li><a class="icon-bar " href="#" onclick="removeAddElements(3), ListarProtocolos(), ListaClientesProtocolo(), preencherComboItens()">Protocolo</a></li>
                 </ul>
             </div>
         </nav>

@@ -45,9 +45,9 @@ public class Empresa implements Serializable {
     //Protocolo
     @OneToMany(mappedBy = "empresaProtocolo", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Protocolo> listProtocolos;
-    //Item
-    @OneToMany(mappedBy = "empresaItem", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private List<Item> listItens;
+//    //Item
+//    @OneToMany(mappedBy = "empresaItem", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+//    private List<Item> listItens;
 
     public Empresa() {
     }
@@ -73,7 +73,7 @@ public class Empresa implements Serializable {
         this.cep = cep;
     }
 
-    public Empresa(int idEmpresa, String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa, List<Clientes> listClientes, List<Protocolo> listProtocolos, List<Item> listItens) {
+    public Empresa(int idEmpresa, String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa, List<Protocolo> listProtocolos) {
         this.idEmpresa = idEmpresa;
         this.cnpj = cnpj;
         this.nome = nome;
@@ -83,12 +83,10 @@ public class Empresa implements Serializable {
         this.cidade = cidade;
         this.cep = cep;
         this.usuarioEmpresa = usuarioEmpresa;
-//        this.listClientes = listClientes;
         this.listProtocolos = listProtocolos;
-        this.listItens = listItens;
     }
 
-    public Empresa(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa, List<Protocolo> listProtocolos, List<Item> listItens) {
+    public Empresa(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa, List<Protocolo> listProtocolos) {
 
         this.cnpj = cnpj;
         this.nome = nome;
@@ -98,9 +96,8 @@ public class Empresa implements Serializable {
         this.cidade = cidade;
         this.cep = cep;
         this.usuarioEmpresa = usuarioEmpresa;
-//        this.listClientes = listClientes;
         this.listProtocolos = listProtocolos;
-        this.listItens = listItens;
+
     }
 
     public int getIdEmpresa() {
@@ -139,16 +136,8 @@ public class Empresa implements Serializable {
         return usuarioEmpresa;
     }
 
-//    public List<Clientes> getListClientes() {
-//        return listClientes;
-//    }
-
     public List<Protocolo> getListProtocolos() {
         return listProtocolos;
-    }
-
-    public List<Item> getListItens() {
-        return listItens;
     }
 
     public void setIdEmpresa(int idEmpresa) {
@@ -193,10 +182,6 @@ public class Empresa implements Serializable {
 
     public void setListProtocolos(List<Protocolo> listProtocolos) {
         this.listProtocolos = listProtocolos;
-    }
-
-    public void setListItens(List<Item> listItens) {
-        this.listItens = listItens;
     }
 
     @Override

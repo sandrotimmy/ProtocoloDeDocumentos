@@ -19,12 +19,25 @@ import javax.swing.JOptionPane;
  */
 public class ProtocoloDAO {
         private EntityManager em;
-    private final ArrayList<Protocolo> listaProtocolo;
 
     public ProtocoloDAO() {
-        this.listaProtocolo = new ArrayList();
+
     }
 
+        //Métodos do Cadastro de Historicos
+    public int getProximoCodProtocolo() {
+        em = ConexaoEntityManager.getInstance();
+        int posicao;
+        Object ultimo;
+        ultimo = em.createNativeQuery("SELECT max(idProtocolo) as idProtocolo from protocolo").getSingleResult();
+        if (ultimo == null) {
+            posicao = 1;
+        } else {
+            posicao = Integer.parseInt(ultimo.toString()) + 1;
+        }
+        return posicao;
+    }
+    
     public Protocolo cadastrarProtocolo(Protocolo protocolo) {
 
         em = ConexaoEntityManager.getInstance();

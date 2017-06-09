@@ -1,5 +1,6 @@
 package br.com.MVC.models;
 
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-public class ItemProtocolo {
+public class ItemProtocolo implements Serializable {
 
     @Id
     @GeneratedValue(generator = "s_itemProtocolo")
