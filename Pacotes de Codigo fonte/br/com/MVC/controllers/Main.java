@@ -29,9 +29,10 @@ public class Main {
      * @throws java.sql.SQLException
      */
     public static void main(String[] args) {
-        
-        EntityManager em = ConexaoEntityManager.getInstance();
-        
-        em.clear();
+        ProtocoloAppCtrl protocoloCtrl = new ProtocoloAppCtrl();
+        Protocolo protocolo = protocoloCtrl.getProtocolo(Integer.parseInt("1"));
+        Gson g = new Gson();
+        String temp = g.toJson(protocolo);
+        System.out.println(temp);
     }
 }

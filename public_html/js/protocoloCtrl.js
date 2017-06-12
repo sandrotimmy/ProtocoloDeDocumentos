@@ -9,24 +9,24 @@ var cliente;
 var clienteSelect;
 var listProtocolos;
 
-function GeraId() {
-    $.ajax({
-        type: "POST",
-        url: "webresources/WSProtocoloRest/protocolos/getProximoCodProtocolo",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            listClientes = data;
-            if (data != null) {
-                codNovoProtocolo = data;
-            }
-        }
-    });
-}
+//function GeraId() {
+//    $.ajax({
+//        type: "POST",
+//        url: "webresources/WSProtocoloRest/protocolos/getProximoCodProtocolo",
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        async: false,
+//        success: function (data) {
+//            listClientes = data;
+//            if (data != null) {
+//                codNovoProtocolo = data;
+//            }
+//        }
+//    });
+//}
 
 function AdicionarProtocolo() {
-    $("#idProtocolo").val(codNovoProtocolo);
+//    $("#idProtocolo").val(codNovoProtocolo);
     var select = document.getElementById("clienteProtocolo");
     var codCliente = select.options[select.selectedIndex].value;
 
@@ -52,10 +52,14 @@ function AdicionarProtocolo() {
             ListarProtocolos();
             tbItensProtocolo = [];
             sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
+            var idTemp = data.idProtocolo;
+            enviaDadosRecibo(idTemp);
+            limparTabela();
         }, error() {
             alert("Erro ao processar a requisição ");
         }
     });
+
 //    $("#idProtocolo").val(codNovoProtocolo);
 //    var select = document.getElementById("clienteProtocolo");
 //    var clienteSelecionado = select.options[select.selectedIndex].value;
@@ -67,7 +71,7 @@ function AdicionarProtocolo() {
 //    localStorage.setItem("tbProtocolos", JSON.stringify(tbProtocolos));
 //    alert("Protocolo " + codNovoProtocolo + " Cadastrado com Sucesso!");
 //    ListarProtocolos();
-//    enviaDadosRecibo(codNovoProtocolo);
+
 }
 
 function getCliente(codCliente) {
@@ -88,24 +92,24 @@ function getCliente(codCliente) {
 }
 
 function enviaDadosRecibo(codProtocolo) {
+    gerarRecibo(codProtocolo);
+//    var protocolo = passaDadosProtocolo(codProtocolo);
+//    var empresa = passaDadosEmpresa();
+//    var cliente = passaDadosCliente(protocolo.codCliente);
+//
+//    var dadosRec = JSON.stringify({
+//        dadosProtocoloCod: protocolo.codigo,
+//        dadosEmpresaCnpj: empresa.cnpjEmpresa,
+//        dadosEmpresaNome: empresa.nomeEmpresa,
+//        dadosEmpresaEndereco: empresa.enderecoEmpresa,
+//        dadosEmpresaNumero: empresa.numeroEmpresa,
+//        dadosEmpresaBairro: empresa.bairroEmpresa,
+//        dadosEmpresaCidade: empresa.cidadeEmpresa,
+//        dadosClienteNome: cliente.nome,
+//        dadosProtocoloObservacoes: protocolo.observacoes
+//    });
+//    sessionStorage.setItem("dadosRecibo", dadosRec);
 
-    var protocolo = passaDadosProtocolo(codProtocolo);
-    var empresa = passaDadosEmpresa();
-    var cliente = passaDadosCliente(protocolo.codCliente);
-
-    var dadosRec = JSON.stringify({
-        dadosProtocoloCod: protocolo.codigo,
-        dadosEmpresaCnpj: empresa.cnpjEmpresa,
-        dadosEmpresaNome: empresa.nomeEmpresa,
-        dadosEmpresaEndereco: empresa.enderecoEmpresa,
-        dadosEmpresaNumero: empresa.numeroEmpresa,
-        dadosEmpresaBairro: empresa.bairroEmpresa,
-        dadosEmpresaCidade: empresa.cidadeEmpresa,
-        dadosClienteNome: cliente.nome,
-        dadosProtocoloObservacoes: protocolo.observacoes
-    });
-    sessionStorage.setItem("dadosRecibo", dadosRec);
-    gerarRecibo();
 
 }
 
@@ -118,26 +122,41 @@ function EditarCadastrarProtocolo() {
 }
 
 function EditarProtocolo(id) {
+    
+//    $("#idProtocolo").val(codNovoProtocolo);
     var select = document.getElementById("clienteProtocolo");
-    var clienteSelecionado = select.options[select.selectedIndex].value;
+    var codCliente = select.options[select.selectedIndex].value;
 
-    for (var i in tbProtocolos) {
-        var protocolo = JSON.parse(tbProtocolos[i]);
-        if (protocolo.codigo.toString() == id) {
-            indice_selecionado = i;
-        }
-    }
-    tbProtocolos[indice_selecionado] = JSON.stringify({
-        codigo: $("#idProtocolo").val(),
+    getCliente(codCliente);
+
+    var dataJson = JSON.stringify({
+        idProtocolo:$("#idProtocolo").val(),
         data: $("#dataProtocolo").val(),
-        codCliente: clienteSelecionado,
-        observacoes: $("#observacoes").val()
+        observacoes: $("#observacoes").val(),
+        empresaProtocolo: empresa,
+        clienteProtocolo: clienteSelect,
+        listaItensProtocolo: tbItensProtocolo
     });
-    localStorage.setItem("tbProtocolos", JSON.stringify(tbProtocolos));
-    alert("Informações editadas.");
-    operacao = "A"; //Volta ao padrão
-    ListarProtocolos();
-    enviaDadosRecibo(id);
+
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/protocolos/atualizar",
+        contentType: "application/json; charset=utf-8",
+        data: dataJson,
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            alert("Protocolo Alterado com sucesso!");
+            ListarProtocolos();
+            tbItensProtocolo = [];
+            sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
+            var idTemp = data.idProtocolo;
+            enviaDadosRecibo(idTemp);
+            limparTabela();
+        }, error() {
+            alert("Erro ao processar a requisição ");
+        }
+    });
 }
 
 function ExcluirProtocolo(id) {
@@ -162,13 +181,13 @@ function ExcluirProtocolo(id) {
     });
 }
 
-function AdicionarItemProtocolo() {
-    if (document.getElementById("idProtocolo").value == "") {
-        AdicionarItemProtoco(codNovoProtocolo);
-    } else {
-        AdicionarItemProtoco(document.getElementById("idProtocolo").value);
-    }
-}
+//function AdicionarItemProtocolo() {
+//    if (document.getElementById("idProtocolo").value == "") {
+//        AdicionarItemProtoco(codNovoProtocolo);
+//    } else {
+//        AdicionarItemProtoco(document.getElementById("idProtocolo").value);
+//    }
+//}
 
 function ExcluirItensCancelar() {
     if (document.getElementById("idProtocolo").value == "") {
@@ -195,75 +214,40 @@ function passaDadosProtocolo(id) {
         }
     }
 }
-//Carregar os clientes na comboBox para seleção no protocolo
-function ListaClientesProtocolo() {
-    $.ajax({
-        type: "POST",
-        url: "webresources/WSProtocoloRest/clientes/getListaCLientes/" + empresa.idEmpresa,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            listClientes = data;
-            var select = document.getElementById("clienteProtocolo");
-            if (data != null) {
-                if (select.length <= 1) {
-                    data.forEach(function (each) {
-                        var opt = each.nome;
-                        var val = each.idCliente;
-                        var el = document.createElement("option");
-                        el.textContent = opt;
-                        el.value = val;
-                        select.appendChild(el);
-                    });
-                }
-            }
-        }
-    });
-}
-//Carregar os clientes na comboBox para seleção no protocolo
-function preencherComboItens() {
-    $.ajax({
-        type: "POST",
-        url: "webresources/WSProtocoloRest/itens/getListaItens/" + empresa.idEmpresa,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            listItens = data;
-            var select = document.getElementById("itemProtocolo");
-            if (listItens != null) {
-                if (select.length <= 1) {
-                    listItens.forEach(function (each) {
-                        var opt = each.nome;
-                        var val = each.idItem;
-                        var el = document.createElement("option");
-                        el.textContent = opt;
-                        el.value = val;
-                        select.appendChild(el);
-                    });
-                }
-            }
-        }
-    });
-}
+
+
 //exibe protocolo no modal
 function ExibirProtocolo(id) {
-    ListaItensProtocolo();
-    ListaClientesProtocolo();
-    var codProtocolo;
-    for (var i in tbProtocolos) {
-        var protocolo = JSON.parse(tbProtocolos[i]);
-        if (protocolo.codigo == id) {
-            $("#idProtocolo").val(protocolo.codigo);
-            $("#dataProtocolo").val(protocolo.data);
-            SeletorCliente(protocolo.codCliente);
-            $("#observacoes").val(protocolo.observacoes);
-            codProtocolo = protocolo.codigo;
-            break;
+
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/protocolo/getProtocolo/" + id,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            if (data != null) {
+                $("#idProtocolo").val(data.idProtocolo);
+                $("#dataProtocolo").val(data.data);
+                SeletorCliente(data.clienteProtocolo.idCliente);
+                $("#observacoes").val(data.observacoes);
+                codProtocolo = data.idProtocolo;
+                    ListarItensProtocoloPersist(codProtocolo);
+            }
         }
-    }
-    ListarItensProtocolo(codProtocolo);
+    });
+
+//    ListaItensProtocolo();
+//    ListaClientesProtocolo();
+//    var codProtocolo;
+//    for (var i in tbProtocolos) {
+//        var protocolo = JSON.parse(tbProtocolos[i]);
+//        if (protocolo.codigo == id) {
+//
+//            break;
+//        }
+//    }
+
 }
 //lista protocolos cadastrados
 function ListarProtocolos() {

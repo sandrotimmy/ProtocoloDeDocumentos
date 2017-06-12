@@ -101,8 +101,8 @@ function EditarEmpresa() {
         cep: $("#zipCodeEmpresa").val(),
         usuarioEmpresa: usuario
     });
+    
     $.ajax({
-
         type: "POST",
         url: "webresources/WSProtocoloRest/empresa/atualizar",
         contentType: "application/json; charset=utf-8",
@@ -129,9 +129,10 @@ function EditarEmpresa() {
 function ExcluirEmpresa() {
 
     var dataJson = JSON.stringify({
-        idEmpresa: empresa.idEmpresa});
-    $.ajax({
+        idEmpresa: empresa.idEmpresa
+    });
 
+    $.ajax({
         type: "POST",
         url: "webresources/WSProtocoloRest/empresa/excluir",
         contentType: "application/json; charset=utf-8",
@@ -139,6 +140,7 @@ function ExcluirEmpresa() {
         dataType: "json",
         async: false
     });
+    empresa = null;
     alert("Empresa excluída com sucesso!");
     inserirDados();
 }
@@ -154,6 +156,14 @@ function ExibirEmpresa() {
         $("#districtEmpresa").val(empresa.bairro);
         $("#cityEmpresa").val(empresa.cidade);
         $("#zipCodeEmpresa").val(empresa.cep);
+    } else {
+        $("#cnpjEmpresa").val("");
+        $("#nomeEmpresa").val("");
+        $("#addressEmpresa").val("");
+        $("#numberEmpresa").val("");
+        $("#districtEmpresa").val("");
+        $("#cityEmpresa").val("");
+        $("#zipCodeEmpresa").val("");
     }
 }
 

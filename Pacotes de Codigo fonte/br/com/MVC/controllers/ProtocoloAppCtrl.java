@@ -130,7 +130,7 @@ public class ProtocoloAppCtrl {
         return persistProtocolo.getProximoCodProtocolo();
     }
 
-    public boolean cadastrarProtocolo(String protocoloJson) throws JSONException, ParseException {
+    public Protocolo cadastrarProtocolo(String protocoloJson) throws JSONException, ParseException {
         System.out.println(protocoloJson);
         JSONObject json = new JSONObject(protocoloJson);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -146,7 +146,27 @@ public class ProtocoloAppCtrl {
         Protocolo protocoloTemp = persistProtocolo.cadastrarProtocolo(protocolo);
         JSONArray jsonListItensProtocolo = json.getJSONArray("listaItensProtocolo");
         boolean result = cadastrarItemProtocolo(jsonListItensProtocolo, protocoloTemp);
-        return result;
+        return protocoloTemp;
+    }
+
+    public Protocolo atualizaProtocolo(String protocoloJson) throws JSONException, ParseException {
+        System.out.println(protocoloJson);
+        JSONObject json = new JSONObject(protocoloJson);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = df.parse(json.getString("data"));
+        protocolo.setIdProtocolo(Integer.parseInt(json.getString("idProtocolo")));
+        protocolo.setData(date);
+        protocolo.setObservacoes(json.getString("observacoes"));
+        JSONObject jsonEmpresaProtocolo = json.getJSONObject("empresaProtocolo");
+        Empresa empresaJson = (Empresa) gson.fromJson(jsonEmpresaProtocolo.toString(), Empresa.class);
+        protocolo.setEmpresaProtocolo(empresaJson);
+        JSONObject jsonClienteProtocolo = json.getJSONObject("clienteProtocolo");
+        Clientes clientesJson = (Clientes) gson.fromJson(jsonClienteProtocolo.toString(), Clientes.class);
+        protocolo.setClienteProtocolo(clientesJson);
+        JSONArray jsonListItensProtocolo = json.getJSONArray("listaItensProtocolo");
+        Protocolo protocoloTemp = persistProtocolo.atualizaProtocolo(protocolo);
+        boolean result = cadastrarItemProtocolo(jsonListItensProtocolo, protocoloTemp);
+        return protocoloTemp;
     }
 
     public Clientes getCliente(Integer codClientes) {
@@ -177,4 +197,17 @@ public class ProtocoloAppCtrl {
     public boolean removeProtocolo(int idProtocolo) {
         return persistProtocolo.removeProtocolo(idProtocolo);
     }
+
+    public List getListaItemProtocolo(int codProtocolo) {
+        return persistItemProtocolo.getListaItemProtocolo(codProtocolo);
+    }
+
+    public Protocolo getProtocolo(Integer codProtocolo) {
+        return persistProtocolo.getProtocolo(codProtocolo);
+    }
+
+    public boolean removeItemProtocolo(int idItemProtocolo) {
+        return persistItemProtocolo.removeItemProtocolo(idItemProtocolo);
+    }
+
 }

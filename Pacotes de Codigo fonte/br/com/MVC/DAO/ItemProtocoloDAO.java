@@ -65,9 +65,9 @@ public class ItemProtocoloDAO {
         return true;
     }
 
-    public List getListaItemProtocolo() {
+    public List getListaItemProtocolo(int codProtocolo) {
         em = ConexaoEntityManager.getInstance();
-        List listaItemProtocolo = em.createQuery("FROM ItemProtocolo", ItemProtocolo.class).getResultList();
+        List listaItemProtocolo = em.createQuery("FROM ItemProtocolo where protocoloItemProtocolo = " + codProtocolo, ItemProtocolo.class).getResultList();
         return listaItemProtocolo;
     }
 

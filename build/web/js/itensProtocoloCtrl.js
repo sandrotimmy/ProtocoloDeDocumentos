@@ -1,23 +1,16 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-var operacao = "A"; //"A"=Adição; "E"=Edição
+
 var indice_selecionado = -1; //Índice do itemProtocolo selecionado na lista
 var tbItensProtocolo;
+var tbItensExcluir
 var itemTemp;
 
 $(function () {
-
-//    tbItensProtocolo = sessionStorage.getItem("tbItensProtocolo");// Recupera os dados armazenados
-//    tbItensProtocolo = JSON.parse(tbItensProtocolo); // Converte string para objeto
-    if (tbItensProtocolo == null) // Caso não haja conteúdo, iniciamos um vetor vazio
-        tbItensProtocolo = [];
+    tbItensProtocolo = [];
+    tbItensExcluir = [];
 });
 
-function AdicionarItemProtoco(codProtocolo) {
+function AdicionarItemProtoco() {
 
     var temp = $("#itemProtocolo").val();
     if (temp != "") {
@@ -40,11 +33,12 @@ function AdicionarItemProtoco(codProtocolo) {
         tbItensProtocolo.push(itemProtocolo);
         sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
         ListarItensProtocolo(codProtocolo);
+        ListarItensProtocoloPersist($("#idProtocolo").val());
+        ListarItensProtocolo();
     } else {
         alert("Você deve Selecionar um Item para adicionar!");
     }
 }
-
 
 function localizaItem(idItem) {
     listItens.forEach(function (each) {
@@ -87,8 +81,8 @@ function  getListaItensProtocolo() {
 
 
 }
-//Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
-// Nao devemos re-usar IDs
+
+//Gerado somente durante o cadastro do protocolo, depos ele não tem validade, valendo o codigo gerado pelo banco
 function GerarIdItemProtocolo() {
     var ultimoCod = -1;
     if (tbItensProtocolo.length == 0) {
@@ -116,6 +110,7 @@ function ExcluirItemProtocolo(id) {
         if (itemProtocolo.idItemProtocolo == id) {
             tbItensProtocolo.splice(i, 1);
             sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
+            ListarItensProtocoloPersist($("#idProtocolo").val());
             ListarItensProtocolo();
             break;
         }
@@ -130,12 +125,61 @@ function ExcluirItemPorProtocolo(codProtocolo) {
             tbItensProtocolo.splice(i, 1);
             sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
             i--;
+            ListarItensProtocoloPersist($("#idProtocolo").val());
+            ListarItensProtocolo();
         }
     }
-
-
 }
 
+function ExcluirItemProtocoloPersist(codItemProtocolo) {
+    var dataJson = JSON.stringify({
+        idItemProtocolo: codItemProtocolo
+    });
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/itemProtocolo/excluir",
+        contentType: "application/json; charset=utf-8",
+        data: dataJson,
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            if (data == true) {
+                alert("Item excluído com sucesso!");
+                ListarProtocolos();
+            } else {
+                alert("Ocorreu um erro, Protocolo não Excluído!");
+            }
+        }
+    });
+    ListarItensProtocoloPersist($("#idProtocolo").val());
+    ListarItensProtocolo();
+}
+//Carregar os clientes na comboBox para seleção no protocolo
+function preencherComboItens() {
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/itens/getListaItens/" + empresa.idEmpresa,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            listItens = data;
+            var select = document.getElementById("itemProtocolo");
+            if (listItens != null) {
+                if (select.length <= 1) {
+                    listItens.forEach(function (each) {
+                        var opt = each.nome;
+                        var val = each.idItem;
+                        var el = document.createElement("option");
+                        el.textContent = opt;
+                        el.value = val;
+                        select.appendChild(el);
+                    });
+                }
+            }
+        }
+    });
+}
 function ExibirItemProtocolo(id) {
     for (var i in tbItensProtocolo) {
         var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
@@ -157,7 +201,7 @@ function ListarItensProtocolo() {
     $("#tblListarItensProtocolo").html(
             "<thead>" +
             "	<tr>" +
-            "	<th>Código</th>" +
+            "	<th>Sequencia</th>" +
             "	<th>Nome</th>" +
             "	<th>Tipo</th>" +
             "	<th>Retornar?</th>" +
@@ -170,18 +214,56 @@ function ListarItensProtocolo() {
             );
     var cont;
     for (var i in tbItensProtocolo) {
-            
-            var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
-            $("#tblListarItensProtocolo tbody").append("<tr class=\"active\">");
-            $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.idItemProtocolo + "</td>");
-            $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.nome + "</td>");
-            $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.tipo + "</td>");
-            $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.retorno + "</td>");
-            $("#tblListarItensProtocolo tbody").append("<td> </button> </button>\n\<button class=\"btn btn-primary\" onclick=\"ExcluirItemProtocolo(" + itemProtocolo.idItemProtocolo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
-            $("#tblListarItensProtocolo tbody").append("</tr>");
-        }
-    }
 
+        var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
+        $("#tblListarItensProtocolo tbody").append("<tr class=\"active\">");
+        $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.idItemProtocolo + "</td>");
+        $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.nome + "</td>");
+        $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.tipo + "</td>");
+        $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.retorno + "</td>");
+        $("#tblListarItensProtocolo tbody").append("<td> </button> </button>\n\<button class=\"btn btn-primary\" onclick=\"ExcluirItemProtocolo(" + itemProtocolo.idItemProtocolo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+        $("#tblListarItensProtocolo tbody").append("</tr>");
+    }
+}
+function ListarItensProtocoloPersist(codProtocolo) {
+    $("#tblListarItensProtocolo").html("");
+    $("#tblListarItensProtocolo").html(
+            "<thead>" +
+            "	<tr>" +
+            "	<th>Sequencia</th>" +
+            "	<th>Nome</th>" +
+            "	<th>Tipo</th>" +
+            "	<th>Retornar?</th>" +
+            "   <th>Ações</th>" +
+            "	</tr>" +
+            "</thead>" +
+            "<tbody id=\"bodyItemProtocolo\">" +
+            "</tbody>"
+
+            );
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/itensProtocolos/getListaItensProtocolos/" + codProtocolo,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            if (data != null) {
+                data.forEach(function (each) {
+                    $("#tblListarItensProtocolo tbody").append("<tr class=\"active\">");
+                    $("#tblListarItensProtocolo tbody").append("<td>" + each.idItem + "</td>");
+                    $("#tblListarItensProtocolo tbody").append("<td>" + each.nome + "</td>");
+                    $("#tblListarItensProtocolo tbody").append("<td>" + each.tipo + "</td>");
+                    $("#tblListarItensProtocolo tbody").append("<td>" + each.retorno + "</td>");
+                    $("#tblListarItensProtocolo tbody").append("<td> </button> </button>\n\<button class=\"btn btn-primary\" onclick=\"ExcluirItemProtocoloPersist(" + each.idItem + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+                    $("#tblListarItensProtocolo tbody").append("</tr>");
+                });
+            }
+        }
+    });
+
+
+}
 function passarItensProtocoloRecibo(codProtocolo) {
     $("#tblListarItensRecibo").html("");
     $("#tblListarItensRecibo").html(
@@ -196,17 +278,32 @@ function passarItensProtocoloRecibo(codProtocolo) {
             "<tbody>" +
             "</tbody>"
             );
-    for (var i in tbItensProtocolo) {
-        var protTemp = JSON.parse(tbItensProtocolo[i]);
-        var codProtTemp = protTemp.codProtocolo;
-        if (codProtTemp == codProtocolo) {
-            var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
-            $("#tblListarItensRecibo tbody").append("<tr class=\"active\">");
-            $("#tblListarItensRecibo tbody").append("<td align=\"center\">" + itemProtocolo.codigo + "</td>");
-            $("#tblListarItensRecibo tbody").append("<td>" + itemProtocolo.nome + "</td>");
-            $("#tblListarItensRecibo tbody").append("<td>" + itemProtocolo.tipo + "</td>");
-            $("#tblListarItensRecibo tbody").append("<td>" + itemProtocolo.retorno + "</td>");
-            $("#tblListarItensRecibo tbody").append("</tr>");
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/itensProtocolos/getListaItensProtocolos/" + codProtocolo,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            listProtocolos = data;
+            if (data != null) {
+                data.forEach(function (each) {
+                    $("#tblListarItensRecibo tbody").append("<tr class=\"active\">");
+                    $("#tblListarItensRecibo tbody").append("<td align=\"center\">" + each.idItem + "</td>");
+                    $("#tblListarItensRecibo tbody").append("<td>" + each.nome + "</td>");
+                    $("#tblListarItensRecibo tbody").append("<td>" + each.tipo + "</td>");
+                    $("#tblListarItensRecibo tbody").append("<td>" + each.retorno + "</td>");
+                    $("#tblListarItensRecibo tbody").append("</tr>");
+                });
+            }
         }
-    }
+    });
+//    for (var i in tbItensProtocolo) {
+//        var protTemp = JSON.parse(tbItensProtocolo[i]);
+//        var codProtTemp = protTemp.codProtocolo;
+//        if (codProtTemp == codProtocolo) {
+//            var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
+//
+//        }
+//    }
 }

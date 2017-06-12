@@ -1,8 +1,4 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 var listClientes;
 
@@ -109,6 +105,32 @@ function ExibirCliente(id) {
             $("#cityClient").val(each.cidade);
             $("#zipCodeClient").val(each.cep);
             return;
+        }
+    });
+}
+//Carregar os clientes na comboBox para seleção no protocolo
+function ListaClientesProtocolo() {
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/clientes/getListaCLientes/" + empresa.idEmpresa,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            listClientes = data;
+            var select = document.getElementById("clienteProtocolo");
+            if (data != null) {
+                if (select.length <= 1) {
+                    data.forEach(function (each) {
+                        var opt = each.nome;
+                        var val = each.idCliente;
+                        var el = document.createElement("option");
+                        el.textContent = opt;
+                        el.value = val;
+                        select.appendChild(el);
+                    });
+                }
+            }
         }
     });
 }

@@ -3,6 +3,7 @@ package br.com.MVC.controllers;
 import br.com.MVC.models.Clientes;
 import br.com.MVC.models.Empresa;
 import br.com.MVC.models.Item;
+import br.com.MVC.models.ItemProtocolo;
 import br.com.MVC.models.Protocolo;
 import br.com.MVC.models.Usuarios;
 import com.google.gson.Gson;
@@ -183,23 +184,19 @@ public class WSProtocoloRestResource {
         return result;
     }
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("protocolos/getProximoCodProtocolo")
-    public String getProximoCodProtocolo() throws JSONException {
-        String result = gson.toJson(protocoloCtrl.getProximoCodProtocolo());
-        return result;
-    }
-
+//    @POST
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Path("protocolos/getProximoCodProtocolo")
+//    public String getProximoCodProtocolo() throws JSONException {
+//        String result = gson.toJson(protocoloCtrl.getProximoCodProtocolo());
+//        return result;
+//    }
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("protocolos/cadastrar")
     public String cadastrarProtocolo(String protocolo) throws JSONException, ParseException {
-//        Protocolo protocoloJson = (Protocolo) gson.fromprotocoloCtrl.cadastrarProtocolo(protocolo);Json(protocolo, Protocolo.class);
-
-//        String json = gson.toJson(protocoloCadastrado);
         return gson.toJson(protocoloCtrl.cadastrarProtocolo(protocolo));
     }
 
@@ -231,6 +228,45 @@ public class WSProtocoloRestResource {
         JSONObject protocoloJson = new JSONObject(idProtocolo);
         int idEmpresaJson = protocoloJson.getInt("idProtocolo");
         String result = gson.toJson(protocoloCtrl.removeProtocolo(idEmpresaJson));
+        return result;
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("itensProtocolos/getListaItensProtocolos/{codProtocolo}")
+    public String getListItensProtocolo(@PathParam("codProtocolo") String codProtocolo) {
+        List<ItemProtocolo> listItensProtocolo = protocoloCtrl.getListaItemProtocolo(Integer.parseInt(codProtocolo));
+        String json = gson.toJson(listItensProtocolo);
+        return json;
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("protocolo/getProtocolo/{codProtocolo}")
+    public String getProtocolo(@PathParam("codProtocolo") String codProtocolo) {
+        Protocolo protocolo = protocoloCtrl.getProtocolo(Integer.parseInt(codProtocolo));
+        String json = gson.toJson(protocolo);
+        return json;
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("protocolos/atualizar")
+    public String atualizaProtocolo(String protocolo) throws JSONException, ParseException {
+        return gson.toJson(protocoloCtrl.atualizaProtocolo(protocolo));
+    }
+    
+        @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("itemProtocolo/excluir")
+    public String removeItemPotocolo(String idItemProtocolo) throws JSONException {
+        JSONObject protocoloJson = new JSONObject(idItemProtocolo);
+        int idItemProtocoloJson = protocoloJson.getInt("idItemProtocolo");
+        String result = gson.toJson(protocoloCtrl.removeItemProtocolo(idItemProtocoloJson));
         return result;
     }
 }

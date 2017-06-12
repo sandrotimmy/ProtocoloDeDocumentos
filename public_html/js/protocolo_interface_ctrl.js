@@ -87,7 +87,7 @@ function alterBehaviorModal() {
     });
     $(document.body).on("click", "#btnCadProtocol", function () {
         $('#myModalProtocol').modal('hide');
-        limparTabela();
+//        limparTabela();
     });
     //reseta a combobox de items quando ele for adicionado
     $(document.body).on("click", "#btn_add_item", function () {

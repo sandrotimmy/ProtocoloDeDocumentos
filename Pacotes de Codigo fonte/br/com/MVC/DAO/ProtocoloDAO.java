@@ -49,7 +49,7 @@ public class ProtocoloDAO {
         return protocolo;
     }
 
-    public void atualizaProtocolo(Protocolo protocolo) {
+    public Protocolo atualizaProtocolo(Protocolo protocolo) {
         if (protocolo != null) {
             em = ConexaoEntityManager.getInstance();
             em.getTransaction().begin();
@@ -57,7 +57,7 @@ public class ProtocoloDAO {
             em.getTransaction().commit();
             em.close();
         }
-        JOptionPane.showMessageDialog(null, "Protocolo Atualizado com Sucesso!");
+        return protocolo;
     }
 
     public boolean removeProtocolo(int idProtocolo) {
