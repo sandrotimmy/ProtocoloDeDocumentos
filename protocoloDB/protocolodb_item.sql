@@ -1,8 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `protocolodb` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `protocolodb`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win32 (AMD64)
 --
--- Host: localhost    Database: protocolodb
+-- Host: 127.0.0.1    Database: protocolodb
 -- ------------------------------------------------------
 -- Server version	5.7.18-log
 
@@ -42,6 +40,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
+INSERT INTO `item` VALUES (1,'RG','Não','Documentos Sócios',1),(2,'CPF','Não','Documentos Sócios',1),(3,'Contrato Social','Sim','Atos Constitutivos',1),(4,'DAS','Sim','Impostos',2);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-01 15:50:41
+-- Dump completed on 2017-06-12  1:45:06

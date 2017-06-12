@@ -25,7 +25,7 @@ public class ItemProtocolo implements Serializable {
     @Column(length = 4, nullable = false)
     private String retorno;
     //Protocolo
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "protocoloItemProtocolo", foreignKey = @ForeignKey(name = "fk_protocolo_itemProtocolo"))
     Protocolo protocoloItemProtocolo;
 

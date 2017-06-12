@@ -45,13 +45,13 @@ public class Clientes implements Serializable {
     @JoinColumn(name = "empresaCliente", foreignKey = @ForeignKey(name = "fk_empresa_cliente"))
     Empresa empresaCliente;
     //Protocolo
-    @OneToMany(mappedBy = "clienteProtocolo", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private List<Protocolo> listProtocolo;
+//    @OneToMany(mappedBy = "clienteProtocolo", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+//    private List<Protocolo> listProtocolo;
 
     public Clientes() {
     }
 
-    public Clientes(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Empresa empresaCliente, List<Protocolo> listProtocolo) {
+    public Clientes(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Empresa empresaCliente) {
         this.cnpj = cnpj;
         this.nome = nome;
         this.endereco = endereco;
@@ -60,22 +60,10 @@ public class Clientes implements Serializable {
         this.cidade = cidade;
         this.cep = cep;
         this.empresaCliente = empresaCliente;
-        this.listProtocolo = listProtocolo;
     }
 
-    public Clientes(int idCliente, String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Empresa empresaCliente, List<Protocolo> listProtocolo) {
+    public Clientes(int idCliente, String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Empresa empresaCliente) {
         this.idCliente = idCliente;
-        this.cnpj = cnpj;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.numero = numero;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.cep = cep;
-        this.empresaCliente = empresaCliente;
-        this.listProtocolo = listProtocolo;
-    }
-    public Clientes(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Empresa empresaCliente) {
         this.cnpj = cnpj;
         this.nome = nome;
         this.endereco = endereco;
@@ -122,10 +110,6 @@ public class Clientes implements Serializable {
         return empresaCliente;
     }
 
-    public List<Protocolo> getListProtocolo() {
-        return listProtocolo;
-    }
-
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
@@ -160,10 +144,6 @@ public class Clientes implements Serializable {
 
     public void setEmpresaCliente(Empresa empresaCliente) {
         this.empresaCliente = empresaCliente;
-    }
-
-    public void setListProtocolo(List<Protocolo> listProtocolo) {
-        this.listProtocolo = listProtocolo;
     }
 
     @Override

@@ -7,13 +7,16 @@ package br.com.MVC.controllers;
 
 import br.com.MVC.models.Clientes;
 import br.com.MVC.models.Empresa;
+import br.com.MVC.models.Protocolo;
 import br.com.MVC.models.Usuarios;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.lang.reflect.Modifier;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 import javax.persistence.EntityManager;
+import org.json.JSONException;
 
 /**
  *
@@ -25,15 +28,10 @@ public class Main {
      * @param args the command line arguments
      * @throws java.sql.SQLException
      */
-    public static void main(String[] args) throws SQLException {
-        ProtocoloAppCtrl p = new ProtocoloAppCtrl();
-        Gson g = new Gson();
-        Empresa empresa = p.getEmpresa(9);
-        String json = g.toJson(empresa);
-
-        System.out.println(g.toJson(empresa));
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
+    public static void main(String[] args) {
+        
+        EntityManager em = ConexaoEntityManager.getInstance();
+        
+        em.clear();
     }
 }

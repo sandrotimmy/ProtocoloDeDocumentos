@@ -49,6 +49,7 @@ public class Protocolo implements Serializable {
     public Protocolo() {
     }
 
+    
     public Protocolo(Date data, String observacoes, Empresa empresaProtocolo, Clientes clienteProtocolo) {
         this.data = data;
         this.observacoes = observacoes;

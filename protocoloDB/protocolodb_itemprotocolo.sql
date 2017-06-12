@@ -1,8 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `protocolodb` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `protocolodb`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win32 (AMD64)
 --
--- Host: localhost    Database: protocolodb
+-- Host: 127.0.0.1    Database: protocolodb
 -- ------------------------------------------------------
 -- Server version	5.7.18-log
 
@@ -32,7 +30,7 @@ CREATE TABLE `itemprotocolo` (
   `protocoloItemProtocolo` int(11) DEFAULT NULL,
   PRIMARY KEY (`idItem`),
   KEY `fk_protocolo_itemProtocolo` (`protocoloItemProtocolo`),
-  CONSTRAINT `fk_protocolo_itemProtocolo` FOREIGN KEY (`protocoloItemProtocolo`) REFERENCES `protocolo` (`idProtocolo`)
+  CONSTRAINT `fk_protocolo_itemProtocolo` FOREIGN KEY (`protocoloItemProtocolo`) REFERENCES `protocolo` (`idProtocolo`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -54,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-01 15:50:46
+-- Dump completed on 2017-06-12  1:45:12

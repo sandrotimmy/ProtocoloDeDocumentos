@@ -43,8 +43,8 @@ public class Empresa implements Serializable {
 //    @OneToMany(mappedBy = "empresaCliente", fetch = FetchType.EAGER)
 //    private List<Clientes> listClientes;
     //Protocolo
-    @OneToMany(mappedBy = "empresaProtocolo", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private List<Protocolo> listProtocolos;
+//    @OneToMany(mappedBy = "empresaProtocolo", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+//    private List<Protocolo> listProtocolos;
 //    //Item
 //    @OneToMany(mappedBy = "empresaItem", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 //    private List<Item> listItens;
@@ -73,7 +73,7 @@ public class Empresa implements Serializable {
         this.cep = cep;
     }
 
-    public Empresa(int idEmpresa, String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa, List<Protocolo> listProtocolos) {
+    public Empresa(int idEmpresa, String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa) {
         this.idEmpresa = idEmpresa;
         this.cnpj = cnpj;
         this.nome = nome;
@@ -83,10 +83,9 @@ public class Empresa implements Serializable {
         this.cidade = cidade;
         this.cep = cep;
         this.usuarioEmpresa = usuarioEmpresa;
-        this.listProtocolos = listProtocolos;
     }
 
-    public Empresa(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa, List<Protocolo> listProtocolos) {
+    public Empresa(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Usuarios usuarioEmpresa) {
 
         this.cnpj = cnpj;
         this.nome = nome;
@@ -96,7 +95,6 @@ public class Empresa implements Serializable {
         this.cidade = cidade;
         this.cep = cep;
         this.usuarioEmpresa = usuarioEmpresa;
-        this.listProtocolos = listProtocolos;
 
     }
 
@@ -134,10 +132,6 @@ public class Empresa implements Serializable {
 
     public Usuarios getUsuarioEmpresa() {
         return usuarioEmpresa;
-    }
-
-    public List<Protocolo> getListProtocolos() {
-        return listProtocolos;
     }
 
     public void setIdEmpresa(int idEmpresa) {
@@ -178,10 +172,6 @@ public class Empresa implements Serializable {
 
     public void setListClientes(List<Clientes> listClientes) {
 //        this.listClientes = listClientes;
-    }
-
-    public void setListProtocolos(List<Protocolo> listProtocolos) {
-        this.listProtocolos = listProtocolos;
     }
 
     @Override

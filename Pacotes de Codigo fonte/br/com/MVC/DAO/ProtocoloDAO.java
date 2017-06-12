@@ -69,7 +69,6 @@ public class ProtocoloDAO {
                 em.remove(protocolo);
                 em.getTransaction().commit();
                 em.close();
-                JOptionPane.showMessageDialog(null, "Protocolo excluida com Sucesso!");
             }
         } catch (RollbackException e) {
             JOptionPane.showMessageDialog(null, "Não é possivel Excluir este Protocolo\nEstá vinculado a outro Processo!");
@@ -78,9 +77,10 @@ public class ProtocoloDAO {
         return true;
     }
 
-    public List getListaProtocolo() {
+    public List getListaProtocolo(int codProtocolo) {
         em = ConexaoEntityManager.getInstance();
-        List listaProtocolo = em.createQuery("FROM Protocolo", Protocolo.class).getResultList();
+        List listaProtocolo = em.createQuery("FROM Protocolo where empresaProtocolo = " + codProtocolo, Protocolo.class).getResultList();
+        
         return listaProtocolo;
     }
 
