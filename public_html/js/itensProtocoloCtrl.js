@@ -7,45 +7,86 @@
 var operacao = "A"; //"A"=Adição; "E"=Edição
 var indice_selecionado = -1; //Índice do itemProtocolo selecionado na lista
 var tbItensProtocolo;
+var itemTemp;
 
 $(function () {
 
-    tbItensProtocolo = localStorage.getItem("tbItensProtocolo");// Recupera os dados armazenados
-    tbItensProtocolo = JSON.parse(tbItensProtocolo); // Converte string para objeto
+//    tbItensProtocolo = sessionStorage.getItem("tbItensProtocolo");// Recupera os dados armazenados
+//    tbItensProtocolo = JSON.parse(tbItensProtocolo); // Converte string para objeto
     if (tbItensProtocolo == null) // Caso não haja conteúdo, iniciamos um vetor vazio
         tbItensProtocolo = [];
 });
 
-function AdicionarItemProt(codProtocolo) {
-    var selectItem = document.getElementById("itemProtocolo");
+function AdicionarItemProtoco(codProtocolo) {
+
     var temp = $("#itemProtocolo").val();
     if (temp != "") {
 
         var select = document.getElementById("itemProtocolo");
         var itemSelecionado = select.options[select.selectedIndex].value;
-        var item = localizaItem(itemSelecionado);
+        localizaItem(itemSelecionado);
         var codItemProtocolo = GerarIdItemProtocolo();
         if (document.getElementById("idProtocolo").value == "") {
-            codProtocolo = GerarIdProtocolo();
         } else {
             codProtocolo = document.getElementById("idProtocolo").value;
         }
 
         var itemProtocolo = JSON.stringify({
-            codigo: codItemProtocolo,
-            codProtocolo: codProtocolo,
-            nome: item.nome,
-            tipo: item.tipo,
-            retorno: item.retorno
+            idItemProtocolo: codItemProtocolo,
+            nome: itemTemp.nome,
+            tipo: itemTemp.tipo,
+            retorno: itemTemp.retorno
         });
         tbItensProtocolo.push(itemProtocolo);
-        localStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
+        sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
         ListarItensProtocolo(codProtocolo);
     } else {
         alert("Você deve Selecionar um Item para adicionar!");
     }
 }
 
+
+function localizaItem(idItem) {
+    listItens.forEach(function (each) {
+        if (each.idItem == idItem) {
+            itemTemp = each;
+        }
+    });
+}
+
+function  getListaItensProtocolo() {
+
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/clientes/getListaCLientes/" + empresa.idEmpresa,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            listClientes = data;
+            if (data != null) {
+                data.forEach(function (each) {
+                    var cnpjTemp = each.cnpj;
+                    var cnpj = cnpjTemp.substr(0, 2) + "." + cnpjTemp.substr(2, 3) + "." + cnpjTemp.substr(5, 3) + "/" + cnpjTemp.substr(8, 4) + "-" + cnpjTemp.substr(12, 2);
+
+                    $("#tblListarClientes tbody").append("<tr class=\"active\">");
+                    $("#tblListarClientes tbody").append("<td>" + each.idCliente + "</td>");
+                    $("#tblListarClientes tbody").append("<td>" + cnpj + "</td>");
+                    $("#tblListarClientes tbody").append("<td>" + each.nome + "</td>");
+                    $("#tblListarClientes tbody").append("<td>" + each.cidade + "</td>");
+                    $("#tblListarClientes tbody").append("<td> <button id=\"btn_clientes_Edit\" type=\"button\" class=\"btn btn-primary actionModal\" onclick=\"ExibirCliente(" + each.idCliente + ")\" title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span>\
+                                             <button class=\"btn btn-primary\" onclick=\"ExcluirCliente(" + each.idCliente + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+                    $("#tblListarClientes tbody").append("</tr>");
+                });
+            } else {
+
+            }
+        }
+    });
+
+
+
+}
 //Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
 // Nao devemos re-usar IDs
 function GerarIdItemProtocolo() {
@@ -54,7 +95,7 @@ function GerarIdItemProtocolo() {
         ultimoCod = 1;
     } else {
         var ultimoItemProtocolo = JSON.parse(tbItensProtocolo[tbItensProtocolo.length - 1]);
-        ultimoCod = ultimoItemProtocolo.codigo;
+        ultimoCod = ultimoItemProtocolo.idItemProtocolo;
         ultimoCod++;
     }
     return ultimoCod;
@@ -72,12 +113,10 @@ function ExcluirItemProtocolo(id) {
 
     for (var i in tbItensProtocolo) {
         var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
-
-        if (itemProtocolo.codigo == id) {
-            var codProtocolo = itemProtocolo.codProtocolo;
+        if (itemProtocolo.idItemProtocolo == id) {
             tbItensProtocolo.splice(i, 1);
-            localStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
-            ListarItensProtocolo(codProtocolo);
+            sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
+            ListarItensProtocolo();
             break;
         }
     }
@@ -89,7 +128,7 @@ function ExcluirItemPorProtocolo(codProtocolo) {
         var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
         if (itemProtocolo.codProtocolo == codProtocolo) {
             tbItensProtocolo.splice(i, 1);
-            localStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
+            sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
             i--;
         }
     }
@@ -113,7 +152,7 @@ function limparTabela() {
     document.getElementById("bodyItemProtocolo").innerHTML = "";
 }
 
-function ListarItensProtocolo(codProtocolo) {
+function ListarItensProtocolo() {
     $("#tblListarItensProtocolo").html("");
     $("#tblListarItensProtocolo").html(
             "<thead>" +
@@ -127,22 +166,21 @@ function ListarItensProtocolo(codProtocolo) {
             "</thead>" +
             "<tbody id=\"bodyItemProtocolo\">" +
             "</tbody>"
+
             );
+    var cont;
     for (var i in tbItensProtocolo) {
-        var itemProtTemp = JSON.parse(tbItensProtocolo[i]);
-        var codProtTemp = itemProtTemp.codProtocolo;
-        if (codProtTemp == codProtocolo) {
+            
             var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
             $("#tblListarItensProtocolo tbody").append("<tr class=\"active\">");
-            $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.codigo + "</td>");
+            $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.idItemProtocolo + "</td>");
             $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.nome + "</td>");
             $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.tipo + "</td>");
             $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.retorno + "</td>");
-            $("#tblListarItensProtocolo tbody").append("<td> </button> </button>\n\<button class=\"btn btn-primary\" onclick=\"ExcluirItemProtocolo(" + itemProtocolo.codigo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+            $("#tblListarItensProtocolo tbody").append("<td> </button> </button>\n\<button class=\"btn btn-primary\" onclick=\"ExcluirItemProtocolo(" + itemProtocolo.idItemProtocolo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
             $("#tblListarItensProtocolo tbody").append("</tr>");
         }
     }
-}
 
 function passarItensProtocoloRecibo(codProtocolo) {
     $("#tblListarItensRecibo").html("");

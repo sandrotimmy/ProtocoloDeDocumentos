@@ -5,6 +5,7 @@
  */
 package br.com.MVC.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -22,7 +23,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-public class Protocolo {
+public class Protocolo implements Serializable {
 
     @Id
     @GeneratedValue(generator = "s_protocolo")
@@ -34,35 +35,34 @@ public class Protocolo {
     @Column(length = 255)
     private String observacoes;
     //Empresa
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "empresaProtocolo", foreignKey = @ForeignKey(name = "fk_empresa_protocolo"))
     Empresa empresaProtocolo;
     //Cliente
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "clienteProtocolo", foreignKey = @ForeignKey(name = "fk_cliente_protocolo"))
     Clientes clienteProtocolo;
-    //ItemProtocolo
-    @OneToMany(mappedBy = "protocoloItemProtocolo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<ItemProtocolo> protocoloItemProtocolo;
+//    //ItemProtocolo
+//    @OneToMany(mappedBy = "protocoloItemProtocolo", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+//    private List<ItemProtocolo> protocoloItemProtocolo;
 
     public Protocolo() {
     }
 
-    public Protocolo(Date data, String observacoes, Empresa empresaProtocolo, Clientes clienteProtocolo, List<ItemProtocolo> protocoloItemProtocolo) {
+    
+    public Protocolo(Date data, String observacoes, Empresa empresaProtocolo, Clientes clienteProtocolo) {
         this.data = data;
         this.observacoes = observacoes;
         this.empresaProtocolo = empresaProtocolo;
         this.clienteProtocolo = clienteProtocolo;
-        this.protocoloItemProtocolo = protocoloItemProtocolo;
     }
 
-    public Protocolo(int idProtocolo, Date data, String observacoes, Empresa empresaProtocolo, Clientes clienteProtocolo, List<ItemProtocolo> protocoloItemProtocolo) {
+    public Protocolo(int idProtocolo, Date data, String observacoes, Empresa empresaProtocolo, Clientes clienteProtocolo) {
         this.idProtocolo = idProtocolo;
         this.data = data;
         this.observacoes = observacoes;
         this.empresaProtocolo = empresaProtocolo;
         this.clienteProtocolo = clienteProtocolo;
-        this.protocoloItemProtocolo = protocoloItemProtocolo;
     }
 
     public int getIdProtocolo() {
@@ -85,10 +85,6 @@ public class Protocolo {
         return clienteProtocolo;
     }
 
-    public List<ItemProtocolo> getProtocoloItemProtocolo() {
-        return protocoloItemProtocolo;
-    }
-
     public void setIdProtocolo(int idProtocolo) {
         this.idProtocolo = idProtocolo;
     }
@@ -107,10 +103,6 @@ public class Protocolo {
 
     public void setClienteProtocolo(Clientes clienteProtocolo) {
         this.clienteProtocolo = clienteProtocolo;
-    }
-
-    public void setProtocoloItemProtocolo(List<ItemProtocolo> protocoloItemProtocolo) {
-        this.protocoloItemProtocolo = protocoloItemProtocolo;
     }
 
     @Override

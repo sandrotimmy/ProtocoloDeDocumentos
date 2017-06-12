@@ -5,6 +5,7 @@
  */
 package br.com.MVC.models;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +20,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-public class Clientes {
+public class Clientes implements Serializable {
 
     @Id
     @GeneratedValue(generator = "s_cliente")
@@ -40,17 +41,17 @@ public class Clientes {
     @Column(length = 10)
     private String cep;
     //empresa
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "empresaCliente", foreignKey = @ForeignKey(name = "fk_empresa_cliente"))
     Empresa empresaCliente;
     //Protocolo
-    @OneToMany(mappedBy = "clienteProtocolo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Protocolo> listProtocolo;
+//    @OneToMany(mappedBy = "clienteProtocolo", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+//    private List<Protocolo> listProtocolo;
 
     public Clientes() {
     }
 
-    public Clientes(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Empresa empresaCliente, List<Protocolo> listProtocolo) {
+    public Clientes(String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Empresa empresaCliente) {
         this.cnpj = cnpj;
         this.nome = nome;
         this.endereco = endereco;
@@ -59,10 +60,9 @@ public class Clientes {
         this.cidade = cidade;
         this.cep = cep;
         this.empresaCliente = empresaCliente;
-        this.listProtocolo = listProtocolo;
     }
 
-    public Clientes(int idCliente, String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Empresa empresaCliente, List<Protocolo> listProtocolo) {
+    public Clientes(int idCliente, String cnpj, String nome, String endereco, String numero, String bairro, String cidade, String cep, Empresa empresaCliente) {
         this.idCliente = idCliente;
         this.cnpj = cnpj;
         this.nome = nome;
@@ -72,7 +72,6 @@ public class Clientes {
         this.cidade = cidade;
         this.cep = cep;
         this.empresaCliente = empresaCliente;
-        this.listProtocolo = listProtocolo;
     }
 
     public int getIdCliente() {
@@ -111,10 +110,6 @@ public class Clientes {
         return empresaCliente;
     }
 
-    public List<Protocolo> getListProtocolo() {
-        return listProtocolo;
-    }
-
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
@@ -149,10 +144,6 @@ public class Clientes {
 
     public void setEmpresaCliente(Empresa empresaCliente) {
         this.empresaCliente = empresaCliente;
-    }
-
-    public void setListProtocolo(List<Protocolo> listProtocolo) {
-        this.listProtocolo = listProtocolo;
     }
 
     @Override

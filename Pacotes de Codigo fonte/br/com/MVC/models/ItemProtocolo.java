@@ -1,5 +1,6 @@
 package br.com.MVC.models;
 
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-public class ItemProtocolo {
+public class ItemProtocolo implements Serializable {
 
     @Id
     @GeneratedValue(generator = "s_itemProtocolo")
@@ -24,7 +25,7 @@ public class ItemProtocolo {
     @Column(length = 4, nullable = false)
     private String retorno;
     //Protocolo
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "protocoloItemProtocolo", foreignKey = @ForeignKey(name = "fk_protocolo_itemProtocolo"))
     Protocolo protocoloItemProtocolo;
 

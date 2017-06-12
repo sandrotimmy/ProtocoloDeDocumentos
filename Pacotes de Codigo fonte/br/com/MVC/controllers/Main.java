@@ -5,11 +5,18 @@
  */
 package br.com.MVC.controllers;
 
+import br.com.MVC.models.Clientes;
 import br.com.MVC.models.Empresa;
+import br.com.MVC.models.Protocolo;
 import br.com.MVC.models.Usuarios;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.lang.reflect.Modifier;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.List;
 import javax.persistence.EntityManager;
+import org.json.JSONException;
 
 /**
  *
@@ -21,15 +28,10 @@ public class Main {
      * @param args the command line arguments
      * @throws java.sql.SQLException
      */
-    public static void main(String[] args) throws SQLException {
-        ProtocoloAppCtrl p = new ProtocoloAppCtrl();
+    public static void main(String[] args) {
         
-        if (p.logar("sandro", "033238")!=null){
+        EntityManager em = ConexaoEntityManager.getInstance();
         
-        Empresa empresa = new Empresa("516546", "sdfsdfsdf", "fgdfgfd", "fgdgfd", "fdfgdf", "fdgdfg", "dfgdf");
-        empresa = p.cadastrarEmpresa(empresa, 02);
-        Gson gson = new Gson();
-        String json = gson.toJson(empresa);
-        }
+        em.clear();
     }
 }

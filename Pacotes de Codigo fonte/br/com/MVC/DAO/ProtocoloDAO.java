@@ -19,12 +19,25 @@ import javax.swing.JOptionPane;
  */
 public class ProtocoloDAO {
         private EntityManager em;
-    private final ArrayList<Protocolo> listaProtocolo;
 
     public ProtocoloDAO() {
-        this.listaProtocolo = new ArrayList();
+
     }
 
+        //Métodos do Cadastro de Historicos
+    public int getProximoCodProtocolo() {
+        em = ConexaoEntityManager.getInstance();
+        int posicao;
+        Object ultimo;
+        ultimo = em.createNativeQuery("SELECT max(idProtocolo) as idProtocolo from protocolo").getSingleResult();
+        if (ultimo == null) {
+            posicao = 1;
+        } else {
+            posicao = Integer.parseInt(ultimo.toString()) + 1;
+        }
+        return posicao;
+    }
+    
     public Protocolo cadastrarProtocolo(Protocolo protocolo) {
 
         em = ConexaoEntityManager.getInstance();
@@ -56,7 +69,6 @@ public class ProtocoloDAO {
                 em.remove(protocolo);
                 em.getTransaction().commit();
                 em.close();
-                JOptionPane.showMessageDialog(null, "Protocolo excluida com Sucesso!");
             }
         } catch (RollbackException e) {
             JOptionPane.showMessageDialog(null, "Não é possivel Excluir este Protocolo\nEstá vinculado a outro Processo!");
@@ -65,9 +77,10 @@ public class ProtocoloDAO {
         return true;
     }
 
-    public List getListaProtocolo() {
+    public List getListaProtocolo(int codProtocolo) {
         em = ConexaoEntityManager.getInstance();
-        List listaProtocolo = em.createQuery("FROM Protocolo", Protocolo.class).getResultList();
+        List listaProtocolo = em.createQuery("FROM Protocolo where empresaProtocolo = " + codProtocolo, Protocolo.class).getResultList();
+        
         return listaProtocolo;
     }
 

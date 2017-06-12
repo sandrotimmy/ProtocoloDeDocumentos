@@ -10,6 +10,7 @@ import br.com.MVC.models.Empresa;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
 
@@ -18,7 +19,8 @@ import javax.swing.JOptionPane;
  * @author Sandro Machado
  */
 public class EmpresaDAO {
-        private EntityManager em;
+
+    private EntityManager em;
     private final ArrayList<Empresa> listaEmpresa;
 
     public EmpresaDAO() {
@@ -36,7 +38,7 @@ public class EmpresaDAO {
         return empresa;
     }
 
-    public void atualizaEmpresa(Empresa empresa) {
+    public Empresa atualizaEmpresa(Empresa empresa) {
         if (empresa != null) {
             em = ConexaoEntityManager.getInstance();
             em.getTransaction().begin();
@@ -44,7 +46,7 @@ public class EmpresaDAO {
             em.getTransaction().commit();
             em.close();
         }
-        JOptionPane.showMessageDialog(null, "Empresa Atualizado com Sucesso!");
+        return empresa;
     }
 
     public boolean removeEmpresa(int idEmpresa) {
@@ -56,7 +58,6 @@ public class EmpresaDAO {
                 em.remove(empresa);
                 em.getTransaction().commit();
                 em.close();
-                JOptionPane.showMessageDialog(null, "Empresa excluida com Sucesso!");
             }
         } catch (RollbackException e) {
             JOptionPane.showMessageDialog(null, "Não é possivel Excluir este Empresa\nEstá vinculado a outro Processo!");
@@ -72,8 +73,12 @@ public class EmpresaDAO {
     }
 
     public Empresa getEmpresa(Integer codUsuario) {
-        em = ConexaoEntityManager.getInstance();
-        Empresa empresa = em.createQuery("FROM Empresa where usuarioEmpresa = "+codUsuario, Empresa.class).getSingleResult();
-        return empresa;
+        try {
+            em = ConexaoEntityManager.getInstance();
+            Empresa empresa = em.createQuery("FROM Empresa where usuarioEmpresa = " + codUsuario, Empresa.class).getSingleResult();
+            return empresa;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

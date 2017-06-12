@@ -1,46 +1,90 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 var operacao = "A"; //"A"=Adição; "E"=Edição
 var indice_selecionado = -1; //Índice do protocolo selecionado na lista
 var tbProtocolos;
 var dadosRecibo;//recebe os dados para emissão do recibo de protocolo
 var codNovoProtocolo;
-
-$(function () {
-
-    tbProtocolos = localStorage.getItem("tbProtocolos");// Recupera os dados armazenados
-    dadosRecibo = sessionStorage.getItem("dadosRecibo");// Recupera os dados armazenados
-    tbProtocolos = JSON.parse(tbProtocolos); // Converte string para objeto
-    dadosRecibo = JSON.parse(dadosRecibo); // Converte string para objeto
-    if (tbProtocolos == null) // Caso não haja conteúdo, iniciamos um vetor vazio
-        tbProtocolos = [];
-});
+var cliente;
+var clienteSelect;
+var listProtocolos;
 
 function GeraId() {
-    codNovoProtocolo = GerarIdProtocolo();
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/protocolos/getProximoCodProtocolo",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            listClientes = data;
+            if (data != null) {
+                codNovoProtocolo = data;
+            }
+        }
+    });
 }
 
 function AdicionarProtocolo() {
-
-
     $("#idProtocolo").val(codNovoProtocolo);
     var select = document.getElementById("clienteProtocolo");
-    var clienteSelecionado = select.options[select.selectedIndex].value;
-    var protocolo = JSON.stringify({
-        codigo: codNovoProtocolo,
+    var codCliente = select.options[select.selectedIndex].value;
+
+    getCliente(codCliente);
+
+    var dataJson = JSON.stringify({
         data: $("#dataProtocolo").val(),
-        codCliente: clienteSelecionado,
-        observacoes: $("#observacoes").val()
+        observacoes: $("#observacoes").val(),
+        empresaProtocolo: empresa,
+        clienteProtocolo: clienteSelect,
+        listaItensProtocolo: tbItensProtocolo
     });
-    tbProtocolos.push(protocolo);
-    localStorage.setItem("tbProtocolos", JSON.stringify(tbProtocolos));
-    alert("Protocolo " + codNovoProtocolo + " Cadastrado com Sucesso!");
-    ListarProtocolos();
-    enviaDadosRecibo(codNovoProtocolo);
+
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/protocolos/cadastrar",
+        contentType: "application/json; charset=utf-8",
+        data: dataJson,
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            alert("Protocolo Cadastrado com sucesso!");
+            ListarProtocolos();
+            tbItensProtocolo = [];
+            sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
+        }, error() {
+            alert("Erro ao processar a requisição ");
+        }
+    });
+//    $("#idProtocolo").val(codNovoProtocolo);
+//    var select = document.getElementById("clienteProtocolo");
+//    var clienteSelecionado = select.options[select.selectedIndex].value;
+//    var protocolo = JSON.stringify({
+//        codigo: codNovoProtocolo,
+//
+//    });
+//    tbProtocolos.push(protocolo);
+//    localStorage.setItem("tbProtocolos", JSON.stringify(tbProtocolos));
+//    alert("Protocolo " + codNovoProtocolo + " Cadastrado com Sucesso!");
+//    ListarProtocolos();
+//    enviaDadosRecibo(codNovoProtocolo);
+}
+
+function getCliente(codCliente) {
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/clientes/getCliente/" + codCliente,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            if (data != null) {
+                clienteSelect = data;
+            } else {
+                alert("Cliente não encontrado!");
+            }
+        }
+    });
 }
 
 function enviaDadosRecibo(codProtocolo) {
@@ -63,20 +107,6 @@ function enviaDadosRecibo(codProtocolo) {
     sessionStorage.setItem("dadosRecibo", dadosRec);
     gerarRecibo();
 
-}
-
-//Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
-// Nao devemos re-usar IDs
-function GerarIdProtocolo() {
-    var ultimoCod = -1;
-    if (tbProtocolos.length == 0) {
-        ultimoCod = 1;
-    } else {
-        var ultimoProtocolo = JSON.parse(tbProtocolos[tbProtocolos.length - 1]);
-        ultimoCod = ultimoProtocolo.codigo;
-        ultimoCod++;
-    }
-    return ultimoCod;
 }
 
 function EditarCadastrarProtocolo() {
@@ -112,25 +142,32 @@ function EditarProtocolo(id) {
 
 function ExcluirProtocolo(id) {
 
-    for (var i in tbProtocolos) {
-        var protocolo = JSON.parse(tbProtocolos[i]);
-        if (protocolo.codigo == id) {
-            tbProtocolos.splice(i, 1);
-            localStorage.setItem("tbProtocolos", JSON.stringify(tbProtocolos));
-            ExcluirItemPorProtocolo(protocolo.codigo);
-            alert("Registro excluído.");
-            ListarProtocolos();
+    var dataJson = JSON.stringify({
+        idProtocolo: id});
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/protocolo/excluir",
+        contentType: "application/json; charset=utf-8",
+        data: dataJson,
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            if (data == true) {
+                alert("Protocolo excluído com sucesso!");
+                ListarProtocolos();
+            } else {
+                alert("Ocorreu um erro, Protocolo não Excluído!");
+            }
         }
-    }
-
+    });
 }
 
-function AdicionarItemProtocolo(){
-        if (document.getElementById("idProtocolo").value == "") {
-            AdicionarItemProt(codNovoProtocolo);
+function AdicionarItemProtocolo() {
+    if (document.getElementById("idProtocolo").value == "") {
+        AdicionarItemProtoco(codNovoProtocolo);
     } else {
-        AdicionarItemProt(document.getElementById("idProtocolo").value);
-    }  
+        AdicionarItemProtoco(document.getElementById("idProtocolo").value);
+    }
 }
 
 function ExcluirItensCancelar() {
@@ -150,7 +187,6 @@ function SeletorCliente(codCliente) {
 }
 
 function passaDadosProtocolo(id) {
-
     var protocolo;
     for (var i in tbProtocolos) {
         protocolo = JSON.parse(tbProtocolos[i]);
@@ -159,7 +195,59 @@ function passaDadosProtocolo(id) {
         }
     }
 }
-
+//Carregar os clientes na comboBox para seleção no protocolo
+function ListaClientesProtocolo() {
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/clientes/getListaCLientes/" + empresa.idEmpresa,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            listClientes = data;
+            var select = document.getElementById("clienteProtocolo");
+            if (data != null) {
+                if (select.length <= 1) {
+                    data.forEach(function (each) {
+                        var opt = each.nome;
+                        var val = each.idCliente;
+                        var el = document.createElement("option");
+                        el.textContent = opt;
+                        el.value = val;
+                        select.appendChild(el);
+                    });
+                }
+            }
+        }
+    });
+}
+//Carregar os clientes na comboBox para seleção no protocolo
+function preencherComboItens() {
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/itens/getListaItens/" + empresa.idEmpresa,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            listItens = data;
+            var select = document.getElementById("itemProtocolo");
+            if (listItens != null) {
+                if (select.length <= 1) {
+                    listItens.forEach(function (each) {
+                        var opt = each.nome;
+                        var val = each.idItem;
+                        var el = document.createElement("option");
+                        el.textContent = opt;
+                        el.value = val;
+                        select.appendChild(el);
+                    });
+                }
+            }
+        }
+    });
+}
+//exibe protocolo no modal
 function ExibirProtocolo(id) {
     ListaItensProtocolo();
     ListaClientesProtocolo();
@@ -177,7 +265,7 @@ function ExibirProtocolo(id) {
     }
     ListarItensProtocolo(codProtocolo);
 }
-
+//lista protocolos cadastrados
 function ListarProtocolos() {
     $("#tblListarProtocolos").html("");
     $("#tblListarProtocolos").html(
@@ -193,20 +281,33 @@ function ListarProtocolos() {
             "<tbody>" +
             "</tbody>"
             );
-
-    for (var i in tbProtocolos) {
-        var protocolo = JSON.parse(tbProtocolos[i]);
-        var nomeCliente = localizaCliente(protocolo.codCliente);
-        $("#tblListarProtocolos tbody").append("<tr class=\"active\">");
-        $("#tblListarProtocolos tbody").append("<td>" + protocolo.codigo + "</td>");
-        $("#tblListarProtocolos tbody").append("<td>" + protocolo.data + "</td>");
-        $("#tblListarProtocolos tbody").append("<td>" + nomeCliente + "</td>");
-        $("#tblListarProtocolos tbody").append("<td>" + protocolo.observacoes + "</td>");
-        $("#tblListarProtocolos tbody").append("<td> \n\
-                                             <button class=\"btn btn-primary\" onclick=\"enviaDadosRecibo(" + protocolo.codigo + ")\" title=\"Recibo\"><span class=\"glyphicon glyphicon-search\"></span>\
-                                             <button id=\"btn_protocolo_Edit\" type=\"button\" class=\"btn btn-primary\" onclick=\"ExibirProtocolo(" + protocolo.codigo + ")\"title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span>\
-                                             <button class=\"btn btn-primary\" onclick=\"ExcluirProtocolo(" + protocolo.codigo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span>\</td>");
-        $("#tblListarProtocolos tbody").append("</tr>");
-    }
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/protocolos/getListaProtocolos/" + empresa.idEmpresa,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            listProtocolos = data;
+            if (data != null) {
+                data.forEach(function (each) {
+                    $("#tblListarProtocolos tbody").append("<tr class=\"active\">");
+                    $("#tblListarProtocolos tbody").append("<td>" + each.idProtocolo + "</td>");
+                    $("#tblListarProtocolos tbody").append("<td>" + each.data + "</td>");
+                    $("#tblListarProtocolos tbody").append("<td>" + each.clienteProtocolo.nome + "</td>");
+                    $("#tblListarProtocolos tbody").append("<td>" + each.observacoes + "</td>");
+                    $("#tblListarProtocolos tbody").append("<td> \n\
+                                             <button class=\"btn btn-primary\" onclick=\"enviaDadosRecibo(" + each.idProtocolo + ")\" title=\"Recibo\"><span class=\"glyphicon glyphicon-search\"></span>\
+                                             <button id=\"btn_protocolo_Edit\" type=\"button\" class=\"btn btn-primary\" onclick=\"ExibirProtocolo(" + each.idProtocolo + ")\"title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span>\
+                                             <button class=\"btn btn-primary\" onclick=\"ExcluirProtocolo(" + each.idProtocolo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span>\</td>");
+                    $("#tblListarProtocolos tbody").append("</tr>");
+                });
+            }
+        }
+    });
 }
+
+
+
+
 

@@ -4,66 +4,35 @@
  * and open the template in the editor.
  */
 
-var operacao = "A"; //"A"=Adição; "E"=Edição
-var indice_selecionado = -1; //Índice do item selecionado na lista
-var tbClientes;
+var listClientes;
 
-$(function () {
-
-    tbClientes = localStorage.getItem("tbClientes");// Recupera os dados armazenados
-    tbClientes = JSON.parse(tbClientes); // Converte string para objeto
-    if (tbClientes == null) // Caso não haja conteúdo, iniciamos um vetor vazio
-        tbClientes = [];
-});
 function AdicionarCliente() {
-
-    var cod = GerarIdCli();
-    var cliente = JSON.stringify({
-        codigo: cod,
-        cnpj: $("#cnpjClient").val(),
+    var cnpjTemp = $("#cnpjClient").val();
+    var cnpj = cnpjTemp.replace("/", "").replace(".", "").replace(".", "").replace("-", "");
+    var dataJson = JSON.stringify({
+        cnpj: cnpj,
         nome: $("#nomeClient").val(),
         endereco: $("#addressClient").val(),
         numero: $("#numberClient").val(),
         bairro: $("#districtClient").val(),
         cidade: $("#cityClient").val(),
-        cep: $("#zipCodeClient").val()
+        cep: $("#zipCodeClient").val(),
+        empresaCliente: empresa
     });
-    var igual = false;
-    for (var i = 0; i < tbClientes.length; i++) {
-        var clientCnpj = $("#cnpjClient").val();
-        var clienteTemp = JSON.parse(tbClientes[i]);
-        var nomeTemp = clienteTemp.Nome;
-        var cnpjTemp = clienteTemp.cnpj;
-        if (cnpjTemp === clientCnpj) {
-                igual = true;
-                break;  
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/clientes/cadastrar",
+        contentType: "application/json; charset=utf-8",
+        data: dataJson,
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            alert("Cliente Cadastrado com sucesso!");
+            ListarClientes();
+        }, error() {
+            alert("Erro ao processar a requisição ");
         }
-    }
-    if (igual == true) {
-        alert("Cliente ja cadastrado, cadastro não realizado!")
-        return false;
-    }else{
-        tbClientes.push(cliente);
-        localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
-        alert("Cliente " + cod + " Cadastrado com Sucesso!");
-        $("#myModal").modal(".close");
-        ListarClientes();  
-    }
-}
-
-//Limitaçao do GerarID() -> Sempre compara com o ID do ultimo cliente. Se o ultimo cliente for excluido, o ID sera re-usado.
-// Nao devemos re-usar IDs
-function GerarIdCli() {
-    var ultimoCod = -1;
-    if (tbClientes.length == 0) {
-        ultimoCod = 1;
-    } else {
-        var ultimoCli = JSON.parse(tbClientes[tbClientes.length - 1]);
-        ultimoCod = ultimoCli.codigo;
-        ultimoCod++;
-    }
-
-    return ultimoCod;
+    });
 }
 
 function EditarCadastrarCliente() {
@@ -76,82 +45,72 @@ function EditarCadastrarCliente() {
 
 function EditarCliente(id) {
 
-    for (var i in tbClientes) {
-        var cli = JSON.parse(tbClientes[i]);
-        if (cli.codigo.toString() == id) {
-            indice_selecionado = i;
+    listClientes.some(function (each, index) {
+        if (each.idCliente == id) {
+            var cnpjTemp = $("#cnpjClient").val();
+            var cnpj = cnpjTemp.replace("/", "").replace(".", "").replace(".", "").replace("-", "");
+            each.cnpj = cnpj;
+            each.nome = $("#nomeClient").val();
+            each.endereco = $("#addressClient").val();
+            each.numero = $("#numberClient").val();
+            each.bairro = $("#districtClient").val();
+            each.cidade = $("#cityClient").val();
+            each.cep = $("#zipCodeClient").val();
+
+            var dataJson = JSON.stringify(each);
+
+            $.ajax({
+                type: "POST",
+                url: "webresources/WSProtocoloRest/clientes/atualizar",
+                contentType: "application/json; charset=utf-8",
+                data: dataJson,
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    ListarClientes();
+                    alert("Cliente Atualizado com sucesso!");
+                }, error() {
+                    alert("Erro ao processar a requisição!");
+                }
+            });
+            ListarClientes();
+            return;
         }
-    }
-    tbClientes[indice_selecionado] = JSON.stringify({
-        codigo: $("#idClient").val(),
-        cnpj: $("#cnpjClient").val(),
-        nome: $("#nomeClient").val(),
-        endereco: $("#addressClient").val(),
-        numero: $("#numberClient").val(),
-        bairro: $("#districtClient").val(),
-        cidade: $("#cityClient").val(),
-        cep: $("#zipCodeClient").val()
-    });//Altera o item selecionado na tabela
-    localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
-    alert("Informações editadas.");
-    operacao = "A"; //Volta ao padrão
-    ListarClientes();
+    });
 }
 
 function ExcluirCliente(id) {
-
-    for (var i in tbClientes) {
-        var cli = JSON.parse(tbClientes[i]);
-
-        if (cli.codigo == id) {
-            tbClientes.splice(i, 1);
-            localStorage.setItem("tbClientes", JSON.stringify(tbClientes));
-            alert("Registro excluídoo.");
-            ListarClientes();
-        }
-    }
+    var dataJson = JSON.stringify({
+        idCliente: id});
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/clientes/excluir",
+        contentType: "application/json; charset=utf-8",
+        data: dataJson,
+        dataType: "json",
+        async: false
+    });
+    alert("Cliente excluído com sucesso!");
+    ListarClientes();
 }
 
 function ExibirCliente(id) {
-    for (var i in tbClientes) {
-        var cli = JSON.parse(tbClientes[i]);
 
-        if (cli.codigo == id) {
-            $("#idClient").val(cli.codigo);
-            $("#cnpjClient").val(cli.cnpj);
-            $("#nomeClient").val(cli.nome);
-            $("#addressClient").val(cli.endereco);
-            $("#numberClient").val(cli.numero);
-            $("#districtClient").val(cli.bairro);
-            $("#cityClient").val(cli.cidade);
-            $("#zipCodeClient").val(cli.cep);
-            break;
+    listClientes.some(function (each, index) {
+        if (each.idCliente == id) {
+            var cnpjTemp = each.cnpj;
+            var cnpj = cnpjTemp.substr(0, 2) + "." + cnpjTemp.substr(2, 3) + "." + cnpjTemp.substr(5, 3) + "/" + cnpjTemp.substr(8, 4) + "-" + cnpjTemp.substr(12, 2);
+            $("#idClient").val(each.idCliente);
+            $("#cnpjClient").val(cnpj);
+            $("#nomeClient").val(each.nome);
+            $("#addressClient").val(each.endereco);
+            $("#numberClient").val(each.numero);
+            $("#districtClient").val(each.bairro);
+            $("#cityClient").val(each.cidade);
+            $("#zipCodeClient").val(each.cep);
+            return;
         }
-    }
-}
-
-function passaDadosCliente(id) {
-    for (var i in tbClientes) {
-        var cli = JSON.parse(tbClientes[i]);
-        if (cli.codigo == id) {
-            return cli;
-        }
-    }
-}
-//Carregar os clientes na comboBox para seleção no protocolo
-function ListaClientesProtocolo() {
-    var select = document.getElementById("clienteProtocolo");
-    if (select.length <= 1) {
-        for (var i = 0; i < tbClientes.length; i++) {
-            var cli = JSON.parse(tbClientes[i]);
-            var opt = cli.nome;
-            var val = cli.codigo;
-            var el = document.createElement("option");
-            el.textContent = opt;
-            el.value = val;
-            select.appendChild(el);
-        }
-    }
+    });
 }
 
 function ListarClientes() {
@@ -169,28 +128,33 @@ function ListarClientes() {
             "<tbody>" +
             "</tbody>"
             );
-    for (var i in tbClientes) {
-        var cli = JSON.parse(tbClientes[i]);
-        $("#tblListarClientes tbody").append("<tr class=\"active\">");
-        $("#tblListarClientes tbody").append("<td>" + cli.codigo + "</td>");
-        $("#tblListarClientes tbody").append("<td>" + cli.cnpj + "</td>");
-        $("#tblListarClientes tbody").append("<td>" + cli.nome + "</td>");
-        $("#tblListarClientes tbody").append("<td>" + cli.cidade + "</td>");
-        $("#tblListarClientes tbody").append("<td> <button id=\"btn_clientes_Edit\" type=\"button\" class=\"btn btn-primary actionModal\" onclick=\"ExibirCliente(" + cli.codigo + ")\" title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span>\
-                                             <button class=\"btn btn-primary\" onclick=\"ExcluirCliente(" + cli.codigo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
-        // $("#tblListarClientes tbody").append("<td><button class=\"btn btn-primary\" onclick=\"eliminar()\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td");     
+    $.ajax({
+        type: "POST",
+        url: "webresources/WSProtocoloRest/clientes/getListaCLientes/" + empresa.idEmpresa,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (data) {
+            listClientes = data;
+            if (data != null) {
+                data.forEach(function (each) {
+                    var cnpjTemp = each.cnpj;
+                    var cnpj = cnpjTemp.substr(0, 2) + "." + cnpjTemp.substr(2, 3) + "." + cnpjTemp.substr(5, 3) + "/" + cnpjTemp.substr(8, 4) + "-" + cnpjTemp.substr(12, 2);
 
-        $("#tblListarClientes tbody").append("</tr>");
-    }
-}
+                    $("#tblListarClientes tbody").append("<tr class=\"active\">");
+                    $("#tblListarClientes tbody").append("<td>" + each.idCliente + "</td>");
+                    $("#tblListarClientes tbody").append("<td>" + cnpj + "</td>");
+                    $("#tblListarClientes tbody").append("<td>" + each.nome + "</td>");
+                    $("#tblListarClientes tbody").append("<td>" + each.cidade + "</td>");
+                    $("#tblListarClientes tbody").append("<td> <button id=\"btn_clientes_Edit\" type=\"button\" class=\"btn btn-primary actionModal\" onclick=\"ExibirCliente(" + each.idCliente + ")\" title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span>\
+                                             <button class=\"btn btn-primary\" onclick=\"ExcluirCliente(" + each.idCliente + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
+                    $("#tblListarClientes tbody").append("</tr>");
+                });
+            } else {
 
-function localizaCliente(codCliente) {
-    for (var i = 0; i < tbClientes.length; i++) {
-        var clienteTemp = JSON.parse(tbClientes[i]);
-        var codTemp = clienteTemp.codigo;
-        if (codTemp == codCliente) {
-            return clienteTemp.nome;
+            }
         }
-    }
+    });
 }
+
 

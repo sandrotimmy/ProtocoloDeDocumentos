@@ -22,11 +22,11 @@
         <script type="text/javascript" src="js/vendor/jquery.mask.js"></script>
         <!--scripts-->
         <script type="text/javascript" src="js/loginCtrl.js"></script>
-        <script type="text/javascript" src="js/clienteCtrl.js"></script>
         <script type="text/javascript" src="js/protocolo_interface_ctrl.js"></script>
-        <script type="text/javascript" src="js/itensCtrl.js"></script>
         <script type="text/javascript" src="js/empresaCtrl.js"></script>
+        <script type="text/javascript" src="js/clienteCtrl.js"></script>
         <script type="text/javascript" src="js/protocoloCtrl.js"></script>
+        <script type="text/javascript" src="js/itensCtrl.js"></script>
         <script type="text/javascript" src="js/reciboCtrl.js"></script>
         <script type="text/javascript" src="js/itensProtocoloCtrl.js"></script>
         <script type="text/javascript" src="js/validaProtocolos.js"></script>
@@ -97,7 +97,7 @@
                     <li><a class="icon-bar " href="#" onclick="removeAddElements(0)">Home</a></li>
                     <li><a class="icon-bar " href="#" onclick="removeAddElements(1), ListarClientes()">Clientes</a></li>
                     <li><a class="icon-bar " href="#" onclick="removeAddElements(2), ListarItens()">Itens</a></li>
-                    <li><a class="icon-bar " href="#" onclick="removeAddElements(3), ListarProtocolos(), ListaClientesProtocolo(), ListaItensProtocolo()">Protocolo</a></li>
+                    <li><a class="icon-bar " href="#" onclick="removeAddElements(3), ListarProtocolos(), ListaClientesProtocolo(), preencherComboItens()">Protocolo</a></li>
                 </ul>
             </div>
         </nav>
@@ -121,19 +121,19 @@
                     </div>
                 </div>
                 <label class="formLabelEmpresa">C.N.P.J.: </label>
-                <h3 id="txtCnpjEmpresa" class="formDadosEmpresa"> </h3>
+                <h3 id="txtCnpjEmpresa" class="formDadosEmpresa"></h3>
                 <label class="formLabelEmpresa">Nome: </label>
-                <h3 id="txtNomeEmpresa" class="formDadosEmpresa"> </h3>
+                <h3 id="txtNomeEmpresa" class="formDadosEmpresa"></h3>
                 <label class="formLabelEmpresa">Endereço: </label>
-                <h3 id="txtEnderecoEmpresa" class="formDadosEmpresa"> </h3>
+                <h3 id="txtEnderecoEmpresa" class="formDadosEmpresa"></h3>
                 <label class="formLabelEmpresa">Número: </label>
-                <h3 id="txtNumeroEmpresa" class="formDadosEmpresa"> </h3>
+                <h3 id="txtNumeroEmpresa" class="formDadosEmpresa"></h3>
                 <label class="formLabelEmpresa">Bairro: </label>
-                <h3 id="txtBairroEmpresa" class="formDadosEmpresa"> </h3>
+                <h3 id="txtBairroEmpresa" class="formDadosEmpresa"></h3>
                 <label class="formLabelEmpresa">Cidade: </label>
                 <h3 id="txtCidadeEmpresa" class="formDadosEmpresa"> </h3>
                 <label class="formLabelEmpresa">CEP: </label>
-                <h3 id="txtCepEmpresa" class="formDadosEmpresa"> </h3>
+                <h3 id="txtCepEmpresa" class="formDadosEmpresa"></h3>
                 <br />
             </div>
             <!-- Modal de Cadastro e alteração da EMPRESA -->
@@ -177,7 +177,7 @@
                                         <label for="zipCodeEmpresa"><span class="glyphicon"></span> CEP</label>
                                         <input type="text" class="form-control" id="zipCodeEmpresa" placeholder="Formato 00.000-000" maxlength="10">
                                     </div>
-                                    <button disabled id="btnCadastrarEmp" type="submit" class="btn btn-success btn-block" onclick="AdicionarEmpresa()" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+                                    <button disabled id="btnCadastrarEmp" type="submit" class="btn btn-success btn-block" onclick="EditarCadastrarEmpresa()" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
                                     <button id="btn_CadEmpresa" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                                 </form>
                             </div>
@@ -239,7 +239,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="zipCodeClient"><span class="glyphicon"></span> CEP</label>
-                                        <input type="text" class="form-control" id="zipCodeClient" placeholder="Formato 00.000-000" maxlength="9" pattern="/[0-9]{5}[-][0-9]{3}/">
+                                        <input type="text" class="form-control" id="zipCodeClient" placeholder="Formato 00.000-000" maxlength="10" pattern="/[0-9]{2}[\.][0-9]{3}[-][0-9]{3}/">
                                     </div>
                                     <button disabled id="btnCadClient" type="reset" class="btn btn-success btn-block" onclick="EditarCadastrarCliente()"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
                                     <button id="btn_CancelClient" type="reset" class="btn btn-danger btn-default pull-left btn-block"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
