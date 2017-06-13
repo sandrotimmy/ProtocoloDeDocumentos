@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.12, for Win32 (AMD64)
 --
--- Host: 127.0.0.1    Database: protocolodb
+-- Host: localhost    Database: protocolodb
 -- ------------------------------------------------------
 -- Server version	5.7.18-log
 
@@ -44,7 +44,6 @@ CREATE TABLE `empresa` (
 
 LOCK TABLES `empresa` WRITE;
 /*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
-INSERT INTO `empresa` VALUES (1,'Centro','93.180-000','Portão','20444606000123','Av Brasil','OK ASSESSORIA CONTABIL EIRELI','718',1),(2,'Centro','93.180-000','Portão','20444606000123','Av Brasil','OK ASSESSORIA CONTABIL EIRELI','718',2);
 /*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-12  1:45:08
+-- Dump completed on 2017-06-13  9:20:37

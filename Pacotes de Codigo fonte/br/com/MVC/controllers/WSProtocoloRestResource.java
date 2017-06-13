@@ -13,17 +13,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * REST Web Service
- *
- * @author Sandro Machado
- */
+
 @Path("WSProtocoloRest")
 public class WSProtocoloRestResource {
 
@@ -184,14 +179,6 @@ public class WSProtocoloRestResource {
         return result;
     }
 
-//    @POST
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Path("protocolos/getProximoCodProtocolo")
-//    public String getProximoCodProtocolo() throws JSONException {
-//        String result = gson.toJson(protocoloCtrl.getProximoCodProtocolo());
-//        return result;
-//    }
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -251,22 +238,22 @@ public class WSProtocoloRestResource {
         return json;
     }
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("protocolos/atualizar")
-    public String atualizaProtocolo(String protocolo) throws JSONException, ParseException {
-        return gson.toJson(protocoloCtrl.atualizaProtocolo(protocolo));
-    }
+//    @POST
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Path("protocolos/atualizar")
+//    public String atualizaProtocolo(String protocolo) throws JSONException, ParseException {
+//        return gson.toJson(protocoloCtrl.atualizaProtocolo(protocolo));
+//    }
     
-        @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("itemProtocolo/excluir")
-    public String removeItemPotocolo(String idItemProtocolo) throws JSONException {
-        JSONObject protocoloJson = new JSONObject(idItemProtocolo);
-        int idItemProtocoloJson = protocoloJson.getInt("idItemProtocolo");
-        String result = gson.toJson(protocoloCtrl.removeItemProtocolo(idItemProtocoloJson));
-        return result;
-    }
+//    @POST
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Path("itemProtocolo/excluir")
+//    public String removeItemPotocolo(String idItemProtocolo) throws JSONException {
+//        JSONObject protocoloJson = new JSONObject(idItemProtocolo);
+//        int idItemProtocoloJson = protocoloJson.getInt("idItemProtocolo");
+//        String result = gson.toJson(protocoloCtrl.removeItemProtocolo(idItemProtocoloJson));
+//        return result;
+//    }
 }

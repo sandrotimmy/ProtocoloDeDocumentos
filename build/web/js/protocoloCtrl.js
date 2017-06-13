@@ -9,24 +9,8 @@ var cliente;
 var clienteSelect;
 var listProtocolos;
 
-//function GeraId() {
-//    $.ajax({
-//        type: "POST",
-//        url: "webresources/WSProtocoloRest/protocolos/getProximoCodProtocolo",
-//        contentType: "application/json; charset=utf-8",
-//        dataType: "json",
-//        async: false,
-//        success: function (data) {
-//            listClientes = data;
-//            if (data != null) {
-//                codNovoProtocolo = data;
-//            }
-//        }
-//    });
-//}
-
 function AdicionarProtocolo() {
-//    $("#idProtocolo").val(codNovoProtocolo);
+
     var select = document.getElementById("clienteProtocolo");
     var codCliente = select.options[select.selectedIndex].value;
 
@@ -59,19 +43,6 @@ function AdicionarProtocolo() {
             alert("Erro ao processar a requisição ");
         }
     });
-
-//    $("#idProtocolo").val(codNovoProtocolo);
-//    var select = document.getElementById("clienteProtocolo");
-//    var clienteSelecionado = select.options[select.selectedIndex].value;
-//    var protocolo = JSON.stringify({
-//        codigo: codNovoProtocolo,
-//
-//    });
-//    tbProtocolos.push(protocolo);
-//    localStorage.setItem("tbProtocolos", JSON.stringify(tbProtocolos));
-//    alert("Protocolo " + codNovoProtocolo + " Cadastrado com Sucesso!");
-//    ListarProtocolos();
-
 }
 
 function getCliente(codCliente) {
@@ -121,43 +92,43 @@ function EditarCadastrarProtocolo() {
     }
 }
 
-function EditarProtocolo(id) {
-    
-//    $("#idProtocolo").val(codNovoProtocolo);
-    var select = document.getElementById("clienteProtocolo");
-    var codCliente = select.options[select.selectedIndex].value;
-
-    getCliente(codCliente);
-
-    var dataJson = JSON.stringify({
-        idProtocolo:$("#idProtocolo").val(),
-        data: $("#dataProtocolo").val(),
-        observacoes: $("#observacoes").val(),
-        empresaProtocolo: empresa,
-        clienteProtocolo: clienteSelect,
-        listaItensProtocolo: tbItensProtocolo
-    });
-
-    $.ajax({
-        type: "POST",
-        url: "webresources/WSProtocoloRest/protocolos/atualizar",
-        contentType: "application/json; charset=utf-8",
-        data: dataJson,
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            alert("Protocolo Alterado com sucesso!");
-            ListarProtocolos();
-            tbItensProtocolo = [];
-            sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
-            var idTemp = data.idProtocolo;
-            enviaDadosRecibo(idTemp);
-            limparTabela();
-        }, error() {
-            alert("Erro ao processar a requisição ");
-        }
-    });
-}
+//function EditarProtocolo(id) {
+//
+////    $("#idProtocolo").val(codNovoProtocolo);
+//    var select = document.getElementById("clienteProtocolo");
+//    var codCliente = select.options[select.selectedIndex].value;
+//
+//    getCliente(codCliente);
+//
+//    var dataJson = JSON.stringify({
+//        idProtocolo: $("#idProtocolo").val(),
+//        data: $("#dataProtocolo").val(),
+//        observacoes: $("#observacoes").val(),
+//        empresaProtocolo: empresa,
+//        clienteProtocolo: clienteSelect,
+//        listaItensProtocolo: tbItensProtocolo
+//    });
+//
+//    $.ajax({
+//        type: "POST",
+//        url: "webresources/WSProtocoloRest/protocolos/atualizar",
+//        contentType: "application/json; charset=utf-8",
+//        data: dataJson,
+//        dataType: "json",
+//        async: false,
+//        success: function (data) {
+//            alert("Protocolo Alterado com sucesso!");
+//            ListarProtocolos();
+//            tbItensProtocolo = [];
+//            sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
+//            var idTemp = data.idProtocolo;
+//            enviaDadosRecibo(idTemp);
+//            limparTabela();
+//        }, error() {
+//            alert("Erro ao processar a requisição ");
+//        }
+//    });
+//}
 
 function ExcluirProtocolo(id) {
 
@@ -191,7 +162,8 @@ function ExcluirProtocolo(id) {
 
 function ExcluirItensCancelar() {
     if (document.getElementById("idProtocolo").value == "") {
-        ExcluirItemPorProtocolo(codNovoProtocolo);
+        tbItensProtocolo = [];
+        sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
     }
 }
 
@@ -205,15 +177,15 @@ function SeletorCliente(codCliente) {
     }
 }
 
-function passaDadosProtocolo(id) {
-    var protocolo;
-    for (var i in tbProtocolos) {
-        protocolo = JSON.parse(tbProtocolos[i]);
-        if (protocolo.codigo == id) {
-            return protocolo;
-        }
-    }
-}
+//function passaDadosProtocolo(id) {
+//    var protocolo;
+//    for (var i in tbProtocolos) {
+//        protocolo = JSON.parse(tbProtocolos[i]);
+//        if (protocolo.codigo == id) {
+//            return protocolo;
+//        }
+//    }
+//}
 
 
 //exibe protocolo no modal
@@ -232,7 +204,7 @@ function ExibirProtocolo(id) {
                 SeletorCliente(data.clienteProtocolo.idCliente);
                 $("#observacoes").val(data.observacoes);
                 codProtocolo = data.idProtocolo;
-                    ListarItensProtocoloPersist(codProtocolo);
+                ListarItensProtocoloPersist(codProtocolo);
             }
         }
     });
@@ -282,8 +254,7 @@ function ListarProtocolos() {
                     $("#tblListarProtocolos tbody").append("<td>" + each.observacoes + "</td>");
                     $("#tblListarProtocolos tbody").append("<td> \n\
                                              <button class=\"btn btn-primary\" onclick=\"enviaDadosRecibo(" + each.idProtocolo + ")\" title=\"Recibo\"><span class=\"glyphicon glyphicon-search\"></span>\
-                                             <button id=\"btn_protocolo_Edit\" type=\"button\" class=\"btn btn-primary\" onclick=\"ExibirProtocolo(" + each.idProtocolo + ")\"title=\"Editar\"><span class=\"glyphicon glyphicon-pencil\"></span>\
-                                             <button class=\"btn btn-primary\" onclick=\"ExcluirProtocolo(" + each.idProtocolo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span>\</td>");
+                                            <button class=\"btn btn-primary\" onclick=\"ExcluirProtocolo(" + each.idProtocolo + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span>\</td>");
                     $("#tblListarProtocolos tbody").append("</tr>");
                 });
             }

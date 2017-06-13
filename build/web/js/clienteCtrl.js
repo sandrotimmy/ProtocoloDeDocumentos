@@ -108,6 +108,12 @@ function ExibirCliente(id) {
         }
     });
 }
+//limpa a combobox de itens para popular com dados novos
+function removeOptionsClientes(selectbox) {
+    for (var i = 1; i < selectbox.options.length; i++) {
+        selectbox.remove(i);
+    }
+}
 //Carregar os clientes na comboBox para seleção no protocolo
 function ListaClientesProtocolo() {
     $.ajax({
@@ -119,18 +125,15 @@ function ListaClientesProtocolo() {
         success: function (data) {
             listClientes = data;
             var select = document.getElementById("clienteProtocolo");
-            if (data != null) {
-                if (select.length <= 1) {
-                    data.forEach(function (each) {
-                        var opt = each.nome;
-                        var val = each.idCliente;
-                        var el = document.createElement("option");
-                        el.textContent = opt;
-                        el.value = val;
-                        select.appendChild(el);
-                    });
-                }
-            }
+            removeOptionsClientes(select);
+            data.forEach(function (each) {
+                var opt = each.nome;
+                var val = each.idCliente;
+                var el = document.createElement("option");
+                el.textContent = opt;
+                el.value = val;
+                select.appendChild(el);
+            });
         }
     });
 }

@@ -206,8 +206,8 @@ public class ProtocoloAppCtrl {
         return persistProtocolo.getProtocolo(codProtocolo);
     }
 
-    public boolean removeItemProtocolo(int idItemProtocolo) {
-        return persistItemProtocolo.removeItemProtocolo(idItemProtocolo);
-    }
+//    public boolean removeItemProtocolo(int idItemProtocolo) {
+//        return persistItemProtocolo.removeItemProtocolo(idItemProtocolo);
+//    }
 
 }

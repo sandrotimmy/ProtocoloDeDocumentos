@@ -2,19 +2,16 @@
 
 var indice_selecionado = -1; //Índice do itemProtocolo selecionado na lista
 var tbItensProtocolo;
-var tbItensExcluir
 var itemTemp;
 
 $(function () {
     tbItensProtocolo = [];
-    tbItensExcluir = [];
 });
 
 function AdicionarItemProtoco() {
 
     var temp = $("#itemProtocolo").val();
     if (temp != "") {
-
         var select = document.getElementById("itemProtocolo");
         var itemSelecionado = select.options[select.selectedIndex].value;
         localizaItem(itemSelecionado);
@@ -32,8 +29,6 @@ function AdicionarItemProtoco() {
         });
         tbItensProtocolo.push(itemProtocolo);
         sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
-        ListarItensProtocolo(codProtocolo);
-        ListarItensProtocoloPersist($("#idProtocolo").val());
         ListarItensProtocolo();
     } else {
         alert("Você deve Selecionar um Item para adicionar!");
@@ -72,14 +67,9 @@ function  getListaItensProtocolo() {
                                              <button class=\"btn btn-primary\" onclick=\"ExcluirCliente(" + each.idCliente + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
                     $("#tblListarClientes tbody").append("</tr>");
                 });
-            } else {
-
             }
         }
     });
-
-
-
 }
 
 //Gerado somente durante o cadastro do protocolo, depos ele não tem validade, valendo o codigo gerado pelo banco
@@ -103,33 +93,19 @@ function EditarCadastrarItemProtocolo() {
     }
 }
 
-function ExcluirItemProtocolo(id) {
-
-    for (var i in tbItensProtocolo) {
-        var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
-        if (itemProtocolo.idItemProtocolo == id) {
-            tbItensProtocolo.splice(i, 1);
-            sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
-            ListarItensProtocoloPersist($("#idProtocolo").val());
-            ListarItensProtocolo();
-            break;
-        }
-    }
-}
-
-function ExcluirItemPorProtocolo(codProtocolo) {
-
-    for (var i = 0; i < tbItensProtocolo.length; i++) {
-        var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
-        if (itemProtocolo.codProtocolo == codProtocolo) {
-            tbItensProtocolo.splice(i, 1);
-            sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
-            i--;
-            ListarItensProtocoloPersist($("#idProtocolo").val());
-            ListarItensProtocolo();
-        }
-    }
-}
+//function ExcluirItemProtocolo(id) {
+//
+//    for (var i in tbItensProtocolo) {
+//        var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
+//        if (itemProtocolo.idItemProtocolo == id) {
+//            tbItensProtocolo.splice(i, 1);
+//            sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
+//            ListarItensProtocoloPersist($("#idProtocolo").val());
+//            ListarItensProtocolo();
+//            break;
+//        }
+//    }
+//}
 
 function ExcluirItemProtocoloPersist(codItemProtocolo) {
     var dataJson = JSON.stringify({
@@ -151,8 +127,13 @@ function ExcluirItemProtocoloPersist(codItemProtocolo) {
             }
         }
     });
-    ListarItensProtocoloPersist($("#idProtocolo").val());
     ListarItensProtocolo();
+}
+//limpa a combobox de itens para popular com dados novos
+function removeOptionsItens(selectbox) {
+    for (var i = 1; i < selectbox.options.length; i++) {
+        selectbox.remove(i);
+    }
 }
 //Carregar os clientes na comboBox para seleção no protocolo
 function preencherComboItens() {
@@ -165,18 +146,15 @@ function preencherComboItens() {
         success: function (data) {
             listItens = data;
             var select = document.getElementById("itemProtocolo");
-            if (listItens != null) {
-                if (select.length <= 1) {
-                    listItens.forEach(function (each) {
-                        var opt = each.nome;
-                        var val = each.idItem;
-                        var el = document.createElement("option");
-                        el.textContent = opt;
-                        el.value = val;
-                        select.appendChild(el);
-                    });
-                }
-            }
+            removeOptionsItens(select);
+            listItens.forEach(function (each) {
+                var opt = each.nome;
+                var val = each.idItem;
+                var el = document.createElement("option");
+                el.textContent = opt;
+                el.value = val;
+                select.appendChild(el);
+            });
         }
     });
 }
@@ -193,7 +171,9 @@ function ExibirItemProtocolo(id) {
     }
 }
 function limparTabela() {
-    document.getElementById("bodyItemProtocolo").innerHTML = "";
+    if (document.getElementById("bodyItemProtocolo") != null) {
+        document.getElementById("bodyItemProtocolo").innerHTML = "";
+    }
 }
 
 function ListarItensProtocolo() {
@@ -212,9 +192,8 @@ function ListarItensProtocolo() {
             "</tbody>"
 
             );
-    var cont;
-    for (var i in tbItensProtocolo) {
 
+    for (var i in tbItensProtocolo) {
         var itemProtocolo = JSON.parse(tbItensProtocolo[i]);
         $("#tblListarItensProtocolo tbody").append("<tr class=\"active\">");
         $("#tblListarItensProtocolo tbody").append("<td>" + itemProtocolo.idItemProtocolo + "</td>");
@@ -261,8 +240,6 @@ function ListarItensProtocoloPersist(codProtocolo) {
             }
         }
     });
-
-
 }
 function passarItensProtocoloRecibo(codProtocolo) {
     $("#tblListarItensRecibo").html("");
