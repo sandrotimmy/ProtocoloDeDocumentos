@@ -1,14 +1,10 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 var listClientes;
 
+//Adiciona o cliente no Banco
 function AdicionarCliente() {
     var cnpjTemp = $("#cnpjClient").val();
-    var cnpj = cnpjTemp.replace("/", "").replace(".", "").replace(".", "").replace("-", "");
+    var cnpj = cnpjTemp.replace("/", "").replace(".", "").replace(".", "").replace("-", "");//retira os '.' e '/'
     var dataJson = JSON.stringify({
         cnpj: cnpj,
         nome: $("#nomeClient").val(),
@@ -17,7 +13,7 @@ function AdicionarCliente() {
         bairro: $("#districtClient").val(),
         cidade: $("#cityClient").val(),
         cep: $("#zipCodeClient").val(),
-        empresaCliente: empresa
+        empresaCliente: empresa//pré carregada após o login
     });
     $.ajax({
         type: "POST",
@@ -26,15 +22,15 @@ function AdicionarCliente() {
         data: dataJson,
         dataType: "json",
         async: false,
-        success: function (data) {
-            alert("Cliente Cadastrado com sucesso!");
+        success: function () {
+            alert("Cliente cadastrado com sucesso!");
             ListarClientes();
         }, error() {
             alert("Erro ao processar a requisição ");
         }
     });
 }
-
+//Verifica através da existencia ou não do ID se é um novo cadastro ou editar existente
 function EditarCadastrarCliente() {
     if (document.getElementById("idClient").value == "") {
         AdicionarCliente();
@@ -44,8 +40,8 @@ function EditarCadastrarCliente() {
 }
 
 function EditarCliente(id) {
-
-    listClientes.some(function (each, index) {
+    //procura os Clientes na lista até localizar pelo ID
+    listClientes.some(function (each) {
         if (each.idCliente == id) {
             var cnpjTemp = $("#cnpjClient").val();
             var cnpj = cnpjTemp.replace("/", "").replace(".", "").replace(".", "").replace("-", "");
@@ -66,15 +62,13 @@ function EditarCliente(id) {
                 data: dataJson,
                 dataType: "json",
                 async: false,
-                success: function (data) {
+                success: function () {
                     ListarClientes();
                     alert("Cliente Atualizado com sucesso!");
                 }, error() {
                     alert("Erro ao processar a requisição!");
                 }
             });
-            ListarClientes();
-            return;
         }
     });
 }
@@ -94,9 +88,10 @@ function ExcluirCliente(id) {
     ListarClientes();
 }
 
+//Localiza o Cliente na lista e exibe os dados no Modal
 function ExibirCliente(id) {
 
-    listClientes.some(function (each, index) {
+    listClientes.some(function (each) {
         if (each.idCliente == id) {
             var cnpjTemp = each.cnpj;
             var cnpj = cnpjTemp.substr(0, 2) + "." + cnpjTemp.substr(2, 3) + "." + cnpjTemp.substr(5, 3) + "/" + cnpjTemp.substr(8, 4) + "-" + cnpjTemp.substr(12, 2);
@@ -112,7 +107,7 @@ function ExibirCliente(id) {
         }
     });
 }
-
+//Lista os clientes na tabela de listagem
 function ListarClientes() {
     $("#tblListarClientes").html("");
     $("#tblListarClientes").html(
@@ -140,7 +135,6 @@ function ListarClientes() {
                 data.forEach(function (each) {
                     var cnpjTemp = each.cnpj;
                     var cnpj = cnpjTemp.substr(0, 2) + "." + cnpjTemp.substr(2, 3) + "." + cnpjTemp.substr(5, 3) + "/" + cnpjTemp.substr(8, 4) + "-" + cnpjTemp.substr(12, 2);
-
                     $("#tblListarClientes tbody").append("<tr class=\"active\">");
                     $("#tblListarClientes tbody").append("<td>" + each.idCliente + "</td>");
                     $("#tblListarClientes tbody").append("<td>" + cnpj + "</td>");
@@ -150,8 +144,6 @@ function ListarClientes() {
                                              <button class=\"btn btn-primary\" onclick=\"ExcluirCliente(" + each.idCliente + ")\" title=\"Remover\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>");
                     $("#tblListarClientes tbody").append("</tr>");
                 });
-            } else {
-
             }
         }
     });

@@ -3,19 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/Pacotes%20de%20Codigo%20fonte/br/com/MVC/DAO/ProtocoloDAO.java</file>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/conf/persistence.xml</file>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/public_html/js/itensProtocoloCtrl.js</file>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/Pacotes%20de%20Codigo%20fonte/br/com/MVC/models/Protocolo.java</file>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/public_html/protocolo_menu.html</file>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/Pacotes%20de%20Codigo%20fonte/br/com/MVC/models/ItemProtocolo.java</file>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/Pacotes%20de%20Codigo%20fonte/br/com/MVC/DAO/ClientesDAO.java</file>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/public_html/js/protocoloCtrl.js</file>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/public_html/js/empresaCtrl.js</file>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/Pacotes%20de%20Codigo%20fonte/br/com/MVC/controllers/ProtocoloAppCtrl.java</file>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/Pacotes%20de%20Codigo%20fonte/br/com/MVC/DAO/ItemProtocoloDAO.java</file>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/Pacotes%20de%20Codigo%20fonte/br/com/MVC/controllers/WSProtocoloRestResource.java</file>
-            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/Pacotes%20de%20Codigo%20fonte/br/com/MVC/controllers/Main.java</file>
+            <file>file:/C:/Users/Sandro/Documents/RepositorioGIT/ProtocoloDeDocumentos/public_html/js/clienteCtrl.js</file>
         </group>
     </open-files>
 </project-private>
