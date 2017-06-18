@@ -2,27 +2,27 @@ scr = "clienteCtrl";
 
 function iniciarTelaClientes() {
 
-//    removeAddElements(11); 
     ListarClientes();
 
 }
+//Controla o conteudo na tela
 function removeAddElements(component) {
     if (component === 0) {// 0 Ativa Pagina Home
         document.getElementById("dadosEmpresa").style.display = "block";
         document.getElementById("listClient").style.display = "none";
         document.getElementById("listProtocolos").style.display = "none";
         document.getElementById("listItens").style.display = "none";
-    } else if (component === 1) {// 0 Ativa lista de Clientes
+    } else if (component === 1) {// 1 Ativa lista de Clientes
         document.getElementById("listClient").style.display = "block";
         document.getElementById("dadosEmpresa").style.display = "none";
         document.getElementById("listProtocolos").style.display = "none";
         document.getElementById("listItens").style.display = "none";
-    } else if (component === 2) {// 01 Ativa lista de Itens
+    } else if (component === 2) {// 2 Ativa lista de Itens
         document.getElementById("listItens").style.display = "block";
         document.getElementById("dadosEmpresa").style.display = "none";
         document.getElementById("listProtocolos").style.display = "none";
         document.getElementById("listClient").style.display = "none";
-    } else if (component === 3) {// 01 Ativa lista de protocolos
+    } else if (component === 3) {// 3 Ativa lista de protocolos
         document.getElementById("listProtocolos").style.display = "block";
         document.getElementById("dadosEmpresa").style.display = "none";
         document.getElementById("listItens").style.display = "none";
@@ -31,9 +31,9 @@ function removeAddElements(component) {
 }
 
 function closeModal(modal) {
-
     ("myModalClient").removeData('bs.modal');
 }
+//Chama o modal Correspondente
 function alterBehaviorModal() {
     //Abre Modal EMPRESA
     $(document.body).on("click", "#btn_empresa", function () {

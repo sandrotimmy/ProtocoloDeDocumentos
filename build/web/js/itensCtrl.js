@@ -1,6 +1,6 @@
 
 
-var listItens;
+var listItens;//Recebe a lista de itens persistidos no banco
 
 function AdicionarItem() {
     var dataJson = JSON.stringify({
@@ -9,7 +9,6 @@ function AdicionarItem() {
         retorno: $("#retorno").val(),
         empresaItem: empresa
     });
-
     $.ajax({
         type: "POST",
         url: "webresources/WSProtocoloRest/itens/cadastrar",
@@ -25,7 +24,7 @@ function AdicionarItem() {
         }
     });
 }
-
+//Verifica se o item será cadastrado ou alterado com base na existencia do ID
 function EditarCadastrarItem() {
     if (document.getElementById("idItem").value == "") {
         AdicionarItem();
@@ -51,13 +50,13 @@ function EditarItem(id) {
                 data: dataJson,
                 dataType: "json",
                 async: false,
-                success: function (data) {
-                    alert("Item Atualizado com sucesso!");
+                success: function () {
+                    ListarItens();
+                    alert("Item atualizado com sucesso!");
                 }, error() {
                     alert("Erro ao processar a requisição!");
                 }
             });
-            ListarItens();
             return;
         }
     });
@@ -74,12 +73,12 @@ function ExcluirItem(id) {
         dataType: "json",
         async: false
     });
-    alert("Item excluído com sucesso!");
     ListarItens();
+    alert("Item excluído com sucesso!");
 }
-
+//exibe o item selecionado no modal
 function ExibirItem(id) {
-    listItens.some(function (each, index) {
+    listItens.some(function (each) {
         if (each.idItem == id) {
             $("#idItem").val(each.idItem);
             $("#nomeItem").val(each.nome);
@@ -89,7 +88,7 @@ function ExibirItem(id) {
         }
     });
 }
-
+//Exibe os itens na tabela de listagem
 function ListarItens() {
     $("#tblListarItens").html("");
     $("#tblListarItens").html(

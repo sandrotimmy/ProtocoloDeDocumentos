@@ -1,10 +1,10 @@
 
-
+//Gera o Recibo a partir do codigo do Protocolo recebido como parametro
 function gerarRecibo(codProtocolo) {
     window.sessionStorage.setItem("codProtocoloRecibo", codProtocolo);
     window.open("./reciboProtocolo.html", "blank");
 }
-
+//Popula o recibo com os dados recebidos
 function populaRecibo() {
     cod = window.sessionStorage.getItem("codProtocoloRecibo");
     $.ajax({
@@ -28,7 +28,4 @@ function populaRecibo() {
             }
         }
     });
-
-
-
 }

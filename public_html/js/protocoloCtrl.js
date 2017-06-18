@@ -1,20 +1,13 @@
 
-
-var operacao = "A"; //"A"=Adição; "E"=Edição
-var indice_selecionado = -1; //Índice do protocolo selecionado na lista
-var tbProtocolos;
-var dadosRecibo;//recebe os dados para emissão do recibo de protocolo
-var codNovoProtocolo;
-var cliente;
 var clienteSelect;
 var listProtocolos;
 
+//Adiciona Protocolo
 function AdicionarProtocolo() {
+    var select = document.getElementById("clienteProtocolo");//Seleciona o Cliente
+    var codCliente = select.options[select.selectedIndex].value;//obtem o Index
 
-    var select = document.getElementById("clienteProtocolo");
-    var codCliente = select.options[select.selectedIndex].value;
-
-    getCliente(codCliente);
+    getCliente(codCliente);//localiza o Cliente na lista
 
     var dataJson = JSON.stringify({
         data: $("#dataProtocolo").val(),
@@ -23,7 +16,6 @@ function AdicionarProtocolo() {
         clienteProtocolo: clienteSelect,
         listaItensProtocolo: tbItensProtocolo
     });
-
     $.ajax({
         type: "POST",
         url: "webresources/WSProtocoloRest/protocolos/cadastrar",
@@ -44,7 +36,7 @@ function AdicionarProtocolo() {
         }
     });
 }
-
+//Localiza o Cliente persistido
 function getCliente(codCliente) {
     $.ajax({
         type: "POST",
@@ -61,27 +53,9 @@ function getCliente(codCliente) {
         }
     });
 }
-
+//Envia os dados para a emissão do Recibo
 function enviaDadosRecibo(codProtocolo) {
     gerarRecibo(codProtocolo);
-//    var protocolo = passaDadosProtocolo(codProtocolo);
-//    var empresa = passaDadosEmpresa();
-//    var cliente = passaDadosCliente(protocolo.codCliente);
-//
-//    var dadosRec = JSON.stringify({
-//        dadosProtocoloCod: protocolo.codigo,
-//        dadosEmpresaCnpj: empresa.cnpjEmpresa,
-//        dadosEmpresaNome: empresa.nomeEmpresa,
-//        dadosEmpresaEndereco: empresa.enderecoEmpresa,
-//        dadosEmpresaNumero: empresa.numeroEmpresa,
-//        dadosEmpresaBairro: empresa.bairroEmpresa,
-//        dadosEmpresaCidade: empresa.cidadeEmpresa,
-//        dadosClienteNome: cliente.nome,
-//        dadosProtocoloObservacoes: protocolo.observacoes
-//    });
-//    sessionStorage.setItem("dadosRecibo", dadosRec);
-
-
 }
 
 function EditarCadastrarProtocolo() {
@@ -91,44 +65,6 @@ function EditarCadastrarProtocolo() {
         EditarProtocolo(document.getElementById("idProtocolo").value);
     }
 }
-
-//function EditarProtocolo(id) {
-//
-////    $("#idProtocolo").val(codNovoProtocolo);
-//    var select = document.getElementById("clienteProtocolo");
-//    var codCliente = select.options[select.selectedIndex].value;
-//
-//    getCliente(codCliente);
-//
-//    var dataJson = JSON.stringify({
-//        idProtocolo: $("#idProtocolo").val(),
-//        data: $("#dataProtocolo").val(),
-//        observacoes: $("#observacoes").val(),
-//        empresaProtocolo: empresa,
-//        clienteProtocolo: clienteSelect,
-//        listaItensProtocolo: tbItensProtocolo
-//    });
-//
-//    $.ajax({
-//        type: "POST",
-//        url: "webresources/WSProtocoloRest/protocolos/atualizar",
-//        contentType: "application/json; charset=utf-8",
-//        data: dataJson,
-//        dataType: "json",
-//        async: false,
-//        success: function (data) {
-//            alert("Protocolo Alterado com sucesso!");
-//            ListarProtocolos();
-//            tbItensProtocolo = [];
-//            sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
-//            var idTemp = data.idProtocolo;
-//            enviaDadosRecibo(idTemp);
-//            limparTabela();
-//        }, error() {
-//            alert("Erro ao processar a requisição ");
-//        }
-//    });
-//}
 
 function ExcluirProtocolo(id) {
 
@@ -151,76 +87,43 @@ function ExcluirProtocolo(id) {
         }
     });
 }
-
-//function AdicionarItemProtocolo() {
-//    if (document.getElementById("idProtocolo").value == "") {
-//        AdicionarItemProtoco(codNovoProtocolo);
-//    } else {
-//        AdicionarItemProtoco(document.getElementById("idProtocolo").value);
-//    }
-//}
-
+//Limpa a lista de Itens se o usuario cancelar o cadastro de protocolo
 function ExcluirItensCancelar() {
-    if (document.getElementById("idProtocolo").value == "") {
         tbItensProtocolo = [];
         sessionStorage.setItem("tbItensProtocolo", JSON.stringify(tbItensProtocolo));
-    }
 }
-
-function SeletorCliente(codCliente) {
-    var select = document.getElementById("clienteProtocolo");
-    for (var i = 0; i < select.options.length; i++) {
-        if (select.options[i].value == codCliente) {
-            select.options[i].selected = "true";
-            break;
-        }
-    }
-}
-
-//function passaDadosProtocolo(id) {
-//    var protocolo;
-//    for (var i in tbProtocolos) {
-//        protocolo = JSON.parse(tbProtocolos[i]);
-//        if (protocolo.codigo == id) {
-//            return protocolo;
-//        }
-//    }
-//}
-
-
-//exibe protocolo no modal
-function ExibirProtocolo(id) {
-
-    $.ajax({
-        type: "POST",
-        url: "webresources/WSProtocoloRest/protocolo/getProtocolo/" + id,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            if (data != null) {
-                $("#idProtocolo").val(data.idProtocolo);
-                $("#dataProtocolo").val(data.data);
-                SeletorCliente(data.clienteProtocolo.idCliente);
-                $("#observacoes").val(data.observacoes);
-                codProtocolo = data.idProtocolo;
-                ListarItensProtocoloPersist(codProtocolo);
-            }
-        }
-    });
-
-//    ListaItensProtocolo();
-//    ListaClientesProtocolo();
-//    var codProtocolo;
-//    for (var i in tbProtocolos) {
-//        var protocolo = JSON.parse(tbProtocolos[i]);
-//        if (protocolo.codigo == id) {
-//
+////
+//function SeletorCliente(codCliente) {
+//    var select = document.getElementById("clienteProtocolo");
+//    for (var i = 0; i < select.options.length; i++) {
+//        if (select.options[i].value == codCliente) {
+//            select.options[i].selected = "true";
 //            break;
 //        }
 //    }
+//}
 
-}
+////exibe protocolo no modal
+//function ExibirProtocolo(id) {
+//
+//    $.ajax({
+//        type: "POST",
+//        url: "webresources/WSProtocoloRest/protocolo/getProtocolo/" + id,
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        async: false,
+//        success: function (data) {
+//            if (data != null) {
+//                $("#idProtocolo").val(data.idProtocolo);
+//                $("#dataProtocolo").val(data.data);
+//                SeletorCliente(data.clienteProtocolo.idCliente);
+//                $("#observacoes").val(data.observacoes);
+//                codProtocolo = data.idProtocolo;
+//                ListarItensProtocoloPersist(codProtocolo);
+//            }
+//        }
+//    });
+//}
 //lista protocolos cadastrados
 function ListarProtocolos() {
     $("#tblListarProtocolos").html("");

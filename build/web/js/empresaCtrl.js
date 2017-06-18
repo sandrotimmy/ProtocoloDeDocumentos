@@ -1,5 +1,5 @@
 
-var empresa;
+var empresa;//recebe os dados da empresa logo após o login
 
 function inserirDados() {
     var usuario = JSON.parse(sessionStorage.getItem("secaoUsuario"));
@@ -11,7 +11,7 @@ function inserirDados() {
         dataType: "JSON",
         async: false,
         success: function (data) {
-            if (data != null) {
+            if (data != null) {//caso Haja empresa exibe na tela
                 var cnpjTemp = data.cnpj;
                 var cnpj = cnpjTemp.substr(0, 2) + "." + cnpjTemp.substr(2, 3) + "." + cnpjTemp.substr(5, 3) + "/" + cnpjTemp.substr(8, 4) + "-" + cnpjTemp.substr(12, 2);
                 document.getElementById("txtCnpjEmpresa").innerHTML = cnpj;
@@ -22,7 +22,7 @@ function inserirDados() {
                 document.getElementById("txtCidadeEmpresa").innerHTML = data.cidade;
                 document.getElementById("txtCepEmpresa").innerHTML = data.cep;
                 empresa = data;
-            } else {
+            } else {//se não avisa para cadastrar
                 document.getElementById("txtCnpjEmpresa").innerHTML = "";
                 document.getElementById("txtNomeEmpresa").innerHTML = "";
                 document.getElementById("txtEnderecoEmpresa").innerHTML = "";
@@ -69,13 +69,13 @@ function AdicionarEmpresa() {
             $("#cityEmpresa").val(data.cidade);
             $("#zipCodeEmpresa").val(data.cep);
             inserirDados();
-            alert("Empresa Cadastrada Com sucesso!");
+            alert("Empresa cadastrada com sucesso!");
         }, error() {
             alert("Erro ao processar a requisição ");
         }
     });
 }
-
+//Verifica caso não exista empresa cadadstrada, cadastra empresa, se não atualiza
 function EditarCadastrarEmpresa() {
     if (empresa == null) {
         AdicionarEmpresa();
@@ -100,8 +100,7 @@ function EditarEmpresa() {
         cidade: $("#cityEmpresa").val(),
         cep: $("#zipCodeEmpresa").val(),
         usuarioEmpresa: usuario
-    });
-    
+    });    
     $.ajax({
         type: "POST",
         url: "webresources/WSProtocoloRest/empresa/atualizar",
@@ -119,7 +118,7 @@ function EditarEmpresa() {
             $("#cityEmpresa").val(data.cidade);
             $("#zipCodeEmpresa").val(data.cep);
             inserirDados();
-            alert("Empresa Atualizada com sucesso!");
+            alert("Empresa atualizada com sucesso!");
         }, error() {
             alert("Erro ao processar a requisição ");
         }
@@ -166,7 +165,7 @@ function ExibirEmpresa() {
         $("#zipCodeEmpresa").val("");
     }
 }
-
+//Passa os dados da empresa para a geração do Recibo
 function passaDadosEmpresa() {
 
     if (tbEmpresa.length > 0) {

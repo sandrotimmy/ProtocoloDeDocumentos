@@ -1,14 +1,10 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> b41bf3e3c347a0b9112bece90fb6897fe3901328
+var listClientes;//Recebe a lista de clientes vida do Banco
 
-var listClientes;
-
-//Adiciona o cliente no Banco
 function AdicionarCliente() {
+
     var cnpjTemp = $("#cnpjClient").val();
-    var cnpj = cnpjTemp.replace("/", "").replace(".", "").replace(".", "").replace("-", "");//retira os '.' e '/'
+    var cnpj = cnpjTemp.replace("/", "").replace(".", "").replace(".", "").replace("-", "");//retira caracteres especiais
     var dataJson = JSON.stringify({
         cnpj: cnpj,
         nome: $("#nomeClient").val(),
@@ -17,7 +13,7 @@ function AdicionarCliente() {
         bairro: $("#districtClient").val(),
         cidade: $("#cityClient").val(),
         cep: $("#zipCodeClient").val(),
-        empresaCliente: empresa//pré carregada após o login
+        empresaCliente: empresa//empresa pré carregada no login
     });
     $.ajax({
         type: "POST",
@@ -34,8 +30,9 @@ function AdicionarCliente() {
         }
     });
 }
-//Verifica através da existencia ou não do ID se é um novo cadastro ou editar existente
+//Verifica se é para cadastrar ou alterar cliente com base na existencia do ID
 function EditarCadastrarCliente() {
+
     if (document.getElementById("idClient").value == "") {
         AdicionarCliente();
     } else {
@@ -44,7 +41,7 @@ function EditarCadastrarCliente() {
 }
 
 function EditarCliente(id) {
-    //procura os Clientes na lista até localizar pelo ID
+    //localiza o Cliente pelo ID para alterar
     listClientes.some(function (each) {
         if (each.idCliente == id) {
             var cnpjTemp = $("#cnpjClient").val();
@@ -68,11 +65,12 @@ function EditarCliente(id) {
                 async: false,
                 success: function () {
                     ListarClientes();
-                    alert("Cliente Atualizado com sucesso!");
+                    alert("Cliente atualizado com sucesso!");
                 }, error() {
                     alert("Erro ao processar a requisição!");
                 }
             });
+            return;
         }
     });
 }
@@ -92,7 +90,6 @@ function ExcluirCliente(id) {
     ListarClientes();
 }
 
-//Localiza o Cliente na lista e exibe os dados no Modal
 function ExibirCliente(id) {
 
     listClientes.some(function (each) {
@@ -111,7 +108,6 @@ function ExibirCliente(id) {
         }
     });
 }
-<<<<<<< HEAD
 //limpa a combobox de itens para popular com dados novos
 function removeOptionsClientes(selectbox) {
     for (var i = 1; i < selectbox.options.length; i++) {
@@ -141,10 +137,7 @@ function ListaClientesProtocolo() {
         }
     });
 }
-
-=======
-//Lista os clientes na tabela de listagem
->>>>>>> b41bf3e3c347a0b9112bece90fb6897fe3901328
+//Exibe os clientes na tabela de listagem
 function ListarClientes() {
     $("#tblListarClientes").html("");
     $("#tblListarClientes").html(
@@ -172,6 +165,7 @@ function ListarClientes() {
                 data.forEach(function (each) {
                     var cnpjTemp = each.cnpj;
                     var cnpj = cnpjTemp.substr(0, 2) + "." + cnpjTemp.substr(2, 3) + "." + cnpjTemp.substr(5, 3) + "/" + cnpjTemp.substr(8, 4) + "-" + cnpjTemp.substr(12, 2);
+
                     $("#tblListarClientes tbody").append("<tr class=\"active\">");
                     $("#tblListarClientes tbody").append("<td>" + each.idCliente + "</td>");
                     $("#tblListarClientes tbody").append("<td>" + cnpj + "</td>");
@@ -185,5 +179,3 @@ function ListarClientes() {
         }
     });
 }
-
-
